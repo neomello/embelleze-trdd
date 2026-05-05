@@ -36,17 +36,18 @@ Função : Registrar decisões fixas
 - **Single Truth**: Um único banco PostgreSQL no Railway para toda a operação (Landing + Bella).
 - **Resiliência**: O salvamento de leads no banco deve ser silencioso e em segundo plano. Se o banco falhar, o redirecionamento para o WhatsApp **nunca** deve ser interrompido.
 - **Lead ID**: O telefone (limpo de caracteres) é o identificador natural.
-- **Evolução de Status**:
+- **Lead Status**:
   - `NOVO`: Clique direto no WA (se capturado).
-  - `QUALIFICADO`: Completou o Simulador.
-  - `INTERESSADO`: Clicou no WA após o Simulador.
+  - `QUALIFICADO`: Completou o Simulador (Nome + Telefone + Perfil capturados).
+  - `INTERESSADO`: Clicou no WA após o Simulador ou qualquer CTA de conversão.
 
 ## ⟠ Gotchas Técnicos
 
-- **Railway Monorepo**: Usar `Dockerfile` na raiz para gerenciar o workspace pnpm. O builder no `railway.json` deve ser `DOCKER`. Isso evita erros de variáveis indefinidas no Nixpacks.
-- **Node Version**: Usar Node `>=20.0.0` (definido no Dockerfile e package.json).
-- **TypeScript & ESM**: Em arquivos `.ts` puros no Astro, o `tsconfig.json` deve incluir `"module": "ESNext"` e `"types": ["astro/client"]` para suportar `import.meta.env`.
-- **Deduplicação**: Feita via código (UPSERT manual) para evitar travamentos de constraint no banco durante a fase inicial.
+- **Railway Monorepo**: Usar `Dockerfile` na raiz para gerenciar o workspace pnpm. Builder `DOCKER`.
+- **pnpm v10**: Requer flag `--legacy` no comando `pnpm deploy` dentro do Dockerfile para monorepos.
+- **Node Version**: Requer Node `>=22.12.0` (Astro 6). Atualmente usando `node:22-slim`.
+- **Database Connectivity**: Usar `process.env.DATABASE_URL || import.meta.env.DATABASE_URL` para garantir leitura no SSR do Astro no Railway.
+- **Deduplicação**: Feita via código (UPSERT manual) baseada no `phone` (ID natural).
 
 ────────────────────────────────────────
 

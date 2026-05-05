@@ -16,8 +16,8 @@ Deploy    : Railway
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ┃ REQUISITO     VERSÃO
 ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-┃ Node.js       >=22.0.0
-┃ npm           >=10.0.0
+┃ Node.js       >=22.12.0
+┃ pnpm          >=10.0.0
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -54,7 +54,8 @@ cp .env.example .env
 ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ┃ PUBLIC_GTM_ID             Google Tag Manager
 ┃ PUBLIC_META_PIXEL_ID      Meta Business Suite
-┃ PUBLIC_GOOGLE_MAPS_KEY    Google Cloud Console
+┃ DATABASE_URL              PostgreSQL Connection String
+┃ REDIS_URL                 Redis Connection String
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -152,6 +153,27 @@ npm run build
 
 ```bash
 npx astro add node
+```
+
+────────────────────────────────────────
+
+## ◬ Banco de Dados (PostgreSQL)
+
+Para inicializar a tabela de leads no Railway, execute o seguinte SQL:
+
+```sql
+CREATE TABLE leads (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  phone TEXT NOT NULL UNIQUE,
+  name TEXT,
+  origin TEXT,
+  course_interest TEXT,
+  objective TEXT,
+  status TEXT DEFAULT 'NOVO',
+  last_message TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
 ```
 
 ────────────────────────────────────────

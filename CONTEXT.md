@@ -56,10 +56,10 @@ nova oportunidade profissional.
 
 ## ▓ Status da Operação
 
-- **Fase 1 (Landing & Captação)**: ✅ Concluída.
-  - Simulador de Futuro com captura de lead.
-  - Integração com PostgreSQL via Railway.
-  - Tracking (GTM/Ads) configurado.
-  - Layout premium glassmorphism.
+- **Fase 1 (Landing & Captação)**: ✅ Concluída e Estável.
+  - Simulador de Futuro (Nome + WhatsApp) operacional.
+  - Banco de Dados Postgres (Leads) e Redis sincronizados.
+  - Infraestrutura Railway via Docker (Node 22 / pnpm v10).
+  - Tracking e Resiliência de dados validados.
 - **Fase 2 (Bella SDR)**: ⏳ Em planejamento.
-  - Integração da API do WhatsApp com o banco compartilhado.
+  - Conexão do agente inteligente com a tabela de leads.

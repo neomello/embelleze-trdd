@@ -4,8 +4,8 @@
 ========================================
    EMBELLEZE TRINDADE · LANDING PAGE
 ========================================
-Status: EM DESENVOLVIMENTO
-Versão: v0.1.0
+Status: ESTÁVEL (Fase 1)
+Versão: v1.0.0
 ========================================
 ```
 
@@ -57,7 +57,7 @@ condução para matrícula.
 └─ CoursesGrid       Grade de cursos com contexto
 └─ ObjectionBreak    Elimina objeções antes do WA
 └─ SocialProof       Depoimentos reais (aprovados)
-└─ FutureSimulator   Captura intenção e sugere curso
+└─ FutureSimulator   Captura Nome/WhatsApp e sugere curso
 └─ MapPreview        Ponte para /mapa
 └─ FinalCTA          Fechamento direto
 └─ WhatsAppFloat     Botão fixo de conversão
@@ -76,7 +76,9 @@ condução para matrícula.
 ┃ Scripts       TypeScript (client-side)
 ┃ Deploy        Railway
 ┃ Tracking      GTM + GA4 + Meta Pixel
-┃ Conversão     WhatsApp via wa.me
+┃ CRM           PostgreSQL (Railway)
+┃ Cache/Stats   Redis (Railway)
+┃ Conversão     WhatsApp via wa.me + Lead capture
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
