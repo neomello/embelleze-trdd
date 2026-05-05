@@ -21,7 +21,7 @@ Função : Registrar decisões fixas
 ┃ Cor branco            #ffffff
 ┃ WhatsApp              62 98483-6550
 ┃ Framework landing     Astro
-┃ Deploy                Railway
+┃ Deploy                Railway (Docker)
 ┃ Domínio final         bellaembelleze.chat
 ┃ Domínio provisório    embelleze-trindade.flowoff.xyz
 ┃ CRM                   PostgreSQL no Railway
@@ -43,8 +43,8 @@ Função : Registrar decisões fixas
 
 ## ⟠ Gotchas Técnicos
 
-- **Railway Monorepo**: O build deve definir `rootDirectory: "embelleze-landing"` no `railway.json` para evitar erros de caminho do Nixpacks.
-- **Node Version**: Usar Node `>=20.0.0` para compatibilidade entre local e Railway.
+- **Railway Monorepo**: Usar `Dockerfile` na raiz para gerenciar o workspace pnpm. O builder no `railway.json` deve ser `DOCKER`. Isso evita erros de variáveis indefinidas no Nixpacks.
+- **Node Version**: Usar Node `>=20.0.0` (definido no Dockerfile e package.json).
 - **TypeScript & ESM**: Em arquivos `.ts` puros no Astro, o `tsconfig.json` deve incluir `"module": "ESNext"` e `"types": ["astro/client"]` para suportar `import.meta.env`.
 - **Deduplicação**: Feita via código (UPSERT manual) para evitar travamentos de constraint no banco durante a fase inicial.
 
