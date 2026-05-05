@@ -12,8 +12,8 @@ WORKDIR /app
 RUN pnpm install
 
 # Isola o projeto da landing page para produção (resolve symlinks do pnpm)
-# Isso cria uma pasta independente com tudo o que o projeto precisa para rodar
-RUN pnpm --filter embelleze-landing --prod deploy /app/out
+# No pnpm v10+, a flag --legacy é necessária para manter o comportamento anterior
+RUN pnpm --filter embelleze-landing --prod deploy --legacy /app/out
 
 # Build da landing page dentro da pasta isolada
 WORKDIR /app/out
