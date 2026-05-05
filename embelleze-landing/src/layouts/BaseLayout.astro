@@ -42,7 +42,6 @@ const {
         if (!target) return;
 
         let phone = localStorage.getItem('sim_phone');
-        const isFromSimulator = !!phone;
         
         // Se não temos o telefone (Lead NOVO), poderíamos pedir aqui.
         // Mas para não quebrar o fluxo (UX), vamos priorizar o Simulador.
