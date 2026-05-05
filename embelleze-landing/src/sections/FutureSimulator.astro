@@ -39,8 +39,9 @@
       <!-- Capture State -->
       <div id="sim-capture" class="simulator__capture hidden">
         <h3 class="capture__title">Análise Concluída!</h3>
-        <p class="capture__sub">Para onde enviamos seu diagnóstico personalizado?</p>
+        <p class="capture__sub">Como podemos te chamar e para onde enviamos seu diagnóstico?</p>
         <div class="capture__form">
+          <input type="text" id="sim-name" placeholder="Seu nome completo" class="capture__input" />
           <input type="tel" id="sim-phone" placeholder="Seu WhatsApp (com DDD)" class="capture__input" />
           <button id="sim-submit-capture" class="capture__btn">
             Liberar meu Diagnóstico
@@ -122,6 +123,7 @@
   const stepIndicator = document.getElementById('sim-step-text')!;
   const analyzingBar = document.getElementById('analyzing-progress')!;
   
+  const nameInput = document.getElementById('sim-name') as HTMLInputElement;
   const phoneInput = document.getElementById('sim-phone') as HTMLInputElement;
   const submitCapture = document.getElementById('sim-submit-capture')!;
 
@@ -184,7 +186,14 @@
   }
 
   submitCapture.addEventListener('click', async () => {
+    const name = nameInput.value.trim();
     const phone = phoneInput.value.replace(/\D/g, '');
+    
+    if (!name || name.length < 3) {
+      nameInput.classList.add('error');
+      return;
+    }
+
     if (phone.length < 10) {
       phoneInput.classList.add('error');
       return;
@@ -194,6 +203,7 @@
     
     // Salva localmente para interceptores globais
     localStorage.setItem('sim_phone', phone);
+    localStorage.setItem('sim_name', name);
 
     // Captura o lead como QUALIFICADO (completou perguntas e análise)
     await fetch('/api/leads', {
@@ -201,6 +211,7 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         phone,
+        name,
         origin: 'simulator',
         course_interest: courseName,
         objective: answers[0],
@@ -209,10 +220,10 @@
       })
     }).catch(() => {}); // Falha silenciosa
 
-    showResult(phone);
+    showResult(phone, name);
   });
 
-  function showResult(phone: string) {
+  function showResult(phone: string, name: string) {
     captureEl.classList.add('hidden');
     resultEl.classList.remove('hidden');
     resultEl.classList.add('animate-in');
@@ -224,7 +235,7 @@
     const resLink = document.getElementById('res-link')! as HTMLAnchorElement;
 
     resTitle.innerText = courseName;
-    resDesc.innerText = `Com base no seu perfil, o curso de ${courseName} é a escolha ideal para você conquistar sua independência financeira na área da beleza.`;
+    resDesc.innerText = `Olá ${name.split(' ')[0]}! Com base no seu perfil, o curso de ${courseName} é a escolha ideal para você conquistar sua independência financeira na área da beleza.`;
     resLink.href = getWhatsAppLink({ course: courseName, origin: 'simulator-result' });
 
     // Se clicar no botão de WhatsApp, atualiza para INTERESSADO
@@ -234,6 +245,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           phone,
+          name,
           status: 'INTERESSADO',
           last_message: 'Clicou no WhatsApp após simulador'
         })
