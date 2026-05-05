@@ -19,9 +19,9 @@ O objetivo não é apenas gerar leads, mas transformar o WhatsApp em uma operaç
 ## 2. Visão Geral da Arquitetura
 
 ```txt
-Landing Page
+Landing Page ✅ (Estável)
         ↓
-Bella — Agente SDR
+Bella — Agente SDR ⏳ (Conhecimento Pronto)
         ↓
 CRM / Planilha Comercial / PostgreSQL
         ↓
@@ -297,20 +297,18 @@ Meta mensal: R$ 30.000
 
 ## Fase 1 — Base Comercial e Conteúdo da Bella
 
+/* FASE CONCLUÍDA
 ### Prazo
-
 Dia 1 a Dia 3
-
 ### Ações
+- ✅ Criar playbook comercial da Bella
+- ✅ Criar árvore de decisão
+- ✅ Definir tom de voz regionalizado
+- ⏳ Criar handoff para vendedora (via WhatsApp)
+- ⏳ Criar mensagens de recuperação
+*/
 
-- Criar playbook comercial da Bella
-- Criar árvore de decisão
-- Criar respostas por objeção
-- Criar classificação de leads
-- Criar handoff para vendedora
-- Criar mensagens de recuperação
-
-### Objeções principais
+/* Objeções principais
 
 ```txt
 Preço
@@ -321,7 +319,7 @@ Precisa falar com família
 Quer atendimento humano
 ```
 
-### Entregáveis
+/* Entregáveis
 
 - Script da Bella
 - Prompt operacional da Bella
@@ -333,21 +331,19 @@ Quer atendimento humano
 
 ## Fase 2 — Landing Page
 
+/* FASE CONCLUÍDA
 ### Prazo
-
 Dia 2 a Dia 5
-
 ### Ações
+- ✅ Definir copy da página
+- ✅ Criar layout (Glassmorphism / Premium)
+- ✅ Implementar (Astro 6 / Docker)
+- ✅ Otimizar Mobile (Android Priority)
+- ✅ Instalar tracking (GTM / Pixel)
+- ✅ Publicar (Railway: bellaembelleze.chat)
+*/
 
-- Definir copy da página
-- Criar layout
-- Inserir cursos
-- Inserir CTAs por curso
-- Conectar WhatsApp com contexto
-- Instalar tracking
-- Publicar em domínio provisório
-
-### Estrutura da landing
+/* Estrutura da landing
 
 ```txt
 Hero
@@ -360,7 +356,7 @@ CTA WhatsApp
 FAQ
 ```
 
-### Entregáveis
+/* Entregáveis
 
 - Landing publicada
 - Botões por curso
@@ -371,20 +367,18 @@ FAQ
 
 ## Fase 3 — CRM e Registro Comercial
 
+/* FASE CONCLUÍDA (Base Operacional)
 ### Prazo
-
 Dia 3 a Dia 6
-
 ### Ações
+- ✅ Criar base de leads (PostgreSQL)
+- ✅ Definir campos (Nome, Fone, Perfil, Status)
+- ✅ API de Registro (Node.js/Astro)
+- ⏳ Registrar status comercial (Automático Bella)
+- ⏳ Criar visão de funil (Admin simples)
+*/
 
-- Criar base de leads
-- Definir campos
-- Integrar origem do lead
-- Registrar curso de interesse
-- Registrar status comercial
-- Criar visão de funil
-
-### Entregáveis
+/* Entregáveis
 
 - CRM mínimo operacional
 - Pipeline de matrícula
@@ -395,11 +389,11 @@ Dia 3 a Dia 6
 
 ## Fase 4 — Integração WhatsApp + IA
 
-### Prazo
+/* Prazo
 
 Dia 4 a Dia 8
 
-### Ações
+/* Ações
 
 - Configurar canal WhatsApp
 - Conectar Bella ao fluxo
@@ -428,7 +422,7 @@ Sim, eu sou a Bella, assistente virtual do Instituto Embelleze Trindade. 😊
 Estou aqui para adiantar seu atendimento e te ajudar com as primeiras informações. Se preferir, posso chamar uma consultora agora para continuar com você.
 ```
 
-### Entregáveis
+**Entregáveis*
 
 - Bella operando
 - Handoff testado
@@ -439,11 +433,11 @@ Estou aqui para adiantar seu atendimento e te ajudar com as primeiras informaç�
 
 ## Fase 5 — Tráfego Pago
 
-### Prazo
+/* Prazo
 
 Dia 6 a Dia 10
 
-### Google Ads
+/* Google Ads
 
 Campanhas por intenção:
 
@@ -468,7 +462,7 @@ Curso rápido
 Independência financeira
 ```
 
-### Entregáveis
+/* Entregáveis
 
 - Conta organizada
 - Campanhas criadas
@@ -481,7 +475,7 @@ Independência financeira
 
 ## Fase 6 — Otimização e Relatórios
 
-### Prazo
+/* Prazo
 
 A partir do Dia 10
 
@@ -495,7 +489,7 @@ A partir do Dia 10
 - Comparar taxa de conversão
 - Ajustar investimento
 
-### Relatório semanal
+/* Relatório semanal
 
 ```txt
 Leads gerados
@@ -512,9 +506,9 @@ Próximas ações
 
 ---
 
-## 5. Integrações Prioritárias
+/* Integrações Prioritárias
 
-## Prioridade 1 — Obrigatórias
+- Prioridade 1 — Obrigatórias
 
 ```txt
 Landing → WhatsApp
@@ -525,7 +519,7 @@ Landing → Google Tag
 Anúncios → Landing
 ```
 
-## Prioridade 2 — Alta relevância
+/* Prioridade 2 — Alta relevância
 
 ```txt
 Bella → alerta para vendedora
@@ -534,7 +528,7 @@ CRM → relatório semanal
 WhatsApp → tags por curso
 ```
 
-## Prioridade 3 — Evolução
+/* Prioridade 3 — Evolução
 
 ```txt
 PIX automático
@@ -546,7 +540,7 @@ Remarketing por status do lead
 
 ---
 
-## 6. Cronograma Resumido
+/* Cronograma Resumido
 
 | Período | Foco | Resultado |
 |---|---|---|
@@ -562,7 +556,7 @@ Remarketing por status do lead
 
 ## 7. Checklist de Acessos
 
-## Cliente precisa liberar
+/* Cliente precisa liberar
 
 ```txt
 WhatsApp Business
@@ -583,7 +577,7 @@ Responsável comercial
 
 ## 8. Métricas de Sucesso
 
-## Meta inicial
+/* Meta inicial
 
 ```txt
 Conversão: sair de 15% para 25%+
@@ -593,7 +587,7 @@ Ocupação: aproximar de 100 alunos
 Meta financeira: contribuir para R$ 30.000/mês
 ```
 
-## Métricas operacionais
+/* Métricas operacionais
 
 ```txt
 CPL — custo por lead
@@ -607,9 +601,9 @@ Taxa de matrícula
 
 ---
 
-## 9. Riscos e Controles
+/* Riscos e Controles
 
-## Risco 1 — Lead chega quente e ninguém atende
+/* Risco 1 — Lead chega quente e ninguém atende
 
 Controle:
 
@@ -619,7 +613,7 @@ Status LEAD_QUENTE
 SLA máximo de atendimento humano
 ```
 
-## Risco 2 — Bella parecer robótica
+/* Risco 2 — Bella parecer robótica
 
 Controle:
 
@@ -629,7 +623,7 @@ Ajuste de linguagem
 Respostas mais locais e humanas
 ```
 
-## Risco 3 — Tráfego gerar lead curioso demais
+/* Risco 3 — Tráfego gerar lead curioso demais
 
 Controle:
 
@@ -640,7 +634,7 @@ Usar perguntas de qualificação
 Separar campanha por intenção
 ```
 
-## Risco 4 — Falta de dados de matrícula
+/* Risco 4 — Falta de dados de matrícula
 
 Controle:
 
@@ -652,7 +646,7 @@ Relatório semanal compara lead vs matrícula
 
 ---
 
-## 10. Ordem de Execução Recomendada
+/* Ordem de Execução Recomendada
 
 ```txt
 1. Fechar acessos e dados dos cursos
@@ -687,7 +681,7 @@ Gerar matrícula
 
 ## 12. Identidade Visual e Configuração Técnica Base
 
-### 🎨 Cores Oficiais da Unidade
+/*  Cores Oficiais da Unidade
 
 ```txt
 Laranja: #de583d
@@ -703,7 +697,7 @@ Uso recomendado:
 
 ---
 
-### 📱 WhatsApp Oficial
+/* WhatsApp Oficial
 
 ```txt
 6298483-6550
@@ -718,7 +712,7 @@ Deve ser usado em:
 
 ---
 
-### 🗂️ Estrutura de Workspace
+/* Estrutura de Workspace
 
 ```txt
 Root Workspace:
@@ -740,7 +734,7 @@ Diretrizes:
 
 Objetivo: mapear a presença pública atual do Instituto Embelleze Trindade antes da implementação para comparar depois.
 
-### Fontes a registrar
+/* Fontes a registrar
 
 ```txt
 Site oficial da franquia
@@ -754,7 +748,7 @@ Páginas de curso indexadas
 Concorrentes locais
 ```
 
-### Dados a extrair
+/* Dados a extrair
 
 ```txt
 URLs encontradas
@@ -788,7 +782,7 @@ Instagram encontrado: @institutoembellezetrindadego
 Facebook encontrado: Instituto Embelleze Trindade
 ```
 
-### Hipóteses para landing a partir da presença atual
+/* Hipóteses para landing a partir da presença atual
 
 ```txt
 Explorar prática real e técnica, não promessa vazia
@@ -812,4 +806,3 @@ Mapear reclamações nacionais para criar respostas preventivas sobre início de
 - Relatório semanal padrão
 - Dossiê de marca e público local
 - Guia visual oficial da Bella
-
