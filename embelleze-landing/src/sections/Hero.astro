@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import bellaPhoto from '../assets/bella/bela_transp.webp';
 ---
 
 <section class="hero">
@@ -17,7 +19,7 @@
 
   <!-- Foto da Bella -->
   <div class="hero__photo" aria-hidden="true">
-    <img src="/bella/bela_transp.webp" alt="" width="600" height="800" />
+    <Image src={bellaPhoto} alt="Bella — Consultora Embelleze" width={600} height={800} loading="eager" />
   </div>
 
   <!-- UI — Copy e Botões -->
