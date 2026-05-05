@@ -4,31 +4,31 @@ import CourseCard from '../components/CourseCard.astro';
 import courses from '../content/courses.json';
 ---
 
-<BaseLayout title="Academia de Beleza — Instituto Embelleze Trindade">
-  <main class="academy">
+<BaseLayout title="Cursos Profissionalizantes — Instituto Embelleze Trindade">
+  <main class="courses-page">
     <!-- Fundo Atmosférico -->
-    <div class="academy__bg"></div>
+    <div class="courses-page__bg"></div>
 
-    <div class="academy__container">
-      <header class="academy__header">
-        <div class="academy__brand">
-          <img src="/brand/logo-embelleze.png" alt="Embelleze" class="academy__logo" />
+    <div class="courses-page__container">
+      <header class="courses-page__header">
+        <div class="courses-page__brand">
+          <img src="/brand/logo-embelleze.png" alt="Embelleze" class="courses-page__logo" />
         </div>
-        <h1 class="academy__title">Nossas Formações</h1>
-        <p class="academy__subtitle">Monte seu combo de especializações e inicie sua carreira na beleza.</p>
+        <h1 class="courses-page__title">Formações Profissionais</h1>
+        <p class="courses-page__subtitle">Especialize-se com quem é referência. Escolha sua área e comece agora.</p>
         
         <!-- Filtros iOS Style -->
-        <div class="academy__filter">
-          <button class="academy__filter-btn active" data-filter="all">Todos</button>
-          <button class="academy__filter-btn" data-filter="Cabelo">Cabelo</button>
-          <button class="academy__filter-btn" data-filter="Unhas">Unhas</button>
-          <button class="academy__filter-btn" data-filter="Estética">Estética</button>
+        <div class="courses-page__filter">
+          <button class="courses-page__filter-btn active" data-filter="all">Todos</button>
+          <button class="courses-page__filter-btn" data-filter="Cabelo">Cabelo</button>
+          <button class="courses-page__filter-btn" data-filter="Unhas">Unhas</button>
+          <button class="courses-page__filter-btn" data-filter="Estética">Estética</button>
         </div>
       </header>
 
-      <div class="academy__grid">
+      <div class="courses-page__grid">
         {courses.map(course => (
-          <div class="academy__item" data-category={course.category}>
+          <div class="courses-page__item" data-category={course.category}>
              <CourseCard
               id={course.id}
               name={course.name}
@@ -188,8 +188,8 @@ import courses from '../content/courses.json';
   });
 
   // ── Lógica de Filtro ──
-  const filterBtns = document.querySelectorAll('.academy__filter-btn');
-  const items = document.querySelectorAll('.academy__item') as NodeListOf<HTMLElement>;
+  const filterBtns = document.querySelectorAll('.courses-page__filter-btn');
+  const items = document.querySelectorAll('.courses-page__item') as NodeListOf<HTMLElement>;
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -209,7 +209,7 @@ import courses from '../content/courses.json';
 </script>
 
 <style>
-  .academy {
+  .courses-page {
     min-height: 100vh;
     background: #0d0416;
     padding: clamp(6rem, 10vw, 8rem) var(--spacing-sm);
@@ -217,32 +217,32 @@ import courses from '../content/courses.json';
     overflow-x: hidden;
   }
 
-  .academy__bg {
+  .courses-page__bg {
     position: absolute;
     inset: 0;
     background: 
-      radial-gradient(circle at 10% 10%, rgba(95, 48, 128, 0.15), transparent 40%),
-      radial-gradient(circle at 90% 90%, rgba(222, 88, 61, 0.1), transparent 40%);
+    radial-gradient(circle at 10% 10%, rgba(95, 48, 128, 0.15), transparent 40%),
+    radial-gradient(circle at 90% 90%, rgba(222, 88, 61, 0.1), transparent 40%);
     z-index: 1;
   }
 
-  .academy__container {
+  .courses-page__container {
     max-width: 1200px;
     margin: 0 auto;
     position: relative;
     z-index: 2;
   }
 
-  .academy__header {
+  .courses-page__header {
     text-align: center;
     margin-bottom: 4rem;
   }
 
-  .academy__logo { height: 28px; filter: brightness(0) invert(1); margin-bottom: 2rem; }
-  .academy__title { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 900; color: #fff; margin-bottom: 1rem; letter-spacing: -0.04em; }
-  .academy__subtitle { font-size: 1.125rem; color: rgba(255, 255, 255, 0.6); max-width: 600px; margin: 0 auto 3rem; }
+  .courses-page__logo { height: 28px; filter: brightness(0) invert(1); margin-bottom: 2rem; }
+  .courses-page__title { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 900; color: #fff; margin-bottom: 1rem; letter-spacing: -0.04em; }
+  .courses-page__subtitle { font-size: 1.125rem; color: rgba(255, 255, 255, 0.6); max-width: 600px; margin: 0 auto 3rem; }
 
-  .academy__filter {
+  .courses-page__filter {
     display: flex;
     justify-content: center;
     gap: 12px;
@@ -250,7 +250,7 @@ import courses from '../content/courses.json';
     flex-wrap: wrap;
   }
 
-  .academy__filter-btn {
+  .courses-page__filter-btn {
     padding: 12px 24px;
     border-radius: 100px;
     background: rgba(255, 255, 255, 0.05);
@@ -261,13 +261,13 @@ import courses from '../content/courses.json';
     transition: all 0.3s ease;
   }
 
-  .academy__filter-btn.active {
+  .courses-page__filter-btn.active {
     background: #fff;
     color: #12071f;
     box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
   }
 
-  .academy__grid {
+  .courses-page__grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 2rem;
@@ -429,8 +429,8 @@ import courses from '../content/courses.json';
   }
 
   @media (max-width: 600px) {
-    .academy { padding-top: 4rem; }
-    .academy__grid { grid-template-columns: 1fr; }
+    .courses-page { padding-top: 4rem; }
+    .courses-page__grid { grid-template-columns: 1fr; }
     .cart { bottom: 0; left: 0; right: 0; transform: translateY(100%); max-width: 100%; border-radius: 32px 32px 0 0; }
     .cart.open { transform: translateY(0); }
     .cart-trigger { bottom: 20px; right: 20px; width: 64px; height: 64px; }
