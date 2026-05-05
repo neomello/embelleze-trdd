@@ -2,8 +2,10 @@ import pg from "pg";
 const { Pool } = pg;
 
 // Conexão resiliente: se não houver DATABASE_URL, o sistema não quebra
+const dbUrl = process.env.DATABASE_URL || import.meta.env.DATABASE_URL;
+
 const pool = new Pool({
-  connectionString: import.meta.env.DATABASE_URL,
+  connectionString: dbUrl,
   ssl: {
     rejectUnauthorized: false, // Comum em instâncias Railway/AWS/Render
   },
@@ -28,7 +30,9 @@ export interface LeadData {
  * Decisão técnica: Deduplicação via código para flexibilidade.
  */
 export async function upsertLead(data: LeadData) {
-  if (!import.meta.env.DATABASE_URL) {
+  const dbUrl = process.env.DATABASE_URL || import.meta.env.DATABASE_URL;
+  
+  if (!dbUrl) {
     console.warn(
       "[DB] DATABASE_URL não configurada. Lead não registrado no Postgres.",
     );
