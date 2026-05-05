@@ -22,8 +22,8 @@ Função : Registrar decisões fixas
 ┃ WhatsApp              62 98483-6550
 ┃ Framework landing     Astro
 ┃ Framework PWA Bella   Vite (Vanilla JS)
-┃ Estrutura             Monorepo (pnpm)
-┃ Deploy                Railway (Docker)
+┃ Estrutura             Repositórios Independentes (Isolados via .gitignore)
+┃ Deploy                Railway (Serviços Separados)
 ┃ Domínio final         bellaembelleze.chat
 ┃ Domínio provisório    embelleze-trindade.flowoff.xyz
 ┃ CRM                   PostgreSQL no Railway

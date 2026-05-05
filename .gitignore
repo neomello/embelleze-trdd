@@ -1,3 +1,5 @@
+# Monorepo isolation
+apps/bella-pwa
 node_modules
 dist
 .DS_Store
