@@ -1,0 +1,19 @@
+{
+  "name": "Embelleze Trindade Workspace",
+  "client": "Instituto Embelleze Trindade",
+  "projects": [
+    {
+      "name": "embelleze-landing",
+      "path": "./embelleze-landing",
+      "type": "astro",
+      "status": "em desenvolvimento",
+      "deploy": "railway",
+      "domain": "bellaembelleze.chat"
+    }
+  ],
+  "contacts": {
+    "whatsapp": "5562984836550",
+    "email": "go.trindade@institutoembelleze.com",
+    "instagram": "@institutoembellezetrindadego"
+  }
+}

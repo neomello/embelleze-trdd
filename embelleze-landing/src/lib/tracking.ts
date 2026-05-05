@@ -1,0 +1,46 @@
+export const Events = {
+  PAGE_VIEW: 'PAGE_VIEW',
+  CLICK_WHATSAPP: 'CLICK_WHATSAPP',
+  CLICK_COURSE: 'CLICK_COURSE',
+  GENERATE_DISCOUNT_TICKET: 'GENERATE_DISCOUNT_TICKET',
+  OPEN_MAP: 'OPEN_MAP',
+  START_FUTURE_SIMULATOR: 'START_FUTURE_SIMULATOR',
+  COMPLETE_FUTURE_SIMULATOR: 'COMPLETE_FUTURE_SIMULATOR',
+} as const;
+
+export type TrackingEvent = typeof Events[keyof typeof Events];
+
+export interface TrackingPayload {
+  event: TrackingEvent;
+  course?: string;
+  ticket?: string;
+  origin?: string;
+  [key: string]: unknown;
+}
+
+export function track(payload: TrackingPayload): void {
+  if (typeof window === 'undefined') return;
+
+  // GA4
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', payload.event, {
+      course: payload.course,
+      ticket: payload.ticket,
+      origin: payload.origin,
+    });
+  }
+
+  // Meta Pixel
+  if (typeof window.fbq === 'function') {
+    window.fbq('trackCustom', payload.event, {
+      course: payload.course,
+    });
+  }
+}
+
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+    fbq?: (...args: unknown[]) => void;
+  }
+}

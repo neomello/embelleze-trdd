@@ -1,0 +1,289 @@
+---
+import { getCourseWhatsAppLink } from '../lib/whatsapp';
+import CourseIcon from './CourseIcon.astro';
+
+interface Props {
+  id: string;
+  name: string;
+  description: string;
+  ctaText: string;
+  category: string;
+  emoji?: string;
+  duration?: string | null;
+  frequency?: string | null;
+  schedule?: string | null;
+  confirmed?: boolean;
+  isEcommerce?: boolean;
+}
+
+const {
+  id,
+  name,
+  description,
+  ctaText,
+  category,
+  emoji = '✨',
+  duration,
+  frequency,
+  schedule,
+  confirmed = false,
+  isEcommerce = false,
+} = Astro.props;
+
+const link = getCourseWhatsAppLink(id, name);
+const Element = isEcommerce ? 'div' : 'a';
+---
+
+<Element 
+  href={!isEcommerce ? link : undefined} 
+  class="course-card" 
+  target={!isEcommerce ? "_blank" : undefined} 
+  rel={!isEcommerce ? "noopener" : undefined} 
+  data-course={id} 
+  data-category={category}
+  onclick={isEcommerce ? `addToCart('${id}', '${name}')` : undefined}
+>
+  <div class="course-card__glow"></div>
+  
+  <div class="course-card__header">
+    <div class="course-card__icon-wrapper">
+      <CourseIcon iconId={emoji} className="course-card__icon-svg" />
+    </div>
+    <div class="course-card__badges">
+      {confirmed && <span class="course-card__badge course-card__badge--confirmed">Turma Confirmada</span>}
+      <span class="course-card__badge course-card__badge--category">{category}</span>
+    </div>
+  </div>
+
+  <div class="course-card__content">
+    <h3 class="course-card__name">{name}</h3>
+    <p class="course-card__desc">{description}</p>
+  </div>
+
+  <div class="course-card__footer">
+    {duration && (
+      <div class="course-card__meta">
+        <div class="course-card__meta-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+          <span>{duration}</span>
+        </div>
+        {frequency && (
+          <div class="course-card__meta-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            <span>{frequency}</span>
+          </div>
+        )}
+        {schedule && (
+          <div class="course-card__meta-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+               <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+            </svg>
+            <span>{schedule}</span>
+          </div>
+        )}
+      </div>
+    )}
+    
+    {!confirmed && (
+      <div class="course-card__pending">
+        Consultar horários disponíveis
+      </div>
+    )}
+
+    <div class="course-card__cta">
+      <span>{isEcommerce ? 'Adicionar ao Carrinho' : ctaText}</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+      </svg>
+    </div>
+  </div>
+</Element>
+
+<style>
+  .course-card {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 32px;
+    padding: 2rem;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100%;
+  }
+
+  .course-card__glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(95, 48, 128, 0.2), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .course-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4), 
+                0 0 40px rgba(95, 48, 128, 0.2);
+  }
+
+  .course-card:hover .course-card__glow {
+    opacity: 1;
+  }
+
+  .course-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+  }
+
+  .course-card__icon-wrapper {
+    width: 64px;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    color: var(--color-orange);
+  }
+
+  .course-card__icon-svg {
+    width: 32px;
+    height: 32px;
+    stroke-width: 1.5;
+  }
+
+  .course-card:hover .course-card__icon-wrapper {
+    transform: scale(1.1) rotate(5deg);
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .course-card__badges {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .course-card__badge {
+    font-size: 0.625rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 6px 12px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  .course-card__badge--confirmed {
+    background: rgba(0, 255, 127, 0.1);
+    color: #00ff7f;
+    border: 1px solid rgba(0, 255, 127, 0.2);
+  }
+
+  .course-card__badge--category {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .course-card__name {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #fff;
+  }
+
+  .course-card__desc {
+    font-size: 0.9375rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .course-card__footer {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .course-card__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .course-card__meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8125rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 500;
+  }
+
+  .course-card__meta-item svg {
+    width: 14px;
+    height: 14px;
+    color: var(--color-orange);
+  }
+
+  .course-card__pending {
+    font-size: 0.8125rem;
+    color: rgba(255, 255, 255, 0.3);
+    font-style: italic;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .course-card__cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: #fff;
+    transition: all 0.3s ease;
+  }
+
+  .course-card__cta svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+  }
+
+  .course-card:hover .course-card__cta {
+    background: var(--color-orange);
+    border-color: var(--color-orange);
+    color: #fff;
+  }
+
+  .course-card:hover .course-card__cta svg {
+    transform: translateX(4px);
+  }
+</style>

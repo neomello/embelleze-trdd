@@ -1,0 +1,18 @@
+{
+  "name": "embelleze-trdd",
+  "private": true,
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=10.0.0"
+  },
+  "scripts": {
+    "dev": "pnpm --filter embelleze-landing dev",
+    "build": "pnpm --filter embelleze-landing build",
+    "check": "pnpm --filter embelleze-landing check",
+    "lint": "pnpm --filter embelleze-landing check",
+    "verify": "pnpm --filter embelleze-landing check",
+    "build:all": "pnpm -r build"
+  },
+  "packageManager": "pnpm@10.33.3"
+}

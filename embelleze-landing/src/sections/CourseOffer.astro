@@ -1,0 +1,183 @@
+---
+import { getWhatsAppLink } from '../lib/whatsapp';
+import offers from '../content/offers.json';
+import courses from '../content/courses.json';
+import CourseIcon from '../components/CourseIcon.astro';
+
+const { activeOffer } = offers;
+const course = courses.find(c => c.id === activeOffer.courseId);
+const ctaLink = getWhatsAppLink({ course: course?.name, origin: 'course-offer' });
+---
+
+<section class="offer">
+  <div class="offer__bg-glow" aria-hidden="true"></div>
+  
+  <div class="offer__container">
+    <div class="offer__card">
+      <div class="offer__header">
+        <div class="offer__badge">
+          <CourseIcon iconId="🔥" className="offer__badge-icon" />
+          <span>Vagas limitadas · Próxima turma</span>
+        </div>
+        <h2 class="offer__title">{activeOffer.title}</h2>
+        <p class="offer__subtitle">{activeOffer.highlightBenefit}</p>
+      </div>
+
+      <div class="offer__content">
+        {activeOffer.nextClass && (
+          <div class="offer__meta">
+            <svg class="offer__meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            <span>Início: <strong>{activeOffer.nextClass}</strong></span>
+          </div>
+        )}
+      </div>
+
+      <div class="offer__footer">
+        <a href={ctaLink} class="offer__cta">
+          <svg class="offer__cta-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.941-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217s.231.001.332.005c.109.004.258-.041.404.308.159.386.542 1.32.588 1.416.046.096.077.208.014.335-.062.126-.093.204-.188.312-.095.108-.19.242-.271.327-.09.094-.184.197-.079.377.105.18.468.771.999 1.242.685.61 1.262.799 1.443.889.181.09.289.077.397-.049.109-.126.463-.537.586-.719.123-.181.246-.154.414-.093.167.061 1.062.501 1.247.593.185.092.308.138.354.217.046.079.046.458-.098.863z"/>
+          </svg>
+          Reservar vaga pelo WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .offer {
+    padding: clamp(3rem, 8vw, 6rem) var(--spacing-sm) clamp(6rem, 15vw, 10rem);
+    background: #0d0416;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .offer__bg-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(circle at center, rgba(95, 48, 128, 0.12), transparent 70%);
+    pointer-events: none;
+  }
+
+  .offer__container {
+    max-width: 680px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .offer__card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(32px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 32px;
+    padding: clamp(2rem, 6vw, 3.5rem);
+    text-align: center;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+  }
+
+  .offer__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: rgba(222, 88, 61, 0.12);
+    border: 1px solid rgba(222, 88, 61, 0.15);
+    border-radius: 100px;
+    color: #ff7d5c;
+    font-size: 0.625rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 1.5rem;
+  }
+
+  .offer__badge-icon {
+    width: 14px;
+    height: 14px;
+    stroke-width: 2.5;
+  }
+
+  .offer__title {
+    font-size: clamp(1.625rem, 5vw, 2.5rem);
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+  }
+
+  .offer__subtitle {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.5;
+    margin-bottom: 2rem;
+    max-width: 440px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .offer__meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.75rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .offer__meta-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--color-orange);
+    opacity: 0.6;
+  }
+
+  .offer__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 60px;
+    padding: 0 32px;
+    background: #25d366;
+    color: #fff;
+    border-radius: 16px;
+    font-weight: 800;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 25px rgba(37, 211, 102, 0.2);
+    width: 100%;
+    max-width: 320px;
+    white-space: nowrap;
+  }
+
+  .offer__cta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(37, 211, 102, 0.3);
+    background: #20ba59;
+  }
+
+  .offer__cta-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  @media (max-width: 500px) {
+    .offer { padding-top: 3rem; padding-bottom: 8rem; }
+    .offer__card { padding: 2.5rem 1.25rem; border-radius: 28px; }
+    .offer__title { font-size: 1.5rem; }
+    .offer__subtitle { font-size: 0.9375rem; margin-bottom: 1.5rem; }
+    .offer__cta { height: 56px; padding: 0 20px; font-size: 0.875rem; }
+  }
+</style>

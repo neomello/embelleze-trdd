@@ -1,0 +1,70 @@
+---
+import ButtonCTA from '../components/ButtonCTA.astro';
+import { getWhatsAppLink } from '../lib/whatsapp';
+
+const ctaLink = getWhatsAppLink({ origin: 'final-cta' });
+---
+
+<section class="final-cta">
+  <div class="final-cta__glow" aria-hidden="true"></div>
+  <div class="final-cta__inner">
+    <p class="final-cta__lead">Daqui a alguns meses, tudo pode continuar igual.</p>
+    <h2 class="final-cta__title">Ou você pode estar começando uma nova profissão.</h2>
+    <p class="final-cta__sub">A decisão é sua. A Bella está aqui para ajudar agora.</p>
+    <ButtonCTA href={ctaLink} label="Quero começar — falar com a Bella" primary large whatsapp />
+    <p class="final-cta__note">Resposta em minutos · sem compromisso</p>
+  </div>
+</section>
+
+<style>
+  .final-cta {
+    background: linear-gradient(135deg, #c44c33 0%, var(--color-orange) 45%, #e8704f 100%);
+    color: var(--color-white);
+    padding: var(--spacing-2xl) var(--spacing-sm);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .final-cta__glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .final-cta__inner {
+    max-width: 620px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .final-cta__lead {
+    font-size: var(--font-size-lg);
+    opacity: 0.88;
+    margin-bottom: var(--spacing-xs);
+    font-style: italic;
+  }
+  .final-cta__title {
+    font-size: var(--font-size-3xl);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: var(--spacing-md);
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+  .final-cta__sub {
+    font-size: var(--font-size-lg);
+    opacity: 0.9;
+    margin-bottom: var(--spacing-lg);
+  }
+  .final-cta__note {
+    margin-top: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    opacity: 0.7;
+  }
+</style>

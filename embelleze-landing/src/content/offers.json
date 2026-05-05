@@ -1,0 +1,11 @@
+{
+  "activeOffer": {
+    "courseId": "barbeiro",
+    "title": "Turma de Barbeiro com vagas abertas",
+    "subtitle": "Comece sua nova profissão com quem entende do mercado.",
+    "ticketPrefix": "BELLA",
+    "urgency": "Vagas limitadas para a próxima turma",
+    "nextClass": null,
+    "highlightBenefit": "Prática real desde o primeiro dia"
+  }
+}

@@ -1,0 +1,88 @@
+---
+import { INSTITUTE_ADDRESS } from '../lib/constants';
+---
+
+<section class="local">
+  <div class="local__inner">
+    <span class="local__badge">📍 Trindade/GO</span>
+    <h2 class="local__title">Aqui pertinho de você</h2>
+    <p class="local__address">{INSTITUTE_ADDRESS}</p>
+    <p class="local__desc">
+      Aprendizado presencial, prático e real. Sem aula gravada, sem teoria vaga. Você aprende fazendo, com supervisão de profissionais da área.
+    </p>
+    <div class="local__highlights">
+      <div class="local__highlight">
+        <span class="local__highlight-icon">🎓</span>
+        <span>Certificado reconhecido</span>
+      </div>
+      <div class="local__highlight">
+        <span class="local__highlight-icon">👩‍🏫</span>
+        <span>Professores experientes</span>
+      </div>
+      <div class="local__highlight">
+        <span class="local__highlight-icon">💼</span>
+        <span>Prática desde o 1º dia</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .local {
+    background: var(--color-surface);
+    padding: var(--spacing-xl) var(--spacing-sm);
+    text-align: center;
+  }
+  .local__inner { max-width: 620px; margin: 0 auto; }
+
+  .local__badge {
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    background: var(--color-orange);
+    color: var(--color-white);
+    padding: 5px 14px;
+    border-radius: var(--radius-full);
+    display: inline-block;
+    margin-bottom: var(--spacing-md);
+    box-shadow: var(--shadow-orange);
+    letter-spacing: 0.02em;
+  }
+
+  .local__title {
+    font-size: var(--font-size-2xl);
+    font-weight: 800;
+    color: var(--color-purple);
+    margin-bottom: var(--spacing-xs);
+    letter-spacing: -0.02em;
+  }
+  .local__address {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--spacing-md);
+  }
+  .local__desc {
+    line-height: 1.75;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .local__highlights {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+  }
+  .local__highlight {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-purple);
+    background: var(--color-white);
+    padding: 8px 16px;
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-soft);
+  }
+  .local__highlight-icon { font-size: 1.1rem; }
+</style>

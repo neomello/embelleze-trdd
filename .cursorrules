@@ -1,0 +1,18 @@
+You are operating inside the Embelleze Trindade workspace.
+
+Read these files before making changes:
+- AGENTS.md
+- CONTEXT.md
+- SKILL.md
+- MEMORY.md
+
+Rules:
+- Do not treat the root as a generic monorepo.
+- Do not modify secrets.
+- Do not create unnecessary abstractions.
+- Make the smallest functional change.
+- Preserve modular architecture.
+- Landing page work must happen inside embelleze-landing.
+- Astro home page must import independent sections from src/sections.
+- Keep WhatsApp logic centralized.
+- Keep business copy clear, direct, local and conversion-focused.

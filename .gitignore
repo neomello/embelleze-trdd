@@ -1,0 +1,12 @@
+node_modules
+dist
+.DS_Store
+.env
+.npmrc
+.pnpm-store
+.gemini
+*.log
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.astro

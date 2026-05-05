@@ -1,0 +1,193 @@
+---
+import courses from '../content/courses.json';
+import CourseIcon from '../components/CourseIcon.astro';
+
+// Pegamos apenas alguns para o teaser
+const featured = courses.slice(0, 8);
+---
+
+<section class="academy-teaser">
+  <div class="academy-teaser__bg"></div>
+  
+  <div class="academy-teaser__container">
+    <header class="academy-teaser__header">
+      <span class="academy-teaser__eyebrow">Conheça nossa Academia</span>
+      <h2 class="academy-teaser__title">Sua jornada de elite começa aqui</h2>
+      <p class="academy-teaser__text">
+        Formações completas com foco em prática real e independência financeira.
+      </p>
+    </header>
+
+    <div class="academy-teaser__mosaic">
+      {featured.map((course, index) => (
+        <div class={`mosaic-card mosaic-card--${index + 1}`}>
+          <div class="mosaic-card__icon">
+            <CourseIcon iconId={course.emoji} className="icon-svg" />
+          </div>
+          <span class="mosaic-card__name">{course.name}</span>
+        </div>
+      ))}
+    </div>
+
+    <footer class="academy-teaser__footer">
+      <a href="/academia" class="academy-teaser__link">
+        Explorar todas as formações
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M5 12h14m-7-7 7 7-7 7"/>
+        </svg>
+      </a>
+    </footer>
+  </div>
+</section>
+
+<style>
+  .academy-teaser {
+    padding: clamp(6rem, 12vw, 10rem) var(--spacing-sm);
+    background: #0a0212;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .academy-teaser__bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 140%;
+    height: 140%;
+    background: radial-gradient(circle at center, rgba(95, 48, 128, 0.1) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .academy-teaser__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+
+  .academy-teaser__header {
+    margin-bottom: 5rem;
+  }
+
+  .academy-teaser__eyebrow {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--color-orange);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+
+  .academy-teaser__title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.04em;
+  }
+
+  .academy-teaser__text {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.5);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Mosaic Layout */
+  .academy-teaser__mosaic {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    max-width: 1000px;
+    margin: 0 auto 6rem;
+  }
+
+  .mosaic-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    animation: float-card 6s infinite alternate ease-in-out;
+  }
+
+  .mosaic-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.4);
+    z-index: 10;
+  }
+
+  .mosaic-card__icon {
+    width: 24px;
+    height: 24px;
+    color: var(--color-orange);
+  }
+
+  .mosaic-card__name {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    white-space: nowrap;
+  }
+
+  /* Variations for Depth */
+  .mosaic-card--1 { animation-delay: 0s; }
+  .mosaic-card--2 { animation-delay: -1.5s; transform: translateY(10px); }
+  .mosaic-card--3 { animation-delay: -3s; transform: translateY(-5px); }
+  .mosaic-card--4 { animation-delay: -4.5s; transform: translateY(15px); }
+  .mosaic-card--5 { animation-delay: -2s; transform: translateY(-10px); }
+
+  @keyframes float-card {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(20px); }
+  }
+
+  /* Footer & CTA */
+  .academy-teaser__footer {
+    display: flex;
+    justify-content: center;
+  }
+
+  .academy-teaser__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 36px;
+    background: #fff;
+    color: #000;
+    border-radius: 100px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  }
+
+  .academy-teaser__link svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .academy-teaser__link:hover {
+    transform: translateY(-4px) scale(1.02);
+    background: var(--color-orange);
+    color: #fff;
+    box-shadow: 0 30px 60px rgba(222, 88, 61, 0.3);
+  }
+
+  @media (max-width: 768px) {
+    .academy-teaser__mosaic { gap: 1rem; }
+    .mosaic-card { padding: 1rem 1.5rem; border-radius: 20px; }
+    .mosaic-card__name { font-size: 0.875rem; }
+  }
+</style>

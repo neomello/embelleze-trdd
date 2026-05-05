@@ -1,0 +1,507 @@
+---
+---
+
+<section class="simulator">
+  <div class="simulator__energy" aria-hidden="true">
+    <div class="energy__orb energy__orb--1"></div>
+    <div class="energy__orb energy__orb--2"></div>
+  </div>
+
+  <div class="simulator__inner">
+    <header class="simulator__header">
+      <img src="/brand/logo-embelleze.png" alt="Embelleze" class="simulator__logo" />
+      <h2 class="simulator__title">Qual é o seu próximo passo?</h2>
+      <p class="simulator__sub">Responda 3 perguntas e descubra seu caminho na beleza.</p>
+    </header>
+
+    <div class="simulator__card">
+      <div class="simulator__progress">
+        <div class="simulator__progress-bar" id="sim-progress"></div>
+        <span class="simulator__step-indicator" id="sim-step-text">PASSO 1 DE 3</span>
+      </div>
+
+      <div id="sim-content">
+        <!-- Questions injected here -->
+      </div>
+
+      <!-- Analytical Loading State -->
+      <div id="sim-analyzing" class="simulator__analyzing hidden">
+        <div class="analyzing__scanner"></div>
+        <div class="analyzing__text">
+          <p class="analyzing__title">Analisando seu perfil...</p>
+          <p class="analyzing__sub">Mapeando as melhores oportunidades para você.</p>
+        </div>
+        <div class="analyzing__bar-container">
+           <div class="analyzing__bar" id="analyzing-progress"></div>
+        </div>
+      </div>
+
+      <!-- Result State -->
+      <div id="sim-result" class="simulator__result hidden">
+        <div class="result__badge">Resultado Encontrado</div>
+        <h3 class="result__title" id="res-title"></h3>
+        <p class="result__desc" id="res-desc"></p>
+        
+        <div class="result__actions">
+          <a href="#" id="res-link" class="result__btn result__btn--primary">
+             Começar agora
+          </a>
+          <button onclick="window.location.reload()" class="result__btn result__btn--secondary">
+            Refazer teste
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { getWhatsAppLink } from '../lib/whatsapp';
+  import { track, Events } from '../lib/tracking';
+
+  const steps = [
+    {
+      question: 'Seu objetivo principal é:',
+      options: [
+        { 
+          label: 'Renda extra', 
+          icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>` 
+        },
+        { 
+          label: 'Nova profissão', 
+          icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>` 
+        },
+        { 
+          label: 'Os dois!', 
+          icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>` 
+        }
+      ],
+    },
+    {
+      question: 'Sua experiência atual:',
+      options: [
+        { 
+          label: 'Iniciante total', 
+          icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m12 10 4 2m-8 0 4-2V3m0 7v11m0 0-4-2m4 2 4-2"/></svg>` 
+        },
+        { 
+          label: 'Já conheço um pouco', 
+          icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 20A7 7 0 0 1 11 6a7 7 0 0 1 11 6 7 7 0 0 1-7 7M11 20a7 7 0 0 0-7-7M11 20v-7M4 13a7 7 0 0 1 7-7"/></svg>` 
+        },
+        { 
+          label: 'Quase profissional', 
+          icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22h10c0-1.76-.85-3.25-2.03-3.79-.5-.23-.97-.66-.97-1.21v-2.34c0-1.65 1.35-3 3-3h1V5c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v6.66c0 1.66 1.35 3 3 3h1z"/></svg>` 
+        }
+      ],
+    },
+    {
+      question: 'O que faz seu coração bater forte?',
+      options: [
+        { 
+          label: 'Transformar Cabelos', 
+          icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="7" r="3"/><circle cx="6" cy="17" r="3"/><path d="m20 4-11 9"/><path d="m20 20-11-9"/></svg>` 
+        },
+        { 
+          label: 'Estética & Pele', 
+          icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18ZM12 8l-1.33 3.33L7.33 12.66 10.66 14l1.34 3.33 1.33-3.33 3.33-1.34-3.33-1.33L12 8Z"/></svg>` 
+        },
+        { 
+          label: 'Poder da Maquiagem', 
+          icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 20V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14"/><path d="M2 20h20"/><path d="M12 12V4"/><path d="M9 12h6"/></svg>` 
+        },
+        { 
+          label: 'Arte nas Unhas', 
+          icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22a7 7 0 0 0 7-7V7a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v8a7 7 0 0 0 7 7Z"/><path d="M12 11V4"/></svg>` 
+        }
+      ],
+    },
+  ];
+
+  const areaMap: Record<string, string> = {
+    'Transformar Cabelos': 'Cabeleireiro Profissional',
+    'Estética & Pele': 'Estética Facial e Corporal',
+    'Poder da Maquiagem': 'Maquiagem Profissional',
+    'Arte nas Unhas': 'Manicure de Elite',
+  };
+
+  const answers: string[] = [];
+  let current = 0;
+
+  const stepsEl = document.getElementById('sim-content')!;
+  const analyzingEl = document.getElementById('sim-analyzing')!;
+  const resultEl = document.getElementById('sim-result')!;
+  const progressBar = document.getElementById('sim-progress')!;
+  const stepIndicator = document.getElementById('sim-step-text')!;
+  const analyzingBar = document.getElementById('analyzing-progress')!;
+
+  track({ event: Events.START_FUTURE_SIMULATOR });
+
+  function render() {
+    const step = steps[current];
+    progressBar.style.width = `${((current) / steps.length) * 100}%`;
+    stepIndicator.innerText = `PASSO ${current + 1} DE ${steps.length}`;
+
+    stepsEl.innerHTML = `
+      <div class="sim-step animate-in">
+        <h3 class="sim-question">${step.question}</h3>
+        <div class="sim-options">
+          ${step.options.map(o => `
+            <button class="sim-option-card" data-value="${o.label}">
+              <div class="sim-option-icon">${o.icon}</div>
+              <span class="sim-option-label">${o.label}</span>
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    `;
+
+    stepsEl.querySelectorAll('.sim-option-card').forEach(btn => {
+      btn.addEventListener('click', () => {
+        answers.push((btn as HTMLElement).dataset.value!);
+        stepsEl.querySelector('.sim-step')?.classList.add('fade-out');
+        
+        setTimeout(() => {
+          current++;
+          if (current < steps.length) {
+            render();
+          } else {
+            startAnalysis();
+          }
+        }, 300);
+      });
+    });
+  }
+
+  function startAnalysis() {
+    stepsEl.classList.add('hidden');
+    analyzingEl.classList.remove('hidden');
+    progressBar.style.width = '100%';
+    
+    let p = 0;
+    const interval = setInterval(() => {
+      p += 1.5;
+      analyzingBar.style.width = `${p}%`;
+      if (p >= 100) {
+        clearInterval(interval);
+        setTimeout(showResult, 600);
+      }
+    }, 30);
+  }
+
+  function showResult() {
+    analyzingEl.classList.add('hidden');
+    resultEl.classList.remove('hidden');
+    resultEl.classList.add('animate-in');
+
+    const selectedArea = answers[2];
+    const courseName = areaMap[selectedArea] || 'Curso Profissional';
+    
+    const resTitle = document.getElementById('res-title')!;
+    const resDesc = document.getElementById('res-desc')!;
+    const resLink = document.getElementById('res-link')! as HTMLAnchorElement;
+
+    resTitle.innerText = courseName;
+    resDesc.innerText = `Com base no seu perfil, o curso de ${courseName} é a escolha ideal para você conquistar sua independência financeira na área da beleza.`;
+    resLink.href = getWhatsAppLink({ course: courseName, origin: 'simulator-result' });
+
+    track({ event: Events.COMPLETE_FUTURE_SIMULATOR, properties: { course: courseName } });
+  }
+
+  render();
+</script>
+
+<style>
+  .simulator {
+    padding: clamp(6rem, 15vw, 12rem) var(--spacing-sm);
+    background: #0d0416;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Energy Background */
+  .simulator__energy {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .energy__orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.2;
+    animation: orb-move 20s infinite alternate ease-in-out;
+  }
+
+  .energy__orb--1 {
+    width: 600px;
+    height: 600px;
+    background: var(--color-purple);
+    top: -10%;
+    left: -10%;
+  }
+
+  .energy__orb--2 {
+    width: 500px;
+    height: 500px;
+    background: var(--color-orange);
+    bottom: -10%;
+    right: -10%;
+    animation-delay: -5s;
+  }
+
+  @keyframes orb-move {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(100px, 50px) scale(1.1); }
+    100% { transform: translate(-50px, 100px) scale(0.9); }
+  }
+
+  .simulator__inner { max-width: 520px; margin: 0 auto; position: relative; z-index: 2; }
+  
+  .simulator__header { text-align: center; margin-bottom: 2rem; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+  
+  .simulator__logo {
+    height: 24px;
+    filter: brightness(0) invert(1);
+    opacity: 0.8;
+    margin-bottom: 0.25rem;
+  }
+
+  .simulator__title { font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 900; color: #fff; margin-bottom: 0.25rem; letter-spacing: -0.03em; }
+  .simulator__sub { font-size: 1rem; color: var(--color-orange); font-weight: 700; }
+
+  .simulator__card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 28px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Scanline Effect */
+  .simulator__card::after {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, rgba(222, 88, 61, 0.03), transparent);
+    animation: scanline 4s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes scanline {
+    0% { top: -100%; }
+    100% { top: 100%; }
+  }
+
+  .simulator__progress {
+    margin-bottom: 2rem;
+    position: relative;
+    background: rgba(255, 255, 255, 0.05);
+    height: 4px;
+    border-radius: 100px;
+    overflow: hidden;
+  }
+
+  .simulator__progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-purple), var(--color-orange));
+    border-radius: 100px;
+    width: 0%;
+    transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .simulator__step-indicator {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.625rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.3);
+    text-align: center;
+  }
+
+  .hidden { display: none; }
+  .fade-out { opacity: 0; transform: translateY(-5px); transition: all 0.3s ease; }
+
+  :global(.sim-question) { 
+    font-size: 1.25rem; 
+    font-weight: 800; 
+    color: #fff; 
+    margin-bottom: 1.75rem; 
+    text-align: center;
+    letter-spacing: -0.01em;
+  }
+
+  :global(.sim-options) { 
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem; 
+  }
+
+  :global(.sim-option-card) {
+    flex: 1 1 140px;
+    max-width: 180px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 18px;
+    padding: 1.25rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  :global(.sim-option-card:hover) {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-3px);
+    border-color: rgba(222, 88, 61, 0.4);
+  }
+
+  :global(.sim-option-icon) {
+    width: 32px;
+    height: 32px;
+    color: var(--color-orange);
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 10px rgba(222, 88, 61, 0.2));
+  }
+
+  :global(.sim-option-card:hover .sim-option-icon) {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 15px rgba(222, 88, 61, 0.4));
+  }
+
+  :global(.sim-option-label) { font-size: 0.8125rem; font-weight: 700; color: #fff; text-align: center; }
+
+  /* Analyzing State */
+  .simulator__analyzing {
+    text-align: center;
+    padding: 2rem 0;
+  }
+
+  .analyzing__text { margin-bottom: 2rem; }
+  .analyzing__title { font-size: 1.25rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem; }
+  .analyzing__sub { font-size: 0.875rem; color: rgba(255, 255, 255, 0.4); }
+
+  .analyzing__bar-container {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 100px;
+    overflow: hidden;
+    max-width: 200px;
+    margin: 0 auto;
+  }
+
+  .analyzing__bar {
+    height: 100%;
+    background: var(--color-orange);
+    width: 0%;
+    box-shadow: 0 0 15px var(--color-orange);
+  }
+
+  /* Result State */
+  .simulator__result {
+    text-align: center;
+    animation: result-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .result__badge {
+    display: inline-block;
+    padding: 6px 16px;
+    background: rgba(0, 255, 127, 0.1);
+    color: #00ff7f;
+    border: 1px solid rgba(0, 255, 127, 0.2);
+    border-radius: 100px;
+    font-size: 0.625rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+  }
+
+  .result__title {
+    font-size: 2.25rem;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 1rem;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+  }
+
+  .result__desc {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .result__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .result__btn {
+    padding: 18px 32px;
+    border-radius: 16px;
+    font-weight: 800;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .result__btn--primary {
+    background: #fff;
+    color: #000;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  }
+
+  .result__btn--primary:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+  }
+
+  .result__btn--secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .result__btn--secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+
+  @keyframes result-in {
+    from { opacity: 0; transform: scale(0.9) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .animate-in {
+    animation: fade-in-up 0.5s ease both;
+  }
+
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 500px) {
+    .simulator__card { padding: 2rem 1.5rem; }
+    .result__title { font-size: 1.75rem; }
+  }
+</style>

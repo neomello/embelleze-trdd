@@ -1,0 +1,30 @@
+Project: Embelleze Trindade Digital Conversion System
+
+Mission:
+Build a high-conversion landing page and digital acquisition system for Instituto Embelleze Trindade.
+
+Primary app:
+embelleze-landing
+
+Before editing:
+1. Read AGENTS.md
+2. Read CONTEXT.md
+3. Read SKILL.md
+4. Read MEMORY.md
+
+Architecture rules:
+- Astro project
+- Railway deploy
+- Section-based landing
+- index.astro only composes sections
+- src/sections for page blocks
+- src/components for reusable UI
+- src/content for editable business data
+- src/lib for WhatsApp, tracking, discount and geo helpers
+
+Business rules:
+- Bella is central to conversion
+- WhatsApp is the main CTA
+- Copy must be direct and aggressive, but not misleading
+- Never invent course prices or dates
+- Any claim about reviews or number of students must be backed by approved client data

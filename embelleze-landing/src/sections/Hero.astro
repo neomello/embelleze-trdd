@@ -1,0 +1,298 @@
+---
+---
+
+<section class="hero">
+
+  <!-- Fundo atmosférico -->
+  <div class="hero__bg" aria-hidden="true"></div>
+
+  <!-- Branding de fundo (atrás da Bella) -->
+  <div class="hero__brand-bg" aria-hidden="true">
+    <img src="/brand/e.png" alt="" class="hero__symbol" />
+    <img src="/brand/name.png" alt="" class="hero__name" />
+  </div>
+
+  <!-- Círculo de luz com noise -->
+  <div class="hero__circle" aria-hidden="true"></div>
+
+  <!-- Foto da Bella -->
+  <div class="hero__photo" aria-hidden="true">
+    <img src="/bella/bela_transp.webp" alt="" width="600" height="800" />
+  </div>
+
+  <!-- UI — Copy e Botões -->
+  <div class="hero__ui">
+    <div class="hero__content">
+      <div class="hero__copy">
+        <p class="hero__eyebrow">Formação profissionalizante</p>
+        <h1 class="hero__headline">
+          APRENDA NA PRÁTICA<br>
+          E COMECE A <br>
+          <span class="hero__highlight">ATENDER CLIENTES</span><br>
+          NA ÁREA DA BELEZA.
+        </h1>
+      </div>
+
+      <div class="hero__actions">
+        <a href="#cursos" class="hero__link">Ver cursos disponíveis →</a>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<style>
+  /* ── Base ── */
+  .hero {
+    position: relative;
+    background: #12071f;
+    min-height: 600px;
+    height: 100svh;
+    max-height: 980px;
+    overflow: hidden;
+    color: #fff;
+  }
+
+  /* ── Fundo ── */
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse 65% 75% at 75% 100%, rgba(95,48,128,.5) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 50% at 10% 20%,  rgba(50,10,90,.7) 0%, transparent 60%);
+  }
+
+  /* ── Círculo de Luz (z:1) ── */
+  .hero__circle {
+    position: absolute;
+    z-index: 1;
+    bottom: -10%;
+    right: -10%;
+    width: clamp(400px, 80vh, 800px);
+    height: clamp(400px, 80vh, 800px);
+    background: radial-gradient(circle at center, #de583d 0%, #c03070 100%);
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.45;
+    animation: circle-glow 6s ease-in-out infinite alternate;
+  }
+  .hero__circle::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    opacity: 0.25;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+  }
+
+  /* ── Branding de Fundo (z:1) ── */
+  .hero__brand-bg {
+    position: absolute;
+    z-index: 1;
+    top: 15%;
+    left: clamp(2rem, 8vw, 6rem);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    animation: fade-up 0.8s both;
+  }
+  .hero__symbol {
+    width: clamp(140px, 18vw, 240px);
+    height: auto;
+  }
+  .hero__name {
+    width: clamp(320px, 50vw, 680px);
+    height: auto;
+    margin-left: -5px;
+  }
+
+  /* ── Foto (z:2) ── */
+  .hero__photo {
+    position: absolute;
+    z-index: 2;
+    bottom: 0;
+    right: -10%;
+    height: 110%;
+    display: flex;
+    align-items: flex-end;
+    animation: photo-in 1s .2s cubic-bezier(.16,1,.3,1) both;
+  }
+  .hero__photo img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    object-position: bottom center;
+    display: block;
+    filter: drop-shadow(-20px 0 60px rgba(0,0,0,.4));
+  }
+
+  /* ── UI Content (z:3) ── */
+  .hero__ui {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    align-items: flex-end; /* Headline na parte de baixo como no mockup */
+    padding: 0 clamp(2rem, 8vw, 6rem) 8vh;
+    pointer-events: none;
+  }
+  .hero__ui > * { pointer-events: auto; }
+
+  .hero__content {
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    animation: fade-up 0.8s 0.4s both;
+  }
+
+  /* Copy */
+  .hero__eyebrow {
+    font-size: .8125rem;
+    font-weight: 700;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--color-orange);
+    margin-bottom: 1.25rem;
+    opacity: .9;
+  }
+  .hero__headline {
+    font-size: clamp(1.25rem, 2.8vw, 1.875rem);
+    font-weight: 900;
+    line-height: 1.2;
+    letter-spacing: -.01em;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  }
+  .hero__highlight {
+    color: var(--color-orange);
+  }
+
+  /* Actions */
+  .hero__actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .hero__link {
+    display: inline-flex;
+    padding: 14px 28px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(24px) saturate(160%) brightness(1.1);
+    -webkit-backdrop-filter: blur(24px) saturate(160%) brightness(1.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 100px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: .875rem;
+    letter-spacing: 0.02em;
+    box-shadow: 
+      0 10px 30px rgba(0,0,0,0.2),
+      inset 0 0 10px rgba(255,255,255,0.1);
+    transition: background 0.3s, border-color 0.3s, transform 0.2s;
+  }
+  .hero__link:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+  }
+
+  /* ── Animations ── */
+  @keyframes photo-in {
+    from { opacity: 0; transform: translateX(40px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes circle-glow {
+    from { opacity: 0.35; transform: scale(0.95); }
+    to   { opacity: 0.55; transform: scale(1.05); }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 820px) {
+    .hero { height: auto; min-height: 100svh; padding: 100px 0 40px; }
+    .hero__ui { position: relative; padding: 0 1.5rem; inset: auto; align-items: flex-start; }
+    .hero__brand-bg { position: relative; inset: auto; padding: 0 1.5rem; margin-bottom: 2rem; }
+    .hero__symbol { width: 100px; }
+    .hero__name { width: 240px; }
+    .hero__photo { 
+      position: absolute;
+      right: -25%;
+      height: 70%;
+      z-index: 2;
+    }
+    .hero__content { z-index: 3; }
+  }
+
+  @media (max-width: 500px) {
+    .hero { min-height: 100svh; height: 100svh; padding: 0; display: block; }
+    
+    .hero__brand-bg { 
+      position: absolute; 
+      top: 10%; 
+      left: 1.5rem; 
+      z-index: 3; 
+      gap: 0.75rem; 
+    }
+    .hero__symbol { width: 70px; }
+    .hero__name { width: 200px; }
+
+    .hero__circle { 
+      width: 140vw; 
+      height: 140vw; 
+      bottom: -15%; 
+      right: -60%; 
+      opacity: 0.25;
+      filter: blur(80px);
+    }
+
+    .hero__ui { 
+      padding: 0 1.5rem;
+      justify-content: flex-end;
+      padding-bottom: 5vh;
+    }
+    
+    .hero__content {
+      gap: 1.5rem;
+      width: 100%;
+    }
+    
+    .hero__copy {
+      margin-bottom: 1rem;
+      /* Sobe o texto para descolar do rosto da Bella */
+      transform: translateY(-12vh); 
+    }
+
+    .hero__headline { 
+      font-size: 1.625rem; 
+      text-shadow: 0 2px 15px rgba(0,0,0,1);
+    }
+    
+    .hero__actions { 
+      width: 100%;
+    }
+    
+    .hero__link { 
+      display: flex; 
+      width: 100%; 
+      justify-content: center; 
+      padding: 16px;
+      font-size: 0.9375rem;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(24px) saturate(180%) brightness(1.1);
+      -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.1);
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+
+    .hero__photo { 
+      height: 160%; 
+      right: -55%;
+      z-index: 2;
+    }
+  }
+</style>

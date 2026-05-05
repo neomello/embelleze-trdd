@@ -1,0 +1,204 @@
+---
+import faqs from '../content/faqs.json';
+---
+
+<section class="objection" id="faq">
+  <div class="objection__container">
+    <header class="objection__header">
+      <span class="objection__eyebrow">Tire suas dúvidas</span>
+      <h2 class="objection__title">Dúvidas Frequentes</h2>
+    </header>
+
+    <!-- Ícone flutuante decorativo no início -->
+    <div class="objection__floating-icon">
+      <img src="/brand/e.png" alt="E" class="objection__e-icon" />
+    </div>
+
+    <div class="objection__chat">
+      {faqs.map((faq, index) => (
+        <div class={`objection__bubble-group ${index % 2 === 0 ? 'objection__bubble-group--left' : 'objection__bubble-group--right'}`}>
+          <div class="objection__bubble objection__bubble--q">
+            <p>{faq.question}</p>
+          </div>
+          <div class="objection__bubble objection__bubble--a">
+            <p>{faq.answer}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .objection {
+    padding: clamp(5rem, 10vw, 8rem) var(--spacing-sm);
+    background: #12071f;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── WhatsApp Style Brand Pattern ── */
+  .objection::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('/brand/e.png');
+    background-size: 60px;
+    background-repeat: repeat;
+    opacity: 0.04;
+    filter: grayscale(1) brightness(2);
+    mask-image: radial-gradient(circle at 50% 50%, black, transparent 80%);
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, black, transparent 80%);
+    z-index: 1;
+  }
+
+  .objection::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(95, 48, 128, 0.2), transparent 70%);
+    z-index: 2;
+  }
+
+  .objection__container {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .objection__header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .objection__eyebrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-orange);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .objection__title {
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+
+  .objection__chat {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .objection__bubble-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 85%;
+  }
+
+  .objection__bubble-group--left {
+    align-self: flex-start;
+    align-items: flex-start;
+  }
+
+  .objection__bubble-group--right {
+    align-self: flex-end;
+    align-items: flex-end;
+  }
+
+  .objection__bubble {
+    padding: 18px 24px;
+    border-radius: 24px;
+    font-size: 1rem;
+    line-height: 1.5;
+    max-width: 100%;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+  }
+
+  .objection__bubble:hover {
+    transform: scale(1.02);
+  }
+
+  /* Pergunta */
+  .objection__bubble--q {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-weight: 600;
+    border-bottom-left-radius: 4px;
+    margin-bottom: -10px;
+    z-index: 2;
+  }
+
+  /* Resposta */
+  .objection__bubble--a {
+    background: rgba(95, 48, 128, 0.2);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.8);
+    border-top-right-radius: 4px;
+    margin-top: 0;
+    z-index: 1;
+    padding-top: 24px;
+    width: 95%;
+  }
+
+  .objection__bubble-group--right .objection__bubble--q {
+    background: rgba(255, 255, 255, 0.08);
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 4px;
+  }
+
+  .objection__bubble-group--right .objection__bubble--a {
+    background: rgba(222, 88, 61, 0.1);
+    border-top-right-radius: 24px;
+    border-top-left-radius: 4px;
+    text-align: right;
+  }
+
+  .objection__floating-icon {
+    position: absolute;
+    top: -20px;
+    left: -30px;
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: float 6s ease-in-out infinite;
+    z-index: 1;
+  }
+
+  .objection__e-icon {
+    height: 50px;
+    opacity: 0.4;
+    filter: brightness(1.5);
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(5deg); }
+  }
+
+  @media (max-width: 600px) {
+    .objection__bubble-group { max-width: 95%; }
+    .objection__bubble { font-size: 0.9375rem; padding: 14px 20px; }
+    .objection__chat { gap: 2rem; }
+    .objection__floating-icon { width: 70px; height: 70px; left: -15px; top: -15px; }
+    .objection__e-icon { height: 35px; }
+  }
+</style>
