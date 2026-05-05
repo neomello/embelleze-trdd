@@ -4,6 +4,7 @@ import '../styles/animations.css';
 
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import TrackingPixel from '../components/TrackingPixel.astro';
 
 interface Props {
   title?: string;
@@ -27,11 +28,37 @@ const {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    <!-- GTM, GA4 e Meta Pixel serão inseridos aqui -->
+    <TrackingPixel />
   </head>
   <body>
     <Header />
     <slot />
     <Footer />
+
+    <script is:inline>
+      // Global Lead Capture Interceptor
+      window.addEventListener('click', async (e) => {
+        const target = e.target.closest('a[href*="wa.me"]');
+        if (!target) return;
+
+        let phone = localStorage.getItem('sim_phone');
+        const isFromSimulator = !!phone;
+        
+        // Se não temos o telefone (Lead NOVO), poderíamos pedir aqui.
+        // Mas para não quebrar o fluxo (UX), vamos priorizar o Simulador.
+        // Se o lead já passou pelo simulador, atualizamos para INTERESSADO.
+        if (phone) {
+          fetch('/api/leads', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              phone: phone,
+              status: 'INTERESSADO',
+              last_message: `Conversão via clique: ${target.innerText || 'Botão WhatsApp'}`
+            })
+          }).catch(() => {});
+        }
+      });
+    </script>
   </body>
 </html>

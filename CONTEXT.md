@@ -51,3 +51,15 @@ cursos profissionalizantes na área da beleza.
 Não vender apenas curso.
 Vender transformação prática, renda e
 nova oportunidade profissional.
+
+────────────────────────────────────────
+
+## ▓ Status da Operação
+
+- **Fase 1 (Landing & Captação)**: ✅ Concluída.
+  - Simulador de Futuro com captura de lead.
+  - Integração com PostgreSQL via Railway.
+  - Tracking (GTM/Ads) configurado.
+  - Layout premium glassmorphism.
+- **Fase 2 (Bella SDR)**: ⏳ Em planejamento.
+  - Integração da API do WhatsApp com o banco compartilhado.

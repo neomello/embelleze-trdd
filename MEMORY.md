@@ -31,8 +31,28 @@ Função : Registrar decisões fixas
 
 ────────────────────────────────────────
 
+## ⟠ Arquitetura de Dados
+
+- **Single Truth**: Um único banco PostgreSQL no Railway para toda a operação (Landing + Bella).
+- **Resiliência**: O salvamento de leads no banco deve ser silencioso e em segundo plano. Se o banco falhar, o redirecionamento para o WhatsApp **nunca** deve ser interrompido.
+- **Lead ID**: O telefone (limpo de caracteres) é o identificador natural.
+- **Evolução de Status**:
+  - `NOVO`: Clique direto no WA (se capturado).
+  - `QUALIFICADO`: Completou o Simulador.
+  - `INTERESSADO`: Clicou no WA após o Simulador.
+
+## ⟠ Gotchas Técnicos
+
+- **Railway Monorepo**: O build deve definir `rootDirectory: "embelleze-landing"` no `railway.json` para evitar erros de caminho do Nixpacks.
+- **Node Version**: Usar Node `>=20.0.0` para compatibilidade entre local e Railway.
+- **TypeScript & ESM**: Em arquivos `.ts` puros no Astro, o `tsconfig.json` deve incluir `"module": "ESNext"` e `"types": ["astro/client"]` para suportar `import.meta.env`.
+- **Deduplicação**: Feita via código (UPSERT manual) para evitar travamentos de constraint no banco durante a fase inicial.
+
+────────────────────────────────────────
+
 ## ⍟ Princípio
 
 A landing não é institucional.
 É uma máquina de conversão para
 WhatsApp e matrícula.
+"Landing capta intenção. Bella conduz decisão. Banco guarda a verdade."
