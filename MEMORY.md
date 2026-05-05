@@ -24,8 +24,8 @@ Função : Registrar decisões fixas
 ┃ Framework PWA Bella   Vite (Vanilla JS)
 ┃ Estrutura             Repositórios Independentes (Isolados via .gitignore)
 ┃ Deploy                Railway (Serviços Separados)
-┃ Domínio final         bellaembelleze.chat
-┃ Domínio provisório    embelleze-trindade.flowoff.xyz
+┃ Domínio final         embelleze-bella.online
+┃ Domínio provisório    embelleze-trindade.up.railway.app (legacy)
 ┃ CRM                   PostgreSQL no Railway
 ┃ Memória latente       Redis no Railway (futuro)
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
