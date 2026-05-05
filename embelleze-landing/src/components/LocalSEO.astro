@@ -1,0 +1,70 @@
+---
+/**
+ * LocalSEO.astro
+ * Componente avançado de SEO Geo-Localizado.
+ * Implementa JSON-LD e Meta Tags de localização para dominar a busca regional.
+ */
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "VocationalSchool",
+  "name": "Instituto Embelleze Trindade",
+  "image": "https://embelleze-trindade.up.railway.app/brand/logo-embelleze.png",
+  "@id": "https://embelleze-trindade.up.railway.app",
+  "url": "https://embelleze-trindade.up.railway.app",
+  "telephone": "+5562984836550",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Av. Manoel Monteiro, 1691",
+    "addressLocality": "Trindade",
+    "addressRegion": "GO",
+    "postalCode": "75380-000",
+    "addressCountry": "BR"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": -16.6506,
+    "longitude": -49.4913
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "08:00",
+      "closes": "20:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Saturday",
+      "opens": "08:00",
+      "closes": "16:00"
+    }
+  ],
+  "sameAs": [
+    "https://www.instagram.com/embellezetrindade/",
+    "https://www.facebook.com/embellezetrindade/"
+  ],
+  "areaServed": [
+    { "@type": "City", "name": "Trindade" },
+    { "@type": "City", "name": "Goianira" },
+    { "@type": "City", "name": "Santa Bárbara de Goiás" },
+    { "@type": "City", "name": "Campestre de Goiás" },
+    { "@type": "City", "name": "Guapó" },
+    { "@type": "City", "name": "Abadia de Goiás" },
+    { "@type": "City", "name": "Goiânia" },
+    { "@type": "City", "name": "Caturaí" }
+  ]
+};
+---
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+<!-- Geo Meta Tags -->
+<meta name="geo.region" content="BR-GO" />
+<meta name="geo.placename" content="Trindade" />
+<meta name="geo.position" content="-16.6506;-49.4913" />
+<meta name="ICBM" content="-16.6506, -49.4913" />
+
+<!-- Local Keywords -->
+<meta name="keywords" content="curso de cabeleireiro trindade, curso de manicure trindade, escola de beleza goias, instituto embelleze trindade go, cursos profissionalizantes trindade, beleza goianira, cursos santa barbara de goias, curso de maquiagem guapo" />
