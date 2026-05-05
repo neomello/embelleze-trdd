@@ -21,6 +21,8 @@ Função : Registrar decisões fixas
 ┃ Cor branco            #ffffff
 ┃ WhatsApp              62 98483-6550
 ┃ Framework landing     Astro
+┃ Framework PWA Bella   Vite (Vanilla JS)
+┃ Estrutura             Monorepo (pnpm)
 ┃ Deploy                Railway (Docker)
 ┃ Domínio final         bellaembelleze.chat
 ┃ Domínio provisório    embelleze-trindade.flowoff.xyz
