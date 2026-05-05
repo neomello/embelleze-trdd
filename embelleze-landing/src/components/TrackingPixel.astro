@@ -1,8 +1,22 @@
 ---
 // Preencher IDs quando o cliente liberar os acessos (GTM, GA4, Meta Pixel)
 const GTM_ID = import.meta.env.PUBLIC_GTM_ID ?? '';
+const GTAG_ID = import.meta.env.PUBLIC_GTAG_ID ?? '';
 const META_PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID ?? '';
 ---
+
+{GTAG_ID && (
+  <Fragment>
+    <!-- Google tag (gtag.js) -->
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GTAG_ID}`}></script>
+    <script is:inline define:vars={{ GTAG_ID }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', GTAG_ID);
+    </script>
+  </Fragment>
+)}
 
 {GTM_ID && (
   <Fragment>
