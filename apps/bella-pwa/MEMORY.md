@@ -1,5 +1,7 @@
 <!-- markdownlint-disable MD003 MD007 MD013 MD022 MD023 MD025 MD029 MD032 MD033 MD034 -->
 
+# MEMORY
+
 ```text
 ========================================
    EMBELLEZE TRINDADE · MEMORY
@@ -28,7 +30,10 @@ Função : Registrar decisões fixas
 ┃ Domínio provisório    embelleze-trindade.flowoff.xyz
 ┃ CRM                   PostgreSQL no Railway
 ┃ Memória latente       Redis no Railway (futuro)
+┃ Inteligência (LLM)    Azure OpenAI
+┃ Autoridade Persona    persona/BELLA_MASTER.md
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 ```
 
 ────────────────────────────────────────

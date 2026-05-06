@@ -2,16 +2,65 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=overlays-content"
     />
-    <title>Bella — Consultora Embelleze</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="theme-color" content="#12071f" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="Bella" />
+    <title>Bella | Instituto Embelleze / Unidade Trindade - Go</title>
+
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        const keyboardThreshold = 120;
+        let stableViewportHeight = Math.max(
+          window.innerHeight,
+          window.visualViewport?.height || 0,
+        );
+
+        const syncViewport = () => {
+          const viewport = window.visualViewport;
+          const viewportHeight = viewport?.height || window.innerHeight;
+          const viewportBottom = viewport
+            ? viewport.offsetTop + viewport.height
+            : window.innerHeight;
+          const keyboardInset = Math.max(
+            0,
+            Math.round(stableViewportHeight - viewportBottom),
+          );
+          const keyboardOpen = keyboardInset > keyboardThreshold;
+
+          if (!keyboardOpen) {
+            stableViewportHeight = Math.max(window.innerHeight, viewportHeight);
+          }
+
+          root.style.setProperty(
+            "--app-viewport-height",
+            `${Math.round(stableViewportHeight)}px`,
+          );
+          root.style.setProperty(
+            "--keyboard-inset",
+            `${keyboardOpen ? keyboardInset : 0}px`,
+          );
+        };
+
+        window.visualViewport?.addEventListener("resize", syncViewport);
+        window.visualViewport?.addEventListener("scroll", syncViewport);
+        window.addEventListener("resize", syncViewport);
+        window.addEventListener("load", syncViewport);
+      })();
+    </script>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app" class="app-container"></div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
