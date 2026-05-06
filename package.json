@@ -14,5 +14,15 @@
     "verify": "pnpm --filter embelleze-landing check",
     "build:all": "pnpm -r build"
   },
-  "packageManager": "pnpm@10.33.3"
+  "packageManager": "pnpm@10.33.3",
+  "pnpm": {
+    "overrides": {
+      "yaml": "^2.8.4"
+    }
+  }
 }
+
+
+
+
+

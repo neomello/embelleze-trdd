@@ -13,22 +13,13 @@ export default defineConfig({
         theme_color: '#12071f',
         icons: [
           {
-            src: 'pwa-192x192.png',
-            sizes: '192x192',
-            type: 'image/png'
-          },
-          {
-            src: 'pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png'
-          },
-          {
-            src: 'pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'any maskable'
+            src: 'favicon.ico',
+            sizes: '32x32',
+            type: 'image/x-icon'
           }
+          // Os ícones PNG serão reativados assim que os arquivos forem movidos para public/
         ]
+
       }
     })
   ]
