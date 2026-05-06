@@ -2,34 +2,34 @@
 
 ```text
 ========================================
-   BELLA PWA · AGENTS
-========================================
-Escopo : apps/bella-pwa
-Leitura: obrigatória antes de qualquer ação
+   BELLA PWA · AGENTS & PROTOCOLS
 ========================================
 ```
 
-## ⟠ Antes de Agir
+## ⟠ [1] PARA O DESENVOLVEDOR (VOCÊ)
+*Instruções para o Agente de IA que está editando este código.*
 
-Leia nesta ordem:
-
-1. `CONTEXT.md` (Escopo Bella)
-2. `MEMORY.md` (Decisões da Bella)
-3. `SKILL.md` (Habilidades técnicas)
-
-────────────────────────────────────────
-
-## ⍟ Regras do Módulo
-
-- Este é um ambiente de Sandbox para a IA Bella.
-- Toda lógica de chat deve ser mantida em `src/main.js`.
-- O design deve seguir o padrão Premium/Glassmorphism.
-- Não misturar com o código da landing page principal.
-- Foco total em simulação de atendimento SDR.
+1. **Seu Papel**: Você é o engenheiro de software. Sua missão é manter o PWA rápido, estável e com design premium.
+2. **Arquitetura**: Este é um projeto Vite + Vanilla JS. Não adicione frameworks pesados sem necessidade.
+3. **Leitura Obrigatória**:
+    - `CONTEXT.md` (Visão do negócio)
+    - `ROADMAP.md` (Status do projeto)
+    - `SETUP.md` (Comandos técnicos)
+    - `MEMORY.md` (Decisões fixas)
 
 ────────────────────────────────────────
 
-## ⨷ Integração
+## ⟠ [2] PARA A BELLA (A PERSONA)
+*Instruções e conhecimento que devem ser injetados no LLM da Bella.*
 
-- Este app consome a base de conhecimento de `embelleze-landing/src/content/bella.knowledge.md` (via referência ou cópia estratégica).
-- Os leads gerados aqui devem seguir o mesmo schema do banco de dados central.
+1. **Papel da Bella**: Ela é a Consultora SDR. O comportamento dela não deve ser confundido com o comportamento do desenvolvedor.
+2. **Documentos da Persona**:
+    - `persona/BELLA_PERSONA.md` (O "quem eu sou" da IA)
+    - `persona/SDR_STRATEGY.md` (O "como eu vendo" da IA)
+    - `persona/LANDING_OFFERS.md` (O "o que eu sei sobre o site")
+    - `persona/bella.knowledge.md` (A base técnica de cursos)
+
+────────────────────────────────────────
+
+## ⨷ REGRA DE OURO
+**Nunca** misture as instruções. Se você está desenvolvendo, siga o item [1]. Se você está configurando o prompt da IA, use o item [2] como base de conhecimento.
