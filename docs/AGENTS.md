@@ -1,5 +1,7 @@
 <!-- markdownlint-disable MD003 MD007 MD013 MD022 MD023 MD025 MD029 MD032 MD033 MD034 -->
 
+# AGENTS.md
+
 ```text
 ========================================
    EMBELLEZE TRINDADE · AGENTS (DOCS)
@@ -36,7 +38,7 @@ Leia nesta ordem para obter contexto total:
 
 - **Não alterar arquivos fora do escopo solicitado.**
 - **Não modificar secrets ou chaves de API.**
-- **Astro Patterns**: 
+- **Astro Patterns**:
   - `href` nunca deve ser vazio ou `#`.
   - Use o componente `<Image />` para todas as imagens.
   - Imagens de branding/persona devem ficar em `src/assets/`.
