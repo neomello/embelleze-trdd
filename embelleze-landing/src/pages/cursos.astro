@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import CourseCard from '../components/CourseCard.astro';
 import courses from '../content/courses.json';
 import symbol from '../assets/brand/e.png';
+import { WHATSAPP_NUMBER } from '../lib/constants';
 ---
 
 <BaseLayout title="Cursos Profissionalizantes — Instituto Embelleze Trindade">
@@ -95,7 +96,7 @@ import symbol from '../assets/brand/e.png';
           <span>Início Imediato</span>
           <span class="cart__summary-status">Certificado Incluso</span>
         </div>
-        <button id="cart-checkout" class="cart__btn-checkout">
+        <button id="cart-checkout" class="cart__btn-checkout" data-wa={WHATSAPP_NUMBER}>
           <div class="cart__btn-inner">
             <span class="cart__btn-text">Garantir minha vaga</span>
             <div class="cart__btn-icons">
@@ -200,8 +201,9 @@ import symbol from '../assets/brand/e.png';
   closeBtn?.addEventListener('click', () => cartDrawer?.classList.remove('open'));
 
   checkoutBtn?.addEventListener('click', () => {
+    const waNumber = (checkoutBtn as HTMLButtonElement).dataset.wa ?? '';
     const message = `Olá Embelleze! Gostaria de me matricular nos seguintes cursos:\n\n${cart.map(c => `✅ ${c.name}`).join('\n')}\n\nComo posso garantir minha vaga?`;
-    const url = `https://wa.me/5562995574514?text=${encodeURIComponent(message)}`;
+    const url = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
   });
 

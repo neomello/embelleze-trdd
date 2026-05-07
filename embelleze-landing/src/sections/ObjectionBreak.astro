@@ -2,6 +2,9 @@
 import { Image } from 'astro:assets';
 import faqs from '../content/faqs.json';
 import symbol from '../assets/brand/e.png';
+import { getWhatsAppLink } from '../lib/whatsapp';
+
+const faqCtaLink = getWhatsAppLink({ origin: 'faq' });
 ---
 
 <section class="faq" id="faq">
@@ -90,7 +93,7 @@ import symbol from '../assets/brand/e.png';
           <span>Fale com a Bella...</span>
         </div>
         <a
-          href="https://wa.me/5562984836550?text=Olá!+Gostaria+de+saber+mais+sobre+os+cursos+do+Instituto+Embelleze+Trindade"
+          href={faqCtaLink}
           class="chat-send-btn"
           target="_blank"
           rel="noopener"

@@ -1,4 +1,4 @@
-const WHATSAPP_NUMBER = '5562984836550';
+import { WHATSAPP_NUMBER } from './constants';
 
 export interface WhatsAppOptions {
   course?: string;

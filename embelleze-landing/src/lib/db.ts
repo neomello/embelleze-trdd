@@ -26,20 +26,18 @@ export interface LeadData {
 }
 
 /**
- * Realiza o UPSERT do lead baseado no telefone (ID natural).
- * Decisão técnica: Deduplicação via código para flexibilidade.
+ * Realiza o UPSERT atômico do lead baseado no telefone (ID natural).
+ * Single-statement INSERT ... ON CONFLICT elimina race condition de concorrência.
+ * Lógica de status: INTERESSADO nunca regride para QUALIFICADO.
  */
 export async function upsertLead(data: LeadData) {
   const dbUrl = process.env.DATABASE_URL || import.meta.env.DATABASE_URL;
-  
+
   if (!dbUrl) {
-    console.warn(
-      "[DB] DATABASE_URL não configurada. Lead não registrado no Postgres.",
-    );
+    console.warn("[DB] DATABASE_URL não configurada. Lead não registrado no Postgres.");
     return null;
   }
 
-  // Limpeza básica do telefone (apenas números)
   const cleanPhone = data.phone.replace(/\D/g, "");
   if (!cleanPhone) return null;
 
@@ -47,60 +45,23 @@ export async function upsertLead(data: LeadData) {
   try {
     client = await pool.connect();
 
-    // 1. Verificar se o lead já existe
-    const checkQuery = "SELECT id, status FROM leads WHERE phone = $1";
-    const checkRes = await client.query(checkQuery, [cleanPhone]);
-
-    if (checkRes.rows.length > 0) {
-      // 2. UPDATE: Lead já existe
-      const existingLead = checkRes.rows[0];
-
-      // Lógica de evolução de status
-      // Se já era QUALIFICADO/INTERESSADO, não volta para NOVO
-      let newStatus = data.status || existingLead.status;
-      if (
-        existingLead.status === "INTERESSADO" &&
-        data.status === "QUALIFICADO"
-      ) {
-        newStatus = "INTERESSADO"; // Mantém o status mais "quente"
-      }
-
-      const updateQuery = `
-        UPDATE leads 
-        SET 
-          name = COALESCE($2, name),
-          origin = COALESCE($3, origin),
-          course_interest = COALESCE($4, course_interest),
-          objective = COALESCE($5, objective),
-          status = $6,
-          last_message = COALESCE($7, last_message),
-          updated_at = NOW()
-        WHERE phone = $1
-        RETURNING id
-      `;
-
-      const res = await client.query(updateQuery, [
-        cleanPhone,
-        data.name || null,
-        data.origin || null,
-        data.course_interest || null,
-        data.objective || null,
-        newStatus,
-        data.last_message || null,
-      ]);
-
-      console.log(`[DB] Lead atualizado: ${cleanPhone}`);
-      return res.rows[0].id;
-    } else {
-      // 3. INSERT: Novo lead
-      const insertQuery = `
-        INSERT INTO leads (
-          phone, name, origin, course_interest, objective, status, last_message
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7)
-        RETURNING id
-      `;
-
-      const res = await client.query(insertQuery, [
+    const res = await client.query(
+      `INSERT INTO leads (phone, name, origin, course_interest, objective, status, last_message)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
+       ON CONFLICT (phone) DO UPDATE SET
+         name             = COALESCE(EXCLUDED.name,            leads.name),
+         origin           = COALESCE(EXCLUDED.origin,          leads.origin),
+         course_interest  = COALESCE(EXCLUDED.course_interest, leads.course_interest),
+         objective        = COALESCE(EXCLUDED.objective,       leads.objective),
+         status           = CASE
+                              WHEN leads.status = 'INTERESSADO' AND EXCLUDED.status = 'QUALIFICADO'
+                              THEN 'INTERESSADO'
+                              ELSE COALESCE(EXCLUDED.status, leads.status)
+                            END,
+         last_message     = COALESCE(EXCLUDED.last_message,    leads.last_message),
+         updated_at       = NOW()
+       RETURNING id`,
+      [
         cleanPhone,
         data.name || null,
         data.origin || null,
@@ -108,13 +69,11 @@ export async function upsertLead(data: LeadData) {
         data.objective || null,
         data.status || "NOVO",
         data.last_message || null,
-      ]);
+      ],
+    );
 
-      console.log(`[DB] Novo lead registrado: ${cleanPhone}`);
-      return res.rows[0].id;
-    }
+    return res.rows[0].id as string;
   } catch (err) {
-    // Falha silenciosa para não quebrar a landing
     console.error("[DB] Erro ao salvar lead:", err);
     return null;
   } finally {

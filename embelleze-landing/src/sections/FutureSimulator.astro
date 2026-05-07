@@ -1,4 +1,7 @@
 ---
+import { getWhatsAppLink } from '../lib/whatsapp';
+
+const simCtaLink = getWhatsAppLink({ origin: 'simulator' });
 ---
 
 <section id="simulador" class="simulator">
@@ -71,7 +74,7 @@
         <p class="result__desc" id="res-desc"></p>
         
         <div class="result__actions">
-          <a href="https://wa.me/5562984836550" id="res-link" class="result__btn result__btn--primary">
+          <a href={simCtaLink} id="res-link" class="result__btn result__btn--primary">
              Reservar vaga via WhatsApp
           </a>
           <button onclick="window.location.reload()" class="result__btn result__btn--secondary">

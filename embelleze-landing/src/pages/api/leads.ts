@@ -1,39 +1,40 @@
 import type { APIRoute } from 'astro';
 import { upsertLead } from '../../lib/db';
+import { LeadSchema } from '../../lib/schemas';
 
-/**
- * Endpoint para captura de leads vindos da landing.
- * Aceita: phone (obrigatório), name, origin, course_interest, objective, status, last_message.
- */
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const data = await request.json();
-    
-    // Validação mínima
-    if (!data.phone) {
-      return new Response(JSON.stringify({ error: 'Telefone é obrigatório' }), { 
-        status: 400,
+    if ((request.headers.get('content-length') ?? '0') > '8192') {
+      return new Response(JSON.stringify({ error: 'Payload too large' }), {
+        status: 413,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    const body = await request.json();
+    const parsed = LeadSchema.safeParse(body);
+
+    if (!parsed.success) {
+      return new Response(
+        JSON.stringify({ error: 'Dados inválidos', details: parsed.error.issues }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } },
+      );
+    }
+
+    const leadId = await upsertLead({
+      ...parsed.data,
+      origin: parsed.data.origin || 'landing',
+    });
+
+    if (!leadId) {
+      return new Response(JSON.stringify({ error: 'Persistence failed' }), {
+        status: 503,
         headers: { 'Content-Type': 'application/json' }
       });
     }
 
-    // Tenta salvar no banco (falha silenciosa interna no lib/db)
-    const leadId = await upsertLead({
-      phone: data.phone,
-      name: data.name,
-      origin: data.origin || 'landing',
-      course_interest: data.course_interest,
-      objective: data.objective,
-      status: data.status,
-      last_message: data.last_message
-    });
-
-    return new Response(JSON.stringify({ 
-      success: true, 
-      id: leadId,
-      message: leadId ? 'Lead registrado' : 'Lead processado sem persistência'
-    }), {
-      status: 200,
+    return new Response(JSON.stringify({ success: true, id: leadId }), {
+      status: 201,
       headers: { 'Content-Type': 'application/json' }
     });
 

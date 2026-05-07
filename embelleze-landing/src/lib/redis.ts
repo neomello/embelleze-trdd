@@ -29,14 +29,16 @@ export async function trackLocationIntent(data: any) {
   try {
     const pipeline = redis.pipeline();
 
-    // 1. Append na lista de intents brutos
+    // 1. Append na lista de intents brutos (cap at 1000 entries, expire daily keys after 90 days)
     pipeline.lpush('location:intents', JSON.stringify(payload));
+    pipeline.ltrim('location:intents', 0, 999);
 
     // 2. Incrementa contador geral
     pipeline.incr('location:intents:count');
 
-    // 3. Incrementa contador do dia
+    // 3. Incrementa contador do dia (expire after 90 days)
     pipeline.incr(`location:intents:${dateKey}`);
+    pipeline.expire(`location:intents:${dateKey}`, 60 * 60 * 24 * 90);
 
     // 4. Incrementa contador por bairro se existir
     if (data.neighborhood && data.neighborhood !== 'Outro') {

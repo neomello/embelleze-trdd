@@ -52,6 +52,10 @@ const {
     <slot />
     <Footer />
 
+    <script>
+      import '../scripts/events.client';
+    </script>
+
     <script is:inline>
       // Global Lead Capture Interceptor
       window.addEventListener('click', async (e) => {

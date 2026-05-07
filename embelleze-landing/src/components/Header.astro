@@ -2,6 +2,9 @@
 import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
 import logo from '../assets/brand/logo-embelleze.png';
+import { getWhatsAppLink } from '../lib/whatsapp';
+
+const ctaLink = getWhatsAppLink({ origin: 'header' });
 ---
 <header class="header" id="main-header">
   <div class="header__container">
@@ -19,7 +22,7 @@ import logo from '../assets/brand/logo-embelleze.png';
         </a></li>
         <li><a href="#faq" class="header__link">Dúvidas</a></li>
       </ul>
-      <a href="https://wa.me/5562984836550?text=Olá!+Gostaria+de+saber+mais+sobre+os+cursos+do+Instituto+Embelleze+Trindade" class="header__cta">Falar com Bella</a>
+      <a href={ctaLink} class="header__cta">Falar com Bella</a>
     </nav>
 
     <button class="header__mobile-toggle" id="mobile-menu-toggle" aria-label="Menu" aria-expanded="false">
@@ -63,7 +66,7 @@ import logo from '../assets/brand/logo-embelleze.png';
   </nav>
 
   <a
-    href="https://wa.me/5562984836550?text=Olá!+Gostaria+de+saber+mais+sobre+os+cursos+do+Instituto+Embelleze+Trindade"
+    href={ctaLink}
     class="mobile-sheet__cta"
     target="_blank"
     rel="noopener"

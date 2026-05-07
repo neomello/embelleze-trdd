@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import logo from '../assets/brand/logo-embelleze.png';
+import { WHATSAPP_NUMBER, WHATSAPP_DISPLAY, INSTITUTE_ADDRESS } from '../lib/constants';
 ---
 <footer class="footer">
   <div class="footer__container">
@@ -31,9 +32,8 @@ import logo from '../assets/brand/logo-embelleze.png';
       <div class="footer__contact">
         <h4 class="footer__title">Contato</h4>
         <ul>
-          <li>Av. Manoel Monteiro, 1691</li>
-          <li>Vila Padre Eterno, Trindade - GO</li>
-          <li><a href="tel:5562984836550" class="footer__contact-link">(62) 98483-6550</a></li>
+          <li>{INSTITUTE_ADDRESS}</li>
+          <li><a href={`tel:${WHATSAPP_NUMBER}`} class="footer__contact-link">{WHATSAPP_DISPLAY}</a></li>
         </ul>
       </div>
     </div>

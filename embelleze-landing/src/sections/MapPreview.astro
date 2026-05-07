@@ -14,7 +14,7 @@ const NEIGHBORHOODS = [
 ];
 ---
 
-<section class="map" id="onde-estamos">
+<section class="map" id="onde-estamos" data-address={INSTITUTE_ADDRESS}>
   <div class="map__container">
     <div class="map__grid">
       
@@ -93,7 +93,7 @@ const NEIGHBORHOODS = [
 <script>
   const btnDistance = document.getElementById('btn-distance');
   const neighborhoodSelect = document.getElementById('neighborhood-select') as HTMLSelectElement;
-  const DESTINATION_ADDRESS = "Av. Manoel Monteiro, 1691 — Vila Padre Eterno, Trindade/GO";
+  const DESTINATION_ADDRESS = (document.getElementById('onde-estamos') as HTMLElement).dataset.address ?? '';
   const FALLBACK_URL = "https://www.google.com/maps/dir/?api=1&destination=Av.+Manoel+Monteiro,+1691,+Vila+Padre+Eterno,+Trindade,+GO";
 
   async function trackIntent(data: any) {
