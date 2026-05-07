@@ -32,7 +32,7 @@ import courses from '../content/courses.json';
           category={course.category}
           description={course.description}
           ctaText={course.ctaText}
-          emoji={course.emoji}
+          iconId={course.iconId}
           duration={course.duration}
           frequency={course.frequency}
           schedule={course.schedule}
@@ -177,19 +177,51 @@ import courses from '../content/courses.json';
 
   .courses__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    width: 100%;
     transition: opacity 0.3s ease;
   }
 
   .course-card {
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    width: 100% !important; /* Forçar preenchimento total da coluna */
+    margin: 0 !important;
   }
 
-  @media (max-width: 768px) {
+  @media (min-width: 768px) {
     .courses__grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
     }
-    .courses__header { margin-bottom: 3rem; }
+    /* No desktop podemos manter um pouco de ritmo bento */
+    .course-card:nth-child(4n+1) {
+      grid-column: span 2;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .courses__grid {
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: minmax(200px, auto);
+      gap: 20px;
+    }
+
+    .course-card:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+    .course-card:nth-child(4) { grid-row: span 2; }
+  }
+
+  @media (max-width: 600px) {
+    .courses__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    /* Em telas muito pequenas, se 2 colunas ficarem apertadas, podemos manter 1 ou reduzir o gap */
+    .courses__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
   }
 </style>

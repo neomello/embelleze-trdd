@@ -1,11 +1,12 @@
 {
   "activeOffer": {
     "courseId": "barbeiro",
-    "title": "Turma de Barbeiro com vagas abertas",
-    "subtitle": "Comece sua nova profissão com quem entende do mercado.",
+    "title": "Próxima Turma de Barbeiro",
+    "subtitle": "Garanta seu lugar na turma que vai transformar sua carreira.",
     "ticketPrefix": "BELLA",
-    "urgency": "Vagas limitadas para a próxima turma",
-    "nextClass": null,
+    "urgency": "Últimas vagas disponíveis",
+    "nextClass": "15 de Maio",
+    "registrationDeadline": "12 de Maio",
     "highlightBenefit": "Prática real desde o primeiro dia"
   }
 }

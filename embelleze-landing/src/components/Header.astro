@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
 import logo from '../assets/brand/logo-embelleze.png';
 ---
 <header class="header" id="main-header">
@@ -12,10 +13,13 @@ import logo from '../assets/brand/logo-embelleze.png';
       <ul class="header__menu">
         <li><a href="/" class="header__link">Início</a></li>
         <li><a href="/cursos" class="header__link">Cursos</a></li>
-        <li><a href="/mapa" class="header__link">Localização</a></li>
+        <li><a href="/mapa" class="header__link header__link--map">
+          <Icon name="lucide:map-pin" class="header__icon" />
+          <span>Localização</span>
+        </a></li>
         <li><a href="#faq" class="header__link">Dúvidas</a></li>
       </ul>
-      <a href="https://wa.me/5562995574514" class="header__cta">Falar com Bella</a>
+      <a href="https://wa.me/5562984836550?text=Olá!+Gostaria+de+saber+mais+sobre+os+cursos+do+Instituto+Embelleze+Trindade" class="header__cta">Falar com Bella</a>
     </nav>
 
     <button class="header__mobile-toggle" id="mobile-menu-toggle" aria-label="Menu">
@@ -32,7 +36,7 @@ import logo from '../assets/brand/logo-embelleze.png';
       <a href="/cursos" class="header__mobile-link">Cursos</a>
       <a href="/mapa" class="header__mobile-link">Localização</a>
       <a href="#faq" class="header__mobile-link">Dúvidas</a>
-      <a href="https://wa.me/5562995574514" class="header__mobile-cta">WhatsApp</a>
+      <a href="https://wa.me/5562984836550?text=Olá!+Gostaria+de+saber+mais+sobre+os+cursos+do+Instituto+Embelleze+Trindade" class="header__mobile-cta">WhatsApp</a>
     </nav>
   </div>
 </header>
@@ -74,17 +78,17 @@ import logo from '../assets/brand/logo-embelleze.png';
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1100;
+    z-index: 99999;
     padding: 2rem 0;
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .header--scrolled {
     padding: 1rem 0;
-    background: rgba(18, 7, 31, 0.8);
+    background: rgba(13, 4, 22, 0.85);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .header__container {
@@ -94,6 +98,11 @@ import logo from '../assets/brand/logo-embelleze.png';
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  .header__logo {
+    position: relative;
+    z-index: 10000;
   }
 
   .header__logo-img {
@@ -115,11 +124,24 @@ import logo from '../assets/brand/logo-embelleze.png';
   }
 
   .header__link {
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--color-white);
     text-decoration: none;
-    font-size: 0.875rem;
-    font-weight: 600;
+    font-size: var(--font-size-sm);
+    font-weight: 700;
     transition: color 0.3s ease;
+    opacity: 0.8;
+  }
+
+  .header__link--map {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .header__icon {
+    width: 14px;
+    height: 14px;
+    color: var(--color-orange);
   }
 
   .header__link:hover {
@@ -150,7 +172,7 @@ import logo from '../assets/brand/logo-embelleze.png';
     background: none;
     border: none;
     cursor: pointer;
-    z-index: 1200;
+    z-index: 100000;
   }
 
   .header__mobile-toggle span {
@@ -168,13 +190,15 @@ import logo from '../assets/brand/logo-embelleze.png';
   .header__mobile-overlay {
     position: fixed;
     inset: 0;
-    background: #0d0416;
-    z-index: 1150;
+    width: 100%;
+    height: 100vh;
+    background: #0d0416; /* Fundo sólido infalível */
+    z-index: 9000;
     display: flex;
     align-items: center;
     justify-content: center;
     transform: translateX(100%);
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .header__mobile-overlay.active {

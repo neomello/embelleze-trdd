@@ -6,7 +6,7 @@ const app = document.querySelector('#app')
 // Lógica de Persistência
 const STORAGE_KEY = 'bella_chat_history'
 let chatHistory = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [
-  { text: "Olá! 👋 Eu sou a Bella, consultora virtual do Instituto Embelleze Trindade. Como posso te ajudar a mudar de vida hoje?", isUser: false, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
+  { text: "Olá! 👋 Eu sou a Bella. Estou aqui para te ajudar a encontrar o curso ideal e transformar sua carreira na beleza. Como posso te ajudar hoje?", isUser: false, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
 ]
 
 function saveHistory() {
@@ -15,16 +15,13 @@ function saveHistory() {
 
 app.innerHTML = `
   <header class="header">
-    <div class="header-top">
-      <img src="/brand/logo_cor_horizontal.png" alt="Instituto Embelleze" class="client-logo">
-    </div>
     <div class="header-bottom">
       <div class="avatar-container">
         <img src="${bellaImg}" alt="Bella" class="avatar-img">
       </div>
       <div class="header-info">
         <h1>Bella</h1>
-        <div class="status">Consultora SDR</div>
+        <div class="status">Consultora de Carreira</div>
       </div>
     </div>
   </header>
@@ -33,14 +30,18 @@ app.innerHTML = `
 
   <div class="input-area">
     <form class="input-container" id="chat-form">
-      <input type="text" id="user-input" placeholder="Pergunte sobre cursos ou carreira..." autocomplete="off">
+      <input type="text" id="user-input" placeholder="Escreva sua mensagem..." autocomplete="off">
       <button type="submit" class="send-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-          <line x1="22" y1="2" x2="11" y2="13"></line>
-          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-        </svg>
+        <iconify-icon icon="ph:paper-plane-right-fill"></iconify-icon>
       </button>
     </form>
+    <footer class="footer">
+      <img src="/brand/logo_cor_horizontal.png" alt="Instituto Embelleze" class="footer-logo">
+      <div class="footer-info">
+        <p>Instituto da Beleza Goiana de Ensino e Serviços LTDA</p>
+        <p>CNPJ: 19.367.067/0001-97</p>
+      </div>
+    </footer>
   </div>
 `
 

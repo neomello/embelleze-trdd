@@ -129,7 +129,8 @@ import nameImg from '../assets/brand/name.png';
     object-fit: contain;
     object-position: bottom center;
     display: block;
-    filter: drop-shadow(-20px 0 60px rgba(0,0,0,.4));
+    /* Filtro para reduzir brilho no rosto e melhorar contraste */
+    filter: brightness(0.88) contrast(1.05) saturate(1.1) drop-shadow(-20px 0 60px rgba(0,0,0,.4));
   }
 
   /* ── UI Content (z:3) ── */

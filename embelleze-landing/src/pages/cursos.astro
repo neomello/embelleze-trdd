@@ -34,7 +34,7 @@ import symbol from '../assets/brand/e.png';
               category={course.category}
               description={course.description}
               ctaText="Selecionar Curso"
-              emoji={course.emoji}
+              iconId={course.iconId}
               duration={course.duration}
               frequency={course.frequency}
               schedule={course.schedule}
@@ -268,8 +268,22 @@ import symbol from '../assets/brand/e.png';
 
   .courses-page__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .courses-page__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .courses-page__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 
   /* ── Novo Carrinho Embelleze ── */
@@ -429,7 +443,6 @@ import symbol from '../assets/brand/e.png';
 
   @media (max-width: 600px) {
     .courses-page { padding-top: 4rem; }
-    .courses-page__grid { grid-template-columns: 1fr; }
     .cart { bottom: 0; left: 0; right: 0; transform: translateY(100%); max-width: 100%; border-radius: 32px 32px 0 0; }
     .cart.open { transform: translateY(0); }
     .cart-trigger { bottom: 20px; right: 20px; width: 64px; height: 64px; }

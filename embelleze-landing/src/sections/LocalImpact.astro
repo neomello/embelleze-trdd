@@ -1,10 +1,19 @@
 ---
+import { Icon } from 'astro-icon/components';
 import { INSTITUTE_ADDRESS } from '../lib/constants';
 ---
 
 <section class="local">
   <div class="local__inner">
-    <span class="local__badge">📍 Trindade/GO</span>
+    <a 
+      href="https://www.google.com/maps/search/?api=1&query=Instituto+Embelleze+Trindade+Av.+Manoel+Monteiro+1691" 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      class="local__badge"
+    >
+      <Icon name="lucide:map-pin" class="badge-icon" />
+      Trindade/GO
+    </a>
     <h2 class="local__title">Aqui pertinho de você</h2>
     <p class="local__address">{INSTITUTE_ADDRESS}</p>
     <p class="local__desc">
@@ -12,15 +21,15 @@ import { INSTITUTE_ADDRESS } from '../lib/constants';
     </p>
     <div class="local__highlights">
       <div class="local__highlight">
-        <span class="local__highlight-icon">🎓</span>
+        <Icon name="lucide:graduation-cap" class="local__highlight-icon" />
         <span>Certificado reconhecido</span>
       </div>
       <div class="local__highlight">
-        <span class="local__highlight-icon">👩‍🏫</span>
+        <Icon name="lucide:users" class="local__highlight-icon" />
         <span>Professores experientes</span>
       </div>
       <div class="local__highlight">
-        <span class="local__highlight-icon">💼</span>
+        <Icon name="lucide:briefcase" class="local__highlight-icon" />
         <span>Prática desde o 1º dia</span>
       </div>
     </div>
@@ -36,16 +45,31 @@ import { INSTITUTE_ADDRESS } from '../lib/constants';
   .local__inner { max-width: 620px; margin: 0 auto; }
 
   .local__badge {
+    text-decoration: none;
     font-size: var(--font-size-sm);
     font-weight: 700;
-    background: var(--color-orange);
+    background: linear-gradient(135deg, var(--color-orange) 0%, #ff7d61 100%);
     color: var(--color-white);
-    padding: 5px 14px;
+    padding: 8px 18px;
     border-radius: var(--radius-full);
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     margin-bottom: var(--spacing-md);
-    box-shadow: var(--shadow-orange);
-    letter-spacing: 0.02em;
+    box-shadow: 0 4px 15px rgba(222, 88, 61, 0.3);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+  }
+
+  .badge-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .local__badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(222, 88, 61, 0.4);
+    filter: brightness(1.1);
   }
 
   .local__title {
@@ -68,21 +92,56 @@ import { INSTITUTE_ADDRESS } from '../lib/constants';
 
   .local__highlights {
     display: flex;
-    justify-content: center;
-    gap: var(--spacing-md);
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-lg);
   }
+
   .local__highlight {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: var(--font-size-sm);
-    font-weight: 600;
-    color: var(--color-purple);
-    background: var(--color-white);
-    padding: 8px 16px;
-    border-radius: var(--radius-full);
-    box-shadow: var(--shadow-soft);
+    width: 100%;
+    max-width: 400px;
+    padding: 16px 24px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 3px solid var(--color-orange);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    text-align: left;
   }
-  .local__highlight-icon { font-size: 1.1rem; }
+
+  .local__highlight:hover {
+    background: rgba(255, 255, 255, 0.07);
+    transform: translateX(10px);
+    border-left-width: 6px;
+    box-shadow: -10px 0 30px rgba(222, 88, 61, 0.15);
+  }
+
+  .local__highlight span:not(.local__highlight-icon) {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 0.01em;
+  }
+
+  .local__highlight-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--color-orange);
+    margin-right: 16px;
+    filter: drop-shadow(0 0 12px rgba(222, 88, 61, 0.3));
+    transition: transform 0.3s ease;
+  }
+
+  .local__highlight:hover .local__highlight-icon {
+    transform: scale(1.2) rotate(5deg);
+    color: #fff;
+    filter: drop-shadow(0 0 15px var(--color-orange));
+  }
 </style>

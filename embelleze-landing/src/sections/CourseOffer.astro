@@ -4,54 +4,115 @@ import offers from '../content/offers.json';
 import courses from '../content/courses.json';
 import CourseIcon from '../components/CourseIcon.astro';
 
+interface Props {
+  title?: string;
+  subtitle?: string;
+  courseName?: string;
+  nextClass?: string;
+  registrationDeadline?: string;
+  iconId?: string;
+  accentColor?: string;
+  serialNumber?: string;
+}
+
 const { activeOffer } = offers;
-const course = courses.find(c => c.id === activeOffer.courseId);
-const ctaLink = getWhatsAppLink({ course: course?.name, origin: 'course-offer' });
+const featuredCourse = courses.find(c => c.id === activeOffer.courseId);
+
+const {
+  title = activeOffer.title,
+  subtitle = activeOffer.highlightBenefit,
+  courseName = featuredCourse?.name || "Curso Profissional",
+  nextClass = activeOffer.nextClass,
+  registrationDeadline = activeOffer.registrationDeadline,
+  iconId = "lucide:zap",
+  accentColor = "var(--color-orange)",
+  serialNumber = `TRD-${Math.floor(Math.random() * 90000) + 10000}`
+} = Astro.props;
+
+const ctaLink = getWhatsAppLink({ course: courseName, origin: 'course-offer' });
 ---
 
-<section class="offer">
+<section class="offer" style={`--accent-color: ${accentColor};`}>
   <div class="offer__bg-glow" aria-hidden="true"></div>
   
   <div class="offer__container">
-    <div class="offer__card">
-      <div class="offer__header">
-        <div class="offer__badge">
-          <CourseIcon iconId="🔥" className="offer__badge-icon" />
-          <span>Vagas limitadas · Próxima turma</span>
-        </div>
-        <h2 class="offer__title">{activeOffer.title}</h2>
-        <p class="offer__subtitle">{activeOffer.highlightBenefit}</p>
-      </div>
+    <div class="offer__ticket" id="vip-ticket">
+      <!-- Marca d'água decorativa -->
+      <div class="ticket__watermark">{courseName}</div>
 
-      <div class="offer__content">
-        {activeOffer.nextClass && (
-          <div class="offer__meta">
-            <svg class="offer__meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-            </svg>
-            <span>Início: <strong>{activeOffer.nextClass}</strong></span>
+      <!-- Lado Principal do Ticket -->
+      <div class="ticket__main">
+        <div class="ticket__header">
+          <div class="ticket__badge">
+            <CourseIcon iconId={iconId} className="ticket__badge-icon" />
+            <span>Acesso VIP Prioritário</span>
           </div>
-        )}
+          <div class="ticket__serial">{serialNumber}</div>
+        </div>
+        
+        <div class="ticket__body">
+          <p class="ticket__eyebrow">{title}</p>
+          <h2 class="ticket__title">{courseName}</h2>
+          <p class="ticket__subtitle">{subtitle}</p>
+        </div>
+        
+        <div class="ticket__footer">
+          <div class="ticket__meta">
+            {nextClass && (
+              <div class="ticket__meta-item">
+                <span class="meta-label">INÍCIO DAS AULAS</span>
+                <span class="meta-value">{nextClass}</span>
+              </div>
+            )}
+            {registrationDeadline && (
+              <div class="ticket__meta-item">
+                <span class="meta-label">INSCRIÇÕES ATÉ</span>
+                <span class="meta-value" style="color: var(--accent-color)">{registrationDeadline}</span>
+              </div>
+            )}
+            <div class="ticket__meta-item">
+              <span class="meta-label">DISPONIBILIDADE</span>
+              <span class="meta-value meta-value--active">Garantida agora</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="offer__footer">
-        <a href={ctaLink} class="offer__cta">
-          <svg class="offer__cta-icon" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.941-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217s.231.001.332.005c.109.004.258-.041.404.308.159.386.542 1.32.588 1.416.046.096.077.208.014.335-.062.126-.093.204-.188.312-.095.108-.19.242-.271.327-.09.094-.184.197-.079.377.105.18.468.771.999 1.242.685.61 1.262.799 1.443.889.181.09.289.077.397-.049.109-.126.463-.537.586-.719.123-.181.246-.154.414-.093.167.061 1.062.501 1.247.593.185.092.308.138.354.217.046.079.046.458-.098.863z"/>
-          </svg>
-          Reservar vaga pelo WhatsApp
-        </a>
+      <!-- Divisor com Picote -->
+      <div class="ticket__divider">
+        <div class="ticket__cutout ticket__cutout--top"></div>
+        <div class="ticket__line"></div>
+        <div class="ticket__cutout ticket__cutout--bottom"></div>
       </div>
+
+      <!-- Canhoto/CTA -->
+      <div class="ticket__stub">
+        <div class="ticket__barcode" aria-hidden="true">
+          {Array.from({ length: 15 }).map(() => <div class="barcode__line"></div>)}
+        </div>
+        <div class="stub__content">
+          <a href={ctaLink} class="ticket__cta">
+            <CourseIcon iconId="lucide:arrow-right" className="cta-icon" />
+            <span>CONFIRMAR AGORA</span>
+          </a>
+        </div>
+        <p class="ticket__fine-print">Trindade • GO</p>
+      </div>
+
+      <!-- Texturas e Efeitos -->
+      <div class="ticket__texture"></div>
+      <div class="ticket__shimmer"></div>
     </div>
   </div>
 </section>
 
 <style>
   .offer {
-    padding: clamp(3rem, 8vw, 6rem) var(--spacing-sm) clamp(6rem, 15vw, 10rem);
-    background: #0d0416;
+    padding: clamp(6rem, 15vw, 12rem) var(--spacing-sm);
+    background: #08020d;
     position: relative;
     overflow: hidden;
+    perspective: 2000px;
   }
 
   .offer__bg-glow {
@@ -59,125 +120,335 @@ const ctaLink = getWhatsAppLink({ course: course?.name, origin: 'course-offer' }
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 120%;
-    height: 120%;
-    background: radial-gradient(circle at center, rgba(95, 48, 128, 0.12), transparent 70%);
+    width: 150%;
+    height: 150%;
+    background: radial-gradient(circle at center, var(--accent-color) 0%, transparent 70%);
+    opacity: 0.08;
     pointer-events: none;
   }
 
   .offer__container {
-    max-width: 680px;
+    max-width: 1100px;
     margin: 0 auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* ── Ticket Base ── */
+  .offer__ticket {
+    display: flex;
+    background: #fdfdfd;
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(222, 88, 61, 0.02) 0, transparent 50%),
+      radial-gradient(at 50% 0%, rgba(18, 7, 31, 0.01) 0, transparent 50%);
+    border-radius: 44px;
     position: relative;
+    overflow: hidden;
+    box-shadow: 
+      0 120px 200px rgba(0,0,0,0.8),
+      0 0 50px rgba(222, 88, 61, 0.05);
+    animation: ticket-reveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    max-width: 940px;
+    width: 100%;
+  }
+
+  @keyframes ticket-reveal {
+    from { opacity: 0; transform: translateY(120px) rotateX(10deg) scale(0.9); }
+    to { opacity: 1; transform: translateY(0) rotateX(0) scale(1); }
+  }
+
+  /* ── Watermark ── */
+  .ticket__watermark {
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    transform: translateY(-50%) rotate(-90deg);
+    font-size: 8rem;
+    font-weight: 900;
+    color: rgba(18, 7, 31, 0.02);
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: 0.1em;
+    z-index: 1;
+  }
+
+  /* ── Textures ── */
+  .ticket__texture {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.06;
+    mix-blend-mode: multiply;
+    pointer-events: none;
     z-index: 2;
   }
 
-  .offer__card {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(32px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 32px;
-    padding: clamp(2rem, 6vw, 3.5rem);
-    text-align: center;
-    box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+  .ticket__shimmer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      120deg,
+      transparent 35%,
+      rgba(255, 255, 255, 0.03) 48%,
+      rgba(255, 255, 255, 0.12) 50%,
+      rgba(255, 255, 255, 0.03) 52%,
+      transparent 65%
+    );
+    background-size: 300% 300%;
+    animation: shimmer 20s infinite linear;
+    pointer-events: none;
+    z-index: 5;
+    mix-blend-mode: overlay;
   }
 
-  .offer__badge {
+  @keyframes shimmer {
+    0% { background-position: -150% -150%; }
+    100% { background-position: 150% 150%; }
+  }
+
+  /* ── Main Section ── */
+  .ticket__main {
+    flex: 1;
+    padding: clamp(2.5rem, 5vw, 4.5rem) clamp(2.5rem, 6vw, 5rem);
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 480px;
+  }
+
+  .ticket__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .ticket__badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 14px;
-    background: rgba(222, 88, 61, 0.12);
-    border: 1px solid rgba(222, 88, 61, 0.15);
+    gap: 10px;
+    padding: 10px 20px;
+    background: rgba(18, 7, 31, 0.03);
+    border: 1px solid rgba(18, 7, 31, 0.06);
     border-radius: 100px;
-    color: #ff7d5c;
-    font-size: 0.625rem;
+    color: #12071f;
+    font-size: 0.75rem;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 1.5rem;
+    letter-spacing: 0.12em;
   }
 
-  .offer__badge-icon {
-    width: 14px;
-    height: 14px;
-    stroke-width: 2.5;
+  .ticket__badge-icon { 
+    width: 14px; height: 14px; 
+    stroke-width: 3.5;
+    color: var(--accent-color);
   }
 
-  .offer__title {
-    font-size: clamp(1.625rem, 5vw, 2.5rem);
+  .ticket__serial {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: rgba(18, 7, 31, 0.25);
+    letter-spacing: 0.2em;
+  }
+
+  .ticket__body {
+    margin: 2rem 0;
+  }
+
+  .ticket__title {
+    font-size: clamp(2.5rem, 7vw, 4rem);
     font-weight: 900;
-    color: #fff;
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.04em;
-    line-height: 1.1;
+    color: #12071f;
+    line-height: 0.95;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.06em;
   }
 
-  .offer__subtitle {
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.5);
-    line-height: 1.5;
-    margin-bottom: 2rem;
-    max-width: 440px;
-    margin-left: auto;
-    margin-right: auto;
+  .ticket__subtitle {
+    font-size: clamp(1.125rem, 2vw, 1.375rem);
+    color: rgba(18, 7, 31, 0.5);
+    font-weight: 500;
+    max-width: 480px;
+    line-height: 1.4;
   }
 
-  .offer__meta {
-    display: inline-flex;
+  .ticket__meta {
+    display: flex;
+    gap: clamp(2rem, 5vw, 5rem);
+    border-top: 1px solid rgba(18, 7, 31, 0.06);
+    padding-top: 2rem;
+  }
+
+  .ticket__meta-item { display: flex; flex-direction: column; gap: 8px; }
+
+  .meta-label {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: rgba(18, 7, 31, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  .meta-value {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #12071f;
+    letter-spacing: -0.01em;
+  }
+
+  .meta-value--active {
+    color: #00b36b;
+    display: flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 16px;
-    background: rgba(255, 255, 255, 0.04);
-    border-radius: 12px;
-    color: rgba(255, 255, 255, 0.4);
-    font-size: 0.75rem;
-    margin-bottom: 2.5rem;
   }
 
-  .offer__meta-icon {
-    width: 16px;
-    height: 16px;
-    color: var(--color-orange);
-    opacity: 0.6;
+  .meta-value--active::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: currentColor;
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(0, 179, 107, 0.4);
+    animation: pulse 2.5s infinite;
   }
 
-  .offer__cta {
-    display: inline-flex;
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  /* ── Divider ── */
+  .ticket__divider {
+    width: 1px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 3;
+  }
+
+  .ticket__line {
+    flex: 1;
+    width: 1px;
+    border-left: 2px dashed rgba(18, 7, 31, 0.1);
+    margin: 40px 0;
+  }
+
+  .ticket__cutout {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: #08020d;
+    border-radius: 50%;
+    left: -30px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+  }
+
+  .ticket__cutout--top { top: -30px; }
+  .ticket__cutout--bottom { bottom: -30px; }
+
+  /* ── Stub Section ── */
+  .ticket__stub {
+    width: 320px;
+    background: rgba(18, 7, 31, 0.015);
+    padding: 4.5rem 3rem;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    height: 60px;
-    padding: 0 32px;
-    background: #25d366;
+    gap: 3.5rem;
+    z-index: 3;
+  }
+
+  .ticket__barcode {
+    display: flex;
+    gap: 3px;
+    height: 80px;
+    opacity: 0.7;
+    mix-blend-mode: multiply;
+  }
+
+  .barcode__line {
+    width: 2px;
+    height: 100%;
+    background: #12071f;
+  }
+  .barcode__line:nth-child(3n) { width: 5px; }
+  .barcode__line:nth-child(4n) { width: 1px; }
+  .barcode__line:nth-child(7n) { width: 3px; }
+
+  .ticket__cta {
+    width: 140px;
+    height: 140px;
+    background: #12071f;
     color: #fff;
-    border-radius: 16px;
-    font-weight: 800;
-    font-size: 0.9375rem;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
     text-decoration: none;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 10px 25px rgba(37, 211, 102, 0.2);
-    width: 100%;
-    max-width: 320px;
-    white-space: nowrap;
+    font-weight: 900;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 30px 60px rgba(18, 7, 31, 0.3);
+    text-align: center;
+    padding: 20px;
+    line-height: 1.2;
   }
 
-  .offer__cta:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(37, 211, 102, 0.3);
-    background: #20ba59;
+  .ticket__cta:hover {
+    transform: scale(1.1) rotate(5deg);
+    background: var(--accent-color);
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.2);
   }
 
-  .offer__cta-icon {
-    width: 20px;
-    height: 20px;
+  .cta-icon { width: 32px; height: 32px; }
+
+  .ticket__fine-print {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: rgba(18, 7, 31, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 940px) {
+    .offer__ticket { flex-direction: column; border-radius: 40px; }
+    .ticket__main { padding: 3.5rem 2.5rem; min-height: auto; }
+    .ticket__watermark { display: none; }
+    .ticket__divider { width: 100%; height: 1px; }
+    .ticket__line {
+      width: 100%;
+      height: 1px;
+      border-left: none;
+      border-top: 2px dashed rgba(18, 7, 31, 0.1);
+      margin: 0 40px;
+    }
+    .ticket__cutout { top: -30px; left: auto; }
+    .ticket__cutout--top { left: -30px; }
+    .ticket__cutout--bottom { right: -30px; }
+    .ticket__stub { width: 100%; padding: 3rem 2.5rem; flex-direction: row; justify-content: space-between; gap: 2rem; }
+    .ticket__cta { width: 160px; height: 64px; border-radius: 100px; flex-direction: row; }
+    .ticket__barcode { height: 50px; opacity: 0.5; }
+    .ticket__fine-print { display: none; }
   }
 
   @media (max-width: 500px) {
-    .offer { padding-top: 3rem; padding-bottom: 8rem; }
-    .offer__card { padding: 2.5rem 1.25rem; border-radius: 28px; }
-    .offer__title { font-size: 1.5rem; }
-    .offer__subtitle { font-size: 0.9375rem; margin-bottom: 1.5rem; }
-    .offer__cta { height: 56px; padding: 0 20px; font-size: 0.875rem; }
+    .offer { padding-top: 4rem; padding-bottom: 6rem; }
+    .ticket__main { padding: 2.5rem 1.5rem; }
+    .ticket__title { font-size: 2.15rem; }
+    .ticket__subtitle { font-size: 1rem; margin-bottom: 2rem; }
+    .ticket__meta { gap: 1.5rem; flex-wrap: wrap; }
+    .meta-value { font-size: 1.125rem; }
+    .ticket__stub { padding: 1.5rem; }
+    .ticket__cta { font-size: 0.7rem; height: 56px; }
   }
 </style>
