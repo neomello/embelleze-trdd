@@ -29,16 +29,16 @@ import { WHATSAPP_NUMBER } from '../lib/constants';
             </svg>
           </button>
           <ul class="filter-dropdown__menu" id="filter-menu" role="listbox">
-            <li><button class="filter-dropdown__option active" data-filter="all" role="option">
+            <li><button class="filter-dropdown__option active" data-filter="all" role="option" aria-selected="true">
               <span class="filter-dropdown__option-dot"></span>Todos os cursos
             </button></li>
-            <li><button class="filter-dropdown__option" data-filter="Cabelo" role="option">
+            <li><button class="filter-dropdown__option" data-filter="Cabelo" role="option" aria-selected="false">
               <span class="filter-dropdown__option-dot"></span>Cabelo
             </button></li>
-            <li><button class="filter-dropdown__option" data-filter="Unhas" role="option">
+            <li><button class="filter-dropdown__option" data-filter="Unhas" role="option" aria-selected="false">
               <span class="filter-dropdown__option-dot"></span>Unhas
             </button></li>
-            <li><button class="filter-dropdown__option" data-filter="Estética" role="option">
+            <li><button class="filter-dropdown__option" data-filter="Estética" role="option" aria-selected="false">
               <span class="filter-dropdown__option-dot"></span>Estética
             </button></li>
           </ul>
@@ -229,7 +229,11 @@ import { WHATSAPP_NUMBER } from '../lib/constants';
   }
 
   function applyFilter(filter: string) {
-    options.forEach(o => o.classList.toggle('active', o.getAttribute('data-filter') === filter));
+    options.forEach(o => {
+      const active = o.getAttribute('data-filter') === filter;
+      o.classList.toggle('active', active);
+      o.setAttribute('aria-selected', String(active));
+    });
     selectedLabel.textContent = labels[filter] ?? filter;
 
     items.forEach(item => {

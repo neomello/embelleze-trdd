@@ -1,0 +1,337 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Instituto Embelleze" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img "Instituto Embelleze" [ref=e5]
+      - navigation [ref=e6]:
+        - list [ref=e7]:
+          - listitem [ref=e8]:
+            - link "Início" [ref=e9] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e10]:
+            - link "Cursos" [ref=e11] [cursor=pointer]:
+              - /url: /cursos
+          - listitem [ref=e12]:
+            - link "Localização" [ref=e13] [cursor=pointer]:
+              - /url: /mapa
+              - img [ref=e14]
+              - generic [ref=e16]: Localização
+          - listitem [ref=e17]:
+            - link "Dúvidas" [ref=e18] [cursor=pointer]:
+              - /url: "#faq"
+        - link "Falar pelo WhatsApp" [ref=e19] [cursor=pointer]:
+          - /url: https://wa.me/5562984836550?text=Ol%C3%A1%2C%20vim%20de%20header%20e%20quero%20saber%20mais%20sobre%20os%20cursos.
+  - generic [ref=e20]:
+    - img [ref=e25]
+    - generic [ref=e26]:
+      - img [ref=e27]
+      - generic [ref=e28]:
+        - paragraph [ref=e29]: Formação profissionalizante
+        - heading "APRENDA NA PRÁTICA E COMECE A ATENDER CLIENTES NA ÁREA DA BELEZA." [level=1] [ref=e30]:
+          - text: APRENDA NA PRÁTICA
+          - text: E COMECE A
+          - text: ATENDER CLIENTES
+          - text: NA ÁREA DA BELEZA.
+      - link "Ver cursos disponíveis →" [ref=e32] [cursor=pointer]:
+        - /url: "#cursos"
+  - generic [ref=e34]:
+    - link "Trindade/GO" [ref=e35] [cursor=pointer]:
+      - /url: https://www.google.com/maps/search/?api=1&query=Instituto+Embelleze+Trindade+Av.+Manoel+Monteiro+1691
+      - img [ref=e36]
+      - text: Trindade/GO
+    - heading "Aqui pertinho de você" [level=2] [ref=e38]
+    - paragraph [ref=e39]: Av. Manoel Monteiro, 1691 — Vila Padre Eterno, Trindade/GO
+    - paragraph [ref=e40]: Aprendizado presencial, prático e real. Sem aula gravada, sem teoria vaga. Você aprende fazendo, com supervisão de profissionais da área.
+    - generic [ref=e41]:
+      - generic [ref=e42]:
+        - img [ref=e43]
+        - generic [ref=e45]: Certificado reconhecido
+      - generic [ref=e46]:
+        - img [ref=e47]
+        - generic [ref=e49]: Professores experientes
+      - generic [ref=e50]:
+        - img [ref=e51]
+        - generic [ref=e53]: Prática desde o 1º dia
+  - generic [ref=e56]:
+    - generic: Barbeiro Profissional
+    - generic [ref=e57]:
+      - generic [ref=e58]:
+        - generic [ref=e59]:
+          - img [ref=e60]
+          - generic [ref=e62]: Acesso VIP Prioritário
+        - generic [ref=e63]: TRD-86792
+      - generic [ref=e64]:
+        - paragraph [ref=e65]: Próxima Turma de Barbeiro
+        - heading "Barbeiro Profissional" [level=2] [ref=e66]
+        - paragraph [ref=e67]: Prática real desde o primeiro dia
+      - generic [ref=e69]:
+        - generic [ref=e70]:
+          - generic [ref=e71]: INÍCIO DAS AULAS
+          - generic [ref=e72]: 15 de Maio
+        - generic [ref=e73]:
+          - generic [ref=e74]: INSCRIÇÕES ATÉ
+          - generic [ref=e75]: 12 de Maio
+        - generic [ref=e76]:
+          - generic [ref=e77]: DISPONIBILIDADE
+          - generic [ref=e78]: Garantida agora
+    - generic [ref=e83]:
+      - link "CONFIRMAR AGORA" [ref=e101] [cursor=pointer]:
+        - /url: https://wa.me/5562984836550?text=Ol%C3%A1%2C%20vim%20pela%20p%C3%A1gina%20e%20quero%20saber%20sobre%20Barbeiro%20Profissional.
+        - img [ref=e102]
+        - generic [ref=e104]: CONFIRMAR AGORA
+      - paragraph [ref=e105]: Trindade • GO
+  - generic [ref=e107]:
+    - generic [ref=e108]:
+      - generic [ref=e109]: Formações Profissionais
+      - heading "Qual é a sua área?" [level=2] [ref=e110]
+      - paragraph [ref=e111]: Toque na área e veja os cursos disponíveis agora.
+    - generic [ref=e112]:
+      - link "Cabelo Corte, coloração e tratamentos 3 cursos" [ref=e113] [cursor=pointer]:
+        - /url: /cursos?area=Cabelo
+        - img [ref=e115]
+        - img [ref=e118]
+        - generic [ref=e120]:
+          - strong [ref=e121]: Cabelo
+          - generic [ref=e122]: Corte, coloração e tratamentos
+        - generic [ref=e123]:
+          - generic [ref=e124]: "3"
+          - generic [ref=e125]: cursos
+      - link "Unhas Manicure, gel e alongamento 2 cursos" [ref=e126] [cursor=pointer]:
+        - /url: /cursos?area=Unhas
+        - img [ref=e128]
+        - img [ref=e131]
+        - generic [ref=e133]:
+          - strong [ref=e134]: Unhas
+          - generic [ref=e135]: Manicure, gel e alongamento
+        - generic [ref=e136]:
+          - generic [ref=e137]: "2"
+          - generic [ref=e138]: cursos
+      - link "Estética Design facial e corporal 4 cursos" [ref=e139] [cursor=pointer]:
+        - /url: /cursos?area=Estética
+        - img [ref=e141]
+        - img [ref=e144]
+        - generic [ref=e146]:
+          - strong [ref=e147]: Estética
+          - generic [ref=e148]: Design facial e corporal
+        - generic [ref=e149]:
+          - generic [ref=e150]: "4"
+          - generic [ref=e151]: cursos
+    - link "Ver todas as formações" [ref=e153] [cursor=pointer]:
+      - /url: /cursos
+      - text: Ver todas as formações
+      - img [ref=e154]
+  - generic [ref=e157]:
+    - generic [ref=e158]:
+      - generic [ref=e159]: Tire suas dúvidas
+      - heading "Dúvidas Frequentes" [level=2] [ref=e160]
+    - generic [ref=e161]:
+      - generic [ref=e162]:
+        - img "Bella" [ref=e164]
+        - generic [ref=e166]:
+          - generic [ref=e167]: Consultora — Instituto Embelleze
+          - generic [ref=e168]: Online agora
+        - generic [ref=e169]:
+          - img [ref=e170]
+          - img [ref=e172]
+      - generic [ref=e176]:
+        - generic [ref=e177]: Hoje
+        - generic [ref=e178]:
+          - generic [ref=e180]:
+            - paragraph [ref=e181]: Preciso ter experiência para fazer o curso?
+            - generic [ref=e182]:
+              - text: 09:00
+              - img [ref=e183]
+          - img "Bella" [ref=e189]
+          - generic [ref=e194]:
+            - img "Bella" [ref=e197]
+            - generic [ref=e198]:
+              - paragraph [ref=e199]: Não. Os cursos do Instituto Embelleze Trindade são pensados para quem começa do zero. A prática começa desde as primeiras aulas.
+              - generic [ref=e200]: 09:02
+        - generic [ref=e201]:
+          - generic [ref=e203]:
+            - paragraph [ref=e204]: Tenho medo de não conseguir aprender.
+            - generic [ref=e205]:
+              - text: 10:07
+              - img [ref=e206]
+          - img "Bella" [ref=e212]
+          - generic [ref=e217]:
+            - img "Bella" [ref=e220]
+            - generic [ref=e221]:
+              - paragraph [ref=e222]: O aprendizado é guiado por profissionais da área. Você vai praticar com supervisão e no seu ritmo.
+              - generic [ref=e223]: 10:09
+        - generic [ref=e224]:
+          - generic [ref=e226]:
+            - paragraph [ref=e227]: Não sei qual curso escolher.
+            - generic [ref=e228]:
+              - text: 11:14
+              - img [ref=e229]
+          - img "Bella" [ref=e235]
+          - generic [ref=e240]:
+            - img "Bella" [ref=e243]
+            - generic [ref=e244]:
+              - paragraph [ref=e245]: Nossa equipe pode te ajudar a identificar qual área faz mais sentido para o seu objetivo. Basta mandar uma mensagem pelo WhatsApp.
+              - generic [ref=e246]: 11:16
+        - generic [ref=e247]:
+          - generic [ref=e249]:
+            - paragraph [ref=e250]: Vale a pena investir agora?
+            - generic [ref=e251]:
+              - text: 12:21
+              - img [ref=e252]
+          - img "Bella" [ref=e258]
+          - generic [ref=e263]:
+            - img "Bella" [ref=e266]
+            - generic [ref=e267]:
+              - paragraph [ref=e268]: O mercado da beleza é um dos que mais crescem no Brasil, com alta demanda em Trindade e região. Muitos alunos já estão atendendo clientes poucos meses após a conclusão.
+              - generic [ref=e269]: 12:23
+      - generic [ref=e270]:
+        - generic [ref=e271] [cursor=pointer]: Envie uma mensagem...
+        - link "Abrir WhatsApp" [ref=e272] [cursor=pointer]:
+          - /url: https://wa.me/5562984836550?text=Ol%C3%A1%2C%20vim%20de%20faq%20e%20quero%20saber%20mais%20sobre%20os%20cursos.
+          - img [ref=e273]
+  - generic [ref=e276]:
+    - generic [ref=e277]:
+      - generic [ref=e278]: Depoimentos
+      - heading "Quem já passou pelo Instituto" [level=2] [ref=e279]
+      - paragraph [ref=e280]: Histórias reais de alunas que transformaram suas vidas e conquistaram independência.
+    - paragraph [ref=e282]: Depoimentos reais em breve — aguardando aprovação do cliente.
+  - generic [ref=e284]:
+    - generic [ref=e285]:
+      - generic [ref=e286]:
+        - img [ref=e287]
+        - text: Quiz Personalizado · 3 perguntas
+      - heading "Qual é o seu próximo passo?" [level=2] [ref=e289]
+      - paragraph [ref=e290]: Descubra qual formação combina com você.
+    - generic [ref=e291]:
+      - generic [ref=e292]:
+        - generic [ref=e294]:
+          - generic [ref=e295]: "1"
+          - generic [ref=e296]: "2"
+          - generic [ref=e297]: "3"
+        - generic [ref=e298]: PASSO 1 DE 3
+      - generic [ref=e300]:
+        - heading "Seu objetivo principal é:" [level=3] [ref=e301]
+        - generic [ref=e302]:
+          - button "Renda extra" [ref=e303] [cursor=pointer]:
+            - img [ref=e305]
+            - generic [ref=e307]: Renda extra
+          - button "Nova profissão" [ref=e308] [cursor=pointer]:
+            - img [ref=e310]
+            - generic [ref=e312]: Nova profissão
+          - button "Os dois!" [ref=e313] [cursor=pointer]:
+            - img [ref=e315]
+            - generic [ref=e317]: Os dois!
+  - generic [ref=e320]:
+    - generic [ref=e321]:
+      - generic [ref=e322]:
+        - img "Embelleze Logo" [ref=e324]
+        - generic [ref=e325]:
+          - generic [ref=e326]: Trindade/GO
+          - generic [ref=e327]: Unidade Presencial
+        - heading "Onde fica o Instituto?" [level=2] [ref=e328]
+      - generic [ref=e329]:
+        - generic [ref=e330]:
+          - img [ref=e331]
+          - paragraph [ref=e334]: Av. Manoel Monteiro, 1691 — Vila Padre Eterno, Trindade/GO
+        - generic [ref=e335]:
+          - generic [ref=e336]: De qual bairro você vem?
+          - combobox "De qual bairro você vem?" [ref=e337] [cursor=pointer]:
+            - option "Selecione seu bairro (opcional)" [selected]
+            - option "Centro"
+            - option "Jardim Ipanema"
+            - option "Scala"
+            - option "Decolores"
+            - option "Guarujá Park"
+            - option "Vila Padre Eterno"
+            - option "Setor Cristina"
+            - option "Maysa"
+            - option "Jardim Decolores"
+            - option "Goiânia"
+            - option "Outro"
+        - paragraph [ref=e338]: Usamos sua localização apenas para calcular a rota. Você pode negar e abrir o mapa mesmo assim.
+      - generic [ref=e340]:
+        - button "Consultar distância até o Instituto" [ref=e341] [cursor=pointer]:
+          - generic [ref=e342]: Consultar distância até o Instituto
+        - link "Abrir no Google Maps" [ref=e343] [cursor=pointer]:
+          - /url: https://www.google.com/maps/dir/?api=1&destination=-16.6497,-49.4873
+    - generic [ref=e344]:
+      - img "E icon" [ref=e346]
+      - iframe [ref=e348]
+  - generic [ref=e349]:
+    - generic: ✦
+    - generic: ✦
+    - generic: ✦
+    - generic [ref=e350]:
+      - paragraph [ref=e352]: Daqui a alguns meses, tudo pode continuar igual.
+      - generic [ref=e355]: ou
+      - heading "Você pode estar começando uma nova profissão." [level=2] [ref=e357]:
+        - text: Você pode estar começando
+        - emphasis [ref=e358]: uma nova profissão.
+      - paragraph [ref=e359]: A decisão é sua. Nossa equipe está pronta para ajudar agora.
+      - generic [ref=e360]:
+        - link "Quero começar — falar pelo WhatsApp" [ref=e361] [cursor=pointer]:
+          - /url: https://wa.me/5562984836550?text=Ol%C3%A1%2C%20vim%20de%20final-cta%20e%20quero%20saber%20mais%20sobre%20os%20cursos.
+          - img [ref=e362]
+          - text: Quero começar — falar pelo WhatsApp
+        - paragraph [ref=e364]: Resposta em minutos · sem compromisso
+  - link "Falar pelo WhatsApp" [ref=e365] [cursor=pointer]:
+    - /url: https://wa.me/5562984836550?text=Ol%C3%A1%2C%20vim%20de%20float-button%20e%20quero%20saber%20mais%20sobre%20os%20cursos.
+    - img [ref=e366]
+    - generic [ref=e368]: Falar pelo WhatsApp
+  - contentinfo [ref=e369]:
+    - generic [ref=e370]:
+      - generic [ref=e371]:
+        - generic [ref=e372]:
+          - img "Embelleze" [ref=e373]
+          - paragraph [ref=e374]: Transformando vidas através da beleza em Trindade desde sempre.
+          - generic [ref=e375]:
+            - link "Instagram" [ref=e376] [cursor=pointer]:
+              - /url: https://instagram.com/embellezetrindade
+              - img [ref=e377]
+            - link "Facebook" [ref=e380] [cursor=pointer]:
+              - /url: https://facebook.com/embellezetrindade
+              - img [ref=e381]
+        - generic [ref=e383]:
+          - heading "Navegação" [level=4] [ref=e384]
+          - list [ref=e385]:
+            - listitem [ref=e386]:
+              - link "Início" [ref=e387] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e388]:
+              - link "Cursos" [ref=e389] [cursor=pointer]:
+                - /url: /cursos
+            - listitem [ref=e390]:
+              - link "Localização" [ref=e391] [cursor=pointer]:
+                - /url: /mapa
+            - listitem [ref=e392]:
+              - link "Dúvidas" [ref=e393] [cursor=pointer]:
+                - /url: "#faq"
+        - generic [ref=e394]:
+          - heading "Contato" [level=4] [ref=e395]
+          - list [ref=e396]:
+            - listitem [ref=e397]: Av. Manoel Monteiro, 1691 — Vila Padre Eterno, Trindade/GO
+            - listitem [ref=e398]:
+              - link "(62) 98483-6550" [ref=e399] [cursor=pointer]:
+                - /url: tel:5562984836550
+      - generic [ref=e400]:
+        - paragraph [ref=e401]: © 2026 Instituto Embelleze Trindade. Todos os direitos reservados.
+        - generic [ref=e402]:
+          - link "Privacidade" [ref=e403] [cursor=pointer]:
+            - /url: /privacidade
+          - link "Termos" [ref=e404] [cursor=pointer]:
+            - /url: /termos
+  - generic [ref=e407]:
+    - button "Menu" [ref=e408]:
+      - img [ref=e410]
+      - generic: Menu
+    - button "Inspect" [ref=e414]:
+      - img [ref=e416]
+      - generic: Inspect
+    - button "Audit" [ref=e418]:
+      - generic [ref=e419]:
+        - img [ref=e420]
+        - img [ref=e423]
+      - generic: Audit
+    - button "Settings" [ref=e426]:
+      - img [ref=e428]
+      - generic: Settings

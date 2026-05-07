@@ -11,7 +11,12 @@ Escopo : embelleze-landing/
 ## ⟠ Objetivo
 
 Converter visitantes em conversas qualificadas
-no WhatsApp com a Bella.
+no WhatsApp com a equipe do Instituto.
+
+> ⚠️ A IA "Bella" ainda não está no ar.
+> Atendimento atual: humano via WhatsApp.
+> Seção `BellaIntro` está comentada em `index.astro`
+> — reativar somente quando a integração estiver pronta.
 
 ────────────────────────────────────────
 

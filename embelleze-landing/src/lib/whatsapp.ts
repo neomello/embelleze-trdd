@@ -12,18 +12,18 @@ function buildMessage(options: WhatsAppOptions = {}): string {
   const { course, ticket, origin } = options;
 
   if (course && ticket) {
-    return `Oi Bella, vim pela página e quero saber sobre ${course}. Meu código é ${ticket}.`;
+    return `Olá, vim pela página e quero saber sobre ${course}. Meu código é ${ticket}.`;
   }
 
   if (course) {
-    return `Oi Bella, vim pela página e quero saber sobre ${course}.`;
+    return `Olá, vim pela página e quero saber sobre ${course}.`;
   }
 
   if (origin) {
-    return `Oi Bella, vim de ${origin} e quero saber mais sobre os cursos.`;
+    return `Olá, vim de ${origin} e quero saber mais sobre os cursos.`;
   }
 
-  return 'Oi Bella, vim pela página e quero saber mais sobre os cursos.';
+  return 'Olá, vim pela página e quero saber mais sobre os cursos.';
 }
 
 export function getWhatsAppLink(options: WhatsAppOptions = {}): string {

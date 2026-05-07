@@ -1,7 +1,5 @@
 packages:
   - "embelleze-landing"
-  - "apps/*"
-  - "packages/*"
 
 allowBuilds:
   esbuild: true
