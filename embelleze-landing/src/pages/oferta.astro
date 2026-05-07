@@ -1,8 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getWhatsAppLink } from '../lib/whatsapp';
 import courses from '../content/courses.json';
 import CourseIcon from '../components/CourseIcon.astro';
+import symbol from '../assets/brand/e.png';
 
 const courseId = Astro.url.searchParams.get('curso') ?? '';
 const utmSource = Astro.url.searchParams.get('utm_source') ?? '';
@@ -27,7 +29,6 @@ const whatsappLink = getWhatsAppLink({
     <div class="oferta__container">
       <div class="oferta__card">
         <header class="oferta__header">
-          <img src="/brand/logo-embelleze.png" alt="Embelleze" class="oferta__logo" />
           <div class="oferta__badge">Oferta Exclusiva</div>
         </header>
 
@@ -71,7 +72,7 @@ const whatsappLink = getWhatsAppLink({
 
     <!-- Elementos Flutuantes -->
     <div class="oferta__floating-e">
-      <img src="/brand/e.png" alt="E" />
+      <Image src={symbol} alt="E" />
     </div>
   </main>
 </BaseLayout>
@@ -140,6 +141,7 @@ const whatsappLink = getWhatsAppLink({
 
   .oferta__logo {
     height: 32px;
+    width: auto;
     filter: brightness(0) invert(1);
   }
 

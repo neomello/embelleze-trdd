@@ -1,9 +1,11 @@
 ---
+import { Image } from 'astro:assets';
+import logo from '../assets/brand/logo-embelleze.png';
 ---
 <header class="header" id="main-header">
   <div class="header__container">
     <a href="/" class="header__logo">
-      <img src="/brand/logo-embelleze.png" alt="Instituto Embelleze" class="header__logo-img" />
+      <Image src={logo} alt="Instituto Embelleze" class="header__logo-img" />
     </a>
     
     <nav class="header__nav">
@@ -96,6 +98,7 @@
 
   .header__logo-img {
     height: 24px;
+    width: auto;
     filter: brightness(0) invert(1);
   }
 

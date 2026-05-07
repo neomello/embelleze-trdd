@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import faqs from '../content/faqs.json';
+import symbol from '../assets/brand/e.png';
 ---
 
 <section class="objection" id="faq">
@@ -11,7 +13,7 @@ import faqs from '../content/faqs.json';
 
     <!-- Ícone flutuante decorativo no início -->
     <div class="objection__floating-icon">
-      <img src="/brand/e.png" alt="E" class="objection__e-icon" />
+      <Image src={symbol} alt="E" class="objection__e-icon" />
     </div>
 
     <div class="objection__chat">

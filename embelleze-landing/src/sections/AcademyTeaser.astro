@@ -2,11 +2,14 @@
 import courses from '../content/courses.json';
 import CourseIcon from '../components/CourseIcon.astro';
 
-// Pegamos apenas alguns para o teaser
-const featured = courses.slice(0, 8);
+// Categorias únicas para os filtros
+const categories = ['Todos', ...new Set(courses.map(c => c.category))];
+
+// Pegamos alguns para o teaser (ordenados ou filtrados inicialmente)
+const featured = courses.slice(0, 10);
 ---
 
-<section class="academy-teaser">
+<section class="academy-teaser" id="cursos">
   <div class="academy-teaser__bg"></div>
   
   <div class="academy-teaser__container">
@@ -14,23 +17,44 @@ const featured = courses.slice(0, 8);
       <span class="academy-teaser__eyebrow">Conheça nossos Cursos</span>
       <h2 class="academy-teaser__title">Sua jornada de elite começa aqui</h2>
       <p class="academy-teaser__text">
-        Formações completas com foco em prática real e independência financeira.
+        Escolha uma área e descubra como transformar sua carreira na beleza.
       </p>
     </header>
 
-    <div class="academy-teaser__mosaic">
+    <!-- Filtros Mobile-First (Scroll Horizontal) -->
+    <div class="academy-teaser__filters-wrapper">
+      <div class="academy-teaser__filters" id="teaser-filters">
+        {categories.map((cat, i) => (
+          <button 
+            class={`teaser-filter-btn ${i === 0 ? 'active' : ''}`} 
+            data-category={cat}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <div class="academy-teaser__mosaic" id="teaser-mosaic">
       {featured.map((course, index) => (
-        <div class={`mosaic-card mosaic-card--${index + 1}`}>
+        <a 
+          href={`/cursos?area=${course.category}`}
+          class={`mosaic-card mosaic-card--${index + 1}`}
+          data-category={course.category}
+        >
           <div class="mosaic-card__icon">
             <CourseIcon iconId={course.emoji} className="icon-svg" />
           </div>
           <span class="mosaic-card__name">{course.name}</span>
-        </div>
+          <svg class="mosaic-card__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+            <path d="M5 12h14m-7-7 7 7-7 7"/>
+          </svg>
+        </a>
       ))}
     </div>
 
     <footer class="academy-teaser__footer">
-      <a href="/cursos" class="academy-teaser__link">
+      <a href="/cursos" class="academy-teaser__link" id="teaser-explore-link">
         Explorar todas as formações
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path d="M5 12h14m-7-7 7 7-7 7"/>
@@ -40,8 +64,40 @@ const featured = courses.slice(0, 8);
   </div>
 </section>
 
+<script>
+  const filterBtns = document.querySelectorAll('.teaser-filter-btn');
+  const mosaicCards = document.querySelectorAll('.mosaic-card');
+  const exploreLink = document.getElementById('teaser-explore-link') as HTMLAnchorElement;
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const category = (btn as HTMLElement).dataset.category;
+      
+      // Update UI
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Filter Mosaic
+      mosaicCards.forEach(card => {
+        const cardCat = (card as HTMLElement).dataset.category;
+        if (category === 'Todos' || cardCat === category) {
+          (card as HTMLElement).classList.remove('hidden-card');
+        } else {
+          (card as HTMLElement).classList.add('hidden-card');
+        }
+      });
+
+      // Update CTA Link
+      if (exploreLink) {
+        exploreLink.href = category === 'Todos' ? '/cursos' : `/cursos?area=${category}`;
+      }
+    });
+  });
+</script>
+
 <style>
   .academy-teaser {
+    scroll-margin-top: 100px;
     padding: clamp(6rem, 12vw, 10rem) var(--spacing-sm);
     background: #0a0212;
     position: relative;
@@ -68,7 +124,7 @@ const featured = courses.slice(0, 8);
   }
 
   .academy-teaser__header {
-    margin-bottom: 5rem;
+    margin-bottom: 3.5rem;
   }
 
   .academy-teaser__eyebrow {
@@ -90,67 +146,112 @@ const featured = courses.slice(0, 8);
   }
 
   .academy-teaser__text {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     color: rgba(255, 255, 255, 0.5);
     max-width: 600px;
     margin: 0 auto;
   }
 
-  /* Mosaic Layout */
+  /* ── Filters ── */
+  .academy-teaser__filters-wrapper {
+    margin-bottom: 3rem;
+    overflow-x: auto;
+    padding: 10px 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+  }
+  .academy-teaser__filters-wrapper::-webkit-scrollbar { display: none; }
+
+  .academy-teaser__filters {
+    display: inline-flex;
+    gap: 12px;
+    padding: 0 1rem;
+  }
+
+  .teaser-filter-btn {
+    white-space: nowrap;
+    padding: 10px 24px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);
+    border-radius: 100px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .teaser-filter-btn.active {
+    background: var(--color-orange);
+    color: #fff;
+    border-color: var(--color-orange);
+    box-shadow: 0 10px 20px rgba(222, 88, 61, 0.3);
+  }
+
+  /* ── Mosaic Layout ── */
   .academy-teaser__mosaic {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 1.5rem;
-    max-width: 1000px;
-    margin: 0 auto 6rem;
+    gap: 1.25rem;
+    max-width: 1100px;
+    margin: 0 auto 5rem;
+    min-height: 200px;
   }
 
   .mosaic-card {
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 24px;
-    padding: 1.5rem 2rem;
+    border-radius: 20px;
+    padding: 1.25rem 1.75rem;
     display: flex;
     align-items: center;
     gap: 1rem;
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-    animation: float-card 6s infinite alternate ease-in-out;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hidden-card {
+    display: none !important;
   }
 
   .mosaic-card:hover {
     background: rgba(255, 255, 255, 0.08);
     border-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-10px) scale(1.05);
-    box-shadow: 0 40px 80px rgba(0,0,0,0.4);
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
     z-index: 10;
   }
 
   .mosaic-card__icon {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     color: var(--color-orange);
   }
 
   .mosaic-card__name {
     color: #fff;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.9375rem;
     white-space: nowrap;
   }
 
-  /* Variations for Depth */
-  .mosaic-card--1 { animation-delay: 0s; }
-  .mosaic-card--2 { animation-delay: -1.5s; transform: translateY(10px); }
-  .mosaic-card--3 { animation-delay: -3s; transform: translateY(-5px); }
-  .mosaic-card--4 { animation-delay: -4.5s; transform: translateY(15px); }
-  .mosaic-card--5 { animation-delay: -2s; transform: translateY(-10px); }
+  .mosaic-card__arrow {
+    width: 0;
+    height: 14px;
+    color: #fff;
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
 
-  @keyframes float-card {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(20px); }
+  .mosaic-card:hover .mosaic-card__arrow {
+    width: 18px;
+    opacity: 1;
+    margin-left: 5px;
   }
 
   /* Footer & CTA */
@@ -186,8 +287,10 @@ const featured = courses.slice(0, 8);
   }
 
   @media (max-width: 768px) {
-    .academy-teaser__mosaic { gap: 1rem; }
-    .mosaic-card { padding: 1rem 1.5rem; border-radius: 20px; }
-    .mosaic-card__name { font-size: 0.875rem; }
+    .academy-teaser__header { margin-bottom: 2rem; }
+    .academy-teaser__filters-wrapper { margin-left: calc(-1 * var(--spacing-sm)); margin-right: calc(-1 * var(--spacing-sm)); }
+    .academy-teaser__mosaic { gap: 0.75rem; }
+    .mosaic-card { padding: 1rem 1.25rem; border-radius: 16px; }
+    .mosaic-card__name { font-size: 0.8125rem; }
   }
 </style>

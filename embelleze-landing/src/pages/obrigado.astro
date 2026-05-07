@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getWhatsAppLink } from '../lib/whatsapp';
+import symbol from '../assets/brand/e.png';
 
 const whatsappLink = getWhatsAppLink({ origin: 'obrigado' });
 ---
@@ -12,9 +14,6 @@ const whatsappLink = getWhatsAppLink({ origin: 'obrigado' });
     
     <div class="obrigado__container">
       <div class="obrigado__card">
-        <div class="obrigado__brand">
-          <img src="/brand/logo-embelleze.png" alt="Embelleze" class="obrigado__logo" />
-        </div>
 
         <div class="obrigado__success-icon">
           <div class="obrigado__icon-ring"></div>
@@ -39,7 +38,7 @@ const whatsappLink = getWhatsAppLink({ origin: 'obrigado' });
         </div>
 
         <div class="obrigado__footer">
-          <img src="/brand/e.png" alt="E" class="obrigado__e-icon" />
+          <Image src={symbol} alt="E" class="obrigado__e-icon" />
           <p>Unidade Trindade/GO</p>
         </div>
       </div>
@@ -123,6 +122,7 @@ const whatsappLink = getWhatsAppLink({ origin: 'obrigado' });
   }
   .obrigado__logo {
     height: 32px;
+    width: auto;
     filter: brightness(0) invert(1);
   }
 

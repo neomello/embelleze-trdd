@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CourseCard from '../components/CourseCard.astro';
 import courses from '../content/courses.json';
+import symbol from '../assets/brand/e.png';
 ---
 
 <BaseLayout title="Cursos Profissionalizantes — Instituto Embelleze Trindade">
@@ -11,9 +13,6 @@ import courses from '../content/courses.json';
 
     <div class="courses-page__container">
       <header class="courses-page__header">
-        <div class="courses-page__brand">
-          <img src="/brand/logo-embelleze.png" alt="Embelleze" class="courses-page__logo" />
-        </div>
         <h1 class="courses-page__title">Formações Profissionais</h1>
         <p class="courses-page__subtitle">Especialize-se com quem é referência. Escolha sua área e comece agora.</p>
         
@@ -52,7 +51,7 @@ import courses from '../content/courses.json';
       <div class="cart__handle"></div>
       <div class="cart__header">
         <div class="cart__title-group">
-          <img src="/brand/e.png" alt="E" class="cart__icon-brand" />
+          <Image src={symbol} alt="E" class="cart__icon-brand" />
           <h3>Minha Formação <span class="cart__count-badge" id="cart-count">0</span></h3>
         </div>
         <button id="cart-close" class="cart__close-btn">
