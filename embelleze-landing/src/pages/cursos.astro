@@ -16,12 +16,31 @@ import symbol from '../assets/brand/e.png';
         <h1 class="courses-page__title">Formações Profissionais</h1>
         <p class="courses-page__subtitle">Especialize-se com quem é referência. Escolha sua área e comece agora.</p>
         
-        <!-- Filtros iOS Style -->
-        <div class="courses-page__filter">
-          <button class="courses-page__filter-btn active" data-filter="all">Todos</button>
-          <button class="courses-page__filter-btn" data-filter="Cabelo">Cabelo</button>
-          <button class="courses-page__filter-btn" data-filter="Unhas">Unhas</button>
-          <button class="courses-page__filter-btn" data-filter="Estética">Estética</button>
+        <!-- Filtro Dropdown -->
+        <div class="filter-dropdown" id="filter-dropdown">
+          <button class="filter-dropdown__trigger" id="filter-trigger" aria-haspopup="listbox" aria-expanded="false">
+            <span class="filter-dropdown__label">
+              <span class="filter-dropdown__dot"></span>
+              <span id="filter-selected-label">Selecione sua área</span>
+            </span>
+            <svg class="filter-dropdown__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <ul class="filter-dropdown__menu" id="filter-menu" role="listbox">
+            <li><button class="filter-dropdown__option active" data-filter="all" role="option">
+              <span class="filter-dropdown__option-dot"></span>Todos os cursos
+            </button></li>
+            <li><button class="filter-dropdown__option" data-filter="Cabelo" role="option">
+              <span class="filter-dropdown__option-dot"></span>Cabelo
+            </button></li>
+            <li><button class="filter-dropdown__option" data-filter="Unhas" role="option">
+              <span class="filter-dropdown__option-dot"></span>Unhas
+            </button></li>
+            <li><button class="filter-dropdown__option" data-filter="Estética" role="option">
+              <span class="filter-dropdown__option-dot"></span>Estética
+            </button></li>
+          </ul>
         </div>
       </header>
 
@@ -186,32 +205,62 @@ import symbol from '../assets/brand/e.png';
     window.open(url, '_blank');
   });
 
-  // ── Lógica de Filtro ──
-  const filterBtns = document.querySelectorAll('.courses-page__filter-btn');
-  const items = document.querySelectorAll('.courses-page__item') as NodeListOf<HTMLElement>;
+  // ── Dropdown de Filtro ──
+  const trigger      = document.getElementById('filter-trigger') as HTMLButtonElement;
+  const menu         = document.getElementById('filter-menu') as HTMLElement;
+  const dropdown     = document.getElementById('filter-dropdown') as HTMLElement;
+  const selectedLabel = document.getElementById('filter-selected-label') as HTMLElement;
+  const options      = document.querySelectorAll('.filter-dropdown__option') as NodeListOf<HTMLButtonElement>;
+  const items        = document.querySelectorAll('.courses-page__item') as NodeListOf<HTMLElement>;
 
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const filter = btn.getAttribute('data-filter');
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+  const labels: Record<string, string> = {
+    all: 'Selecione sua área',
+    Cabelo: 'Cabelo',
+    Unhas: 'Unhas',
+    Estética: 'Estética',
+  };
 
-      items.forEach(item => {
-        if (filter === 'all' || item.getAttribute('data-category') === filter) {
-          item.style.display = 'block';
-        } else {
-          item.style.display = 'none';
-        }
-      });
+  function closeMenu() {
+    menu.classList.remove('open');
+    trigger.setAttribute('aria-expanded', 'false');
+    dropdown.classList.remove('open');
+  }
+
+  function applyFilter(filter: string) {
+    options.forEach(o => o.classList.toggle('active', o.getAttribute('data-filter') === filter));
+    selectedLabel.textContent = labels[filter] ?? filter;
+
+    items.forEach(item => {
+      const match = filter === 'all' || item.getAttribute('data-category') === filter;
+      item.style.display = match ? 'block' : 'none';
     });
+
+    closeMenu();
+  }
+
+  trigger.addEventListener('click', () => {
+    const isOpen = menu.classList.contains('open');
+    isOpen ? closeMenu() : (menu.classList.add('open'), trigger.setAttribute('aria-expanded', 'true'), dropdown.classList.add('open'));
   });
+
+  options.forEach(btn => {
+    btn.addEventListener('click', () => applyFilter(btn.getAttribute('data-filter') || 'all'));
+  });
+
+  document.addEventListener('click', e => {
+    if (!dropdown.contains(e.target as Node)) closeMenu();
+  });
+
+  // Pré-selecionar pelo ?area= da URL
+  const urlArea = new URLSearchParams(window.location.search).get('area');
+  applyFilter(urlArea || 'all');
 </script>
 
 <style>
   .courses-page {
     min-height: 100vh;
     background: #0d0416;
-    padding: clamp(6rem, 10vw, 8rem) var(--spacing-sm);
+    padding: clamp(8rem, 14vw, 11rem) var(--spacing-sm) clamp(6rem, 10vw, 8rem);
     position: relative;
     overflow-x: hidden;
   }
@@ -241,48 +290,157 @@ import symbol from '../assets/brand/e.png';
   .courses-page__title { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 900; color: #fff; margin-bottom: 1rem; letter-spacing: -0.04em; }
   .courses-page__subtitle { font-size: 1.125rem; color: rgba(255, 255, 255, 0.6); max-width: 600px; margin: 0 auto 3rem; }
 
-  .courses-page__filter {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
+  /* ── Dropdown de Filtro ── */
+  .filter-dropdown {
+    position: relative;
     margin-bottom: 2rem;
-    flex-wrap: wrap;
   }
 
-  .courses-page__filter-btn {
-    padding: 12px 24px;
-    border-radius: 100px;
+  .filter-dropdown__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    padding: 14px 18px;
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.6);
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    color: #fff;
+    font-size: 0.9375rem;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background 0.2s ease, border-color 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  .courses-page__filter-btn.active {
-    background: #fff;
-    color: #12071f;
-    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+  .filter-dropdown.open .filter-dropdown__trigger {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+
+  .filter-dropdown__label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .filter-dropdown__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-orange);
+    flex-shrink: 0;
+  }
+
+  .filter-dropdown__chevron {
+    width: 18px;
+    height: 18px;
+    color: rgba(255, 255, 255, 0.4);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    flex-shrink: 0;
+  }
+
+  .filter-dropdown.open .filter-dropdown__chevron {
+    transform: rotate(180deg);
+  }
+
+  .filter-dropdown__menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: rgba(22, 10, 38, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    list-style: none;
+    padding: 6px;
+    z-index: 100;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    transform: translateY(-6px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .filter-dropdown__menu.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .filter-dropdown__option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px 14px;
+    background: none;
+    border: none;
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+    text-align: left;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .filter-dropdown__option:active,
+  .filter-dropdown__option:hover {
+    background: rgba(255, 255, 255, 0.07);
+    color: #fff;
+  }
+
+  .filter-dropdown__option.active {
+    color: #fff;
+    font-weight: 800;
+  }
+
+  .filter-dropdown__option-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+    transition: background 0.15s ease;
+  }
+
+  .filter-dropdown__option.active .filter-dropdown__option-dot {
+    background: var(--color-orange);
+    box-shadow: 0 0 8px var(--color-orange);
   }
 
   .courses-page__grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    grid-template-columns: 1fr;
+    gap: 10px;
     width: 100%;
   }
 
-  @media (min-width: 768px) {
+  .courses-page__item {
+    min-width: 0;
+  }
+
+  /* Nome completo no mobile — sem truncar */
+  .courses-page__grid :global(.course-card__name) {
+    white-space: normal;
+  }
+
+  @media (min-width: 600px) {
     .courses-page__grid {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
     }
   }
 
   @media (min-width: 1024px) {
     .courses-page__grid {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
     }
   }
 
@@ -442,7 +600,7 @@ import symbol from '../assets/brand/e.png';
   }
 
   @media (max-width: 600px) {
-    .courses-page { padding-top: 4rem; }
+    .courses-page { padding-top: 7rem; }
     .cart { bottom: 0; left: 0; right: 0; transform: translateY(100%); max-width: 100%; border-radius: 32px 32px 0 0; }
     .cart.open { transform: translateY(0); }
     .cart-trigger { bottom: 20px; right: 20px; width: 64px; height: 64px; }

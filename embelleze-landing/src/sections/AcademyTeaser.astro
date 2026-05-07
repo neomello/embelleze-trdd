@@ -2,295 +2,334 @@
 import courses from '../content/courses.json';
 import CourseIcon from '../components/CourseIcon.astro';
 
-// Categorias únicas para os filtros
-const categories = ['Todos', ...new Set(courses.map(c => c.category))];
+const categories = [
+  { name: 'Cabelo',   iconId: 'lucide:scissors',  color: '#a78bfa', desc: 'Corte, coloração e tratamentos' },
+  { name: 'Unhas',    iconId: 'lucide:sparkles',   color: '#fb923c', desc: 'Manicure, gel e alongamento' },
+  { name: 'Estética', iconId: 'lucide:star',        color: '#34d399', desc: 'Design facial e corporal' },
+];
 
-// Pegamos alguns para o teaser (ordenados ou filtrados inicialmente)
-const featured = courses.slice(0, 10);
+const countByCategory = Object.fromEntries(
+  categories.map(c => [c.name, courses.filter(course => course.category === c.name).length])
+);
 ---
 
-<section class="academy-teaser" id="cursos">
-  <div class="academy-teaser__bg"></div>
-  
-  <div class="academy-teaser__container">
-    <header class="academy-teaser__header">
-      <span class="academy-teaser__eyebrow">Conheça nossos Cursos</span>
-      <h2 class="academy-teaser__title">Sua jornada de elite começa aqui</h2>
-      <p class="academy-teaser__text">
-        Escolha uma área e descubra como transformar sua carreira na beleza.
+<section class="area-picker" id="cursos">
+  <div class="area-picker__bg" aria-hidden="true"></div>
+
+  <div class="area-picker__container">
+    <header class="area-picker__header">
+      <span class="area-picker__eyebrow">Formações Profissionais</span>
+      <h2 class="area-picker__title">Qual é a sua área?</h2>
+      <p class="area-picker__subtitle">
+        Toque na área e veja os cursos disponíveis agora.
       </p>
     </header>
 
-    <!-- Filtros Mobile-First (Scroll Horizontal) -->
-    <div class="academy-teaser__filters-wrapper">
-      <div class="academy-teaser__filters" id="teaser-filters">
-        {categories.map((cat, i) => (
-          <button 
-            class={`teaser-filter-btn ${i === 0 ? 'active' : ''}`} 
-            data-category={cat}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
-    </div>
-
-    <div class="academy-teaser__mosaic" id="teaser-mosaic">
-      {featured.map((course, index) => (
-        <a 
-          href={`/cursos?area=${course.category}`}
-          class={`mosaic-card mosaic-card--${index + 1}`}
-          data-category={course.category}
+    <div class="area-picker__grid">
+      {categories.map(cat => (
+        <a
+          href={`/cursos?area=${cat.name}`}
+          class="area-card"
+          data-category={cat.name}
+          style={`--cat-color: ${cat.color};`}
         >
-          <div class="mosaic-card__icon">
-            <CourseIcon iconId={course.iconId} className="icon-svg" />
+          <div class="area-card__check" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
           </div>
-          <span class="mosaic-card__name">{course.name}</span>
-          <svg class="mosaic-card__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-            <path d="M5 12h14m-7-7 7 7-7 7"/>
-          </svg>
+          <div class="area-card__icon">
+            <CourseIcon iconId={cat.iconId} className="area-card__icon-svg" />
+          </div>
+          <div class="area-card__body">
+            <strong class="area-card__name">{cat.name}</strong>
+            <span class="area-card__desc">{cat.desc}</span>
+          </div>
+          <div class="area-card__count">
+            <span class="area-card__count-num">{countByCategory[cat.name]}</span>
+            <span class="area-card__count-label">cursos</span>
+          </div>
         </a>
       ))}
     </div>
 
-    <footer class="academy-teaser__footer">
-      <a href="/cursos" class="academy-teaser__link" id="teaser-explore-link">
-        Explorar todas as formações
+    <div class="area-picker__footer">
+      <a href="/cursos" class="area-picker__cta">
+        Ver todas as formações
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path d="M5 12h14m-7-7 7 7-7 7"/>
         </svg>
       </a>
-    </footer>
+    </div>
   </div>
 </section>
 
-<script>
-  const filterBtns = document.querySelectorAll('.teaser-filter-btn');
-  const mosaicCards = document.querySelectorAll('.mosaic-card');
-  const exploreLink = document.getElementById('teaser-explore-link') as HTMLAnchorElement;
-
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const category = (btn as HTMLElement).dataset.category;
-      
-      // Update UI
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      // Filter Mosaic
-      mosaicCards.forEach(card => {
-        const cardCat = (card as HTMLElement).dataset.category;
-        if (category === 'Todos' || cardCat === category) {
-          (card as HTMLElement).classList.remove('hidden-card');
-        } else {
-          (card as HTMLElement).classList.add('hidden-card');
-        }
-      });
-
-      // Update CTA Link
-      if (exploreLink) {
-        exploreLink.href = category === 'Todos' ? '/cursos' : `/cursos?area=${category}`;
-      }
-    });
-  });
-</script>
-
 <style>
-  .academy-teaser {
-    scroll-margin-top: 100px;
-    padding: clamp(6rem, 12vw, 10rem) var(--spacing-sm);
+  .area-picker {
+    scroll-margin-top: 80px;
+    padding: clamp(5rem, 12vw, 9rem) var(--spacing-sm);
     background: #0a0212;
     position: relative;
     overflow: hidden;
   }
 
-  .academy-teaser__bg {
+  .area-picker__bg {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 140%;
-    height: 140%;
-    background: radial-gradient(circle at center, rgba(95, 48, 128, 0.1) 0%, transparent 60%);
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 50%, rgba(95, 48, 128, 0.12) 0%, transparent 55%),
+      radial-gradient(circle at 80% 50%, rgba(222, 88, 61, 0.08) 0%, transparent 55%);
     pointer-events: none;
   }
 
-  .academy-teaser__container {
-    max-width: 1200px;
+  .area-picker__container {
+    max-width: 800px;
     margin: 0 auto;
     position: relative;
     z-index: 2;
     text-align: center;
   }
 
-  .academy-teaser__header {
-    margin-bottom: 3.5rem;
+  .area-picker__header {
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
   }
 
-  .academy-teaser__eyebrow {
+  .area-picker__eyebrow {
+    display: block;
     font-size: 0.75rem;
     font-weight: 800;
     color: var(--color-orange);
     text-transform: uppercase;
     letter-spacing: 0.2em;
-    display: block;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
 
-  .academy-teaser__title {
-    font-size: clamp(2.5rem, 6vw, 4rem);
+  .area-picker__title {
+    font-size: clamp(2.25rem, 6vw, 3.5rem);
     font-weight: 900;
     color: #fff;
-    margin-bottom: 1.5rem;
     letter-spacing: -0.04em;
+    margin-bottom: 1rem;
   }
 
-  .academy-teaser__text {
-    font-size: 1.125rem;
+  .area-picker__subtitle {
+    font-size: 1.0625rem;
     color: rgba(255, 255, 255, 0.5);
-    max-width: 600px;
-    margin: 0 auto;
   }
 
-  /* ── Filters ── */
-  .academy-teaser__filters-wrapper {
-    margin-bottom: 3rem;
-    overflow-x: auto;
-    padding: 10px 0;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Firefox */
-  }
-  .academy-teaser__filters-wrapper::-webkit-scrollbar { display: none; }
-
-  .academy-teaser__filters {
-    display: inline-flex;
-    gap: 12px;
-    padding: 0 1rem;
+  /* ── Cards ── */
+  .area-picker__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
   }
 
-  .teaser-filter-btn {
-    white-space: nowrap;
-    padding: 10px 24px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.6);
-    border-radius: 100px;
-    font-size: 0.875rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  @media (min-width: 600px) {
+    .area-picker__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
   }
 
-  .teaser-filter-btn.active {
-    background: var(--color-orange);
-    color: #fff;
-    border-color: var(--color-orange);
-    box-shadow: 0 10px 20px rgba(222, 88, 61, 0.3);
-  }
-
-  /* ── Mosaic Layout ── */
-  .academy-teaser__mosaic {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.25rem;
-    max-width: 1100px;
-    margin: 0 auto 5rem;
-    min-height: 200px;
-  }
-
-  .mosaic-card {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
-    padding: 1.25rem 1.75rem;
+  .area-card {
     display: flex;
     align-items: center;
     gap: 1rem;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    padding: 1.25rem 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1.5px solid rgba(255, 255, 255, 0.07);
+    border-radius: 20px;
     text-decoration: none;
     position: relative;
     overflow: hidden;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                background 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.35s ease;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  .hidden-card {
-    display: none !important;
+  @media (min-width: 600px) {
+    .area-card {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 1.75rem;
+      border-radius: 24px;
+      gap: 1.25rem;
+    }
   }
 
-  .mosaic-card:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-8px) scale(1.05);
-    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
-    z-index: 10;
+  .area-card:active {
+    transform: scale(0.96);
   }
 
-  .mosaic-card__icon {
-    width: 20px;
-    height: 20px;
-    color: var(--color-orange);
+  .area-card:hover,
+  .area-card:focus-visible {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--cat-color);
+    box-shadow: 0 0 30px color-mix(in srgb, var(--cat-color) 20%, transparent);
+    transform: translateY(-4px);
   }
 
-  .mosaic-card__name {
-    color: #fff;
-    font-weight: 700;
-    font-size: 0.9375rem;
-    white-space: nowrap;
-  }
-
-  .mosaic-card__arrow {
-    width: 0;
-    height: 14px;
-    color: #fff;
+  /* Check badge (aparece no hover) */
+  .area-card__check {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--cat-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     opacity: 0;
-    transition: all 0.3s ease;
+    transform: scale(0.5);
+    transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
-  .mosaic-card:hover .mosaic-card__arrow {
-    width: 18px;
+  .area-card__check svg {
+    width: 12px;
+    height: 12px;
+    stroke: #000;
+  }
+
+  .area-card:hover .area-card__check,
+  .area-card:focus-visible .area-card__check {
     opacity: 1;
-    margin-left: 5px;
+    transform: scale(1);
   }
 
-  /* Footer & CTA */
-  .academy-teaser__footer {
+  /* Icon */
+  .area-card__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--cat-color) 12%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--cat-color);
+    transition: background 0.3s ease;
+  }
+
+  .area-card:hover .area-card__icon {
+    background: color-mix(in srgb, var(--cat-color) 20%, transparent);
+  }
+
+  .area-card__icon-svg {
+    width: 22px;
+    height: 22px;
+    stroke-width: 2;
+  }
+
+  /* Body */
+  .area-card__body {
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+  }
+
+  .area-card__name {
+    display: block;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.2rem;
+  }
+
+  .area-card__desc {
+    display: block;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.4);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media (min-width: 600px) {
+    .area-card__desc { white-space: normal; }
+  }
+
+  /* Count badge */
+  .area-card__count {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    background: color-mix(in srgb, var(--cat-color) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--cat-color) 25%, transparent);
+    border-radius: 12px;
+    padding: 0.4rem 0.75rem;
+    transition: background 0.3s ease;
+  }
+
+  .area-card:hover .area-card__count {
+    background: color-mix(in srgb, var(--cat-color) 20%, transparent);
+  }
+
+  @media (min-width: 600px) {
+    .area-card__count {
+      position: absolute;
+      bottom: 1.75rem;
+      right: 1.75rem;
+    }
+  }
+
+  .area-card__count-num {
+    font-size: 1.125rem;
+    font-weight: 900;
+    color: var(--cat-color);
+    line-height: 1;
+  }
+
+  .area-card__count-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  /* CTA */
+  .area-picker__footer {
     display: flex;
     justify-content: center;
   }
 
-  .academy-teaser__link {
+  .area-picker__cta {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-    padding: 18px 36px;
-    background: #fff;
-    color: #000;
+    gap: 10px;
+    padding: 16px 32px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 100px;
-    font-weight: 800;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 700;
+    font-size: 0.9375rem;
     text-decoration: none;
     transition: all 0.3s ease;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
   }
 
-  .academy-teaser__link svg {
-    width: 20px;
-    height: 20px;
+  .area-picker__cta svg {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.3s ease;
   }
 
-  .academy-teaser__link:hover {
-    transform: translateY(-4px) scale(1.02);
-    background: var(--color-orange);
-    color: #fff;
-    box-shadow: 0 30px 60px rgba(222, 88, 61, 0.3);
+  .area-picker__cta:hover {
+    background: #fff;
+    border-color: #fff;
+    color: #12071f;
+    transform: translateY(-2px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
   }
 
-  @media (max-width: 768px) {
-    .academy-teaser__header { margin-bottom: 2rem; }
-    .academy-teaser__filters-wrapper { margin-left: calc(-1 * var(--spacing-sm)); margin-right: calc(-1 * var(--spacing-sm)); }
-    .academy-teaser__mosaic { gap: 0.75rem; }
-    .mosaic-card { padding: 1rem 1.25rem; border-radius: 16px; }
-    .mosaic-card__name { font-size: 0.8125rem; }
+  .area-picker__cta:hover svg {
+    transform: translateX(4px);
   }
 </style>

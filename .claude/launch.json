@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "embelleze-landing",
+      "runtimeExecutable": "make",
+      "runtimeArgs": ["-C", "/Users/nettomello/CODIGOS/projects/embelleze-trdd", "dev"],
+      "port": 4321
+    }
+  ]
+}
