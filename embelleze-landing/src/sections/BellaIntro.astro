@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import { getWhatsAppLink } from '../lib/whatsapp';
 import CourseIcon from '../components/CourseIcon.astro';
+import bellaPhoto from '../assets/bella/bella-front.png';
 
 const ctaLink = getWhatsAppLink({ origin: 'bella-intro' });
 ---
@@ -13,7 +15,7 @@ const ctaLink = getWhatsAppLink({ origin: 'bella-intro' });
         <div class="bella__visual">
           <div class="bella__photo-wrapper">
              <div class="bella__photo-glow"></div>
-             <img src="/bella/bella-front.png" alt="Bella" class="bella__photo" />
+             <Image src={bellaPhoto} alt="Bella" class="bella__photo" />
              <div class="bella__status">
                <span class="bella__dot"></span>
                Consultora Oficial

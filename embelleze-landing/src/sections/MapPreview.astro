@@ -1,6 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import { getGoogleMapsLink } from '../lib/geo';
 import { INSTITUTE_ADDRESS } from '../lib/constants';
+import logo from '../assets/brand/logo-embelleze.png';
+import symbol from '../assets/brand/e.png';
 
 const mapsLink = getGoogleMapsLink();
 
@@ -19,7 +22,7 @@ const NEIGHBORHOODS = [
       <div class="map__info">
         <header class="map__header">
           <div class="map__brand">
-            <img src="/brand/logo-embelleze.png" alt="Embelleze Logo" class="map__logo" />
+            <Image src={logo} alt="Embelleze Logo" class="map__logo" />
           </div>
           <div class="map__chips">
             <span class="map__chip">Trindade/GO</span>
@@ -67,7 +70,7 @@ const NEIGHBORHOODS = [
       <!-- Lado Direito: Mapa Oficial -->
       <div class="map__visual">
         <div class="map__floating-icon">
-          <img src="/brand/e.png" alt="E icon" class="map__e-icon" />
+          <Image src={symbol} alt="E icon" class="map__e-icon" />
         </div>
         <div class="map__card">
           <iframe 

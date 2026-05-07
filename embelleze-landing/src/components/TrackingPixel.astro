@@ -9,11 +9,12 @@ const META_PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID ?? '';
   <Fragment>
     <!-- Google tag (gtag.js) -->
     <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GTAG_ID}`}></script>
-    <script is:inline define:vars={{ GTAG_ID }}>
+    <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', GTAG_ID);
+
+      gtag('config', 'AW-18004058795');
     </script>
   </Fragment>
 )}

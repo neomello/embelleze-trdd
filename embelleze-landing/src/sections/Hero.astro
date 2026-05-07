@@ -1,6 +1,8 @@
 ---
 import { Image } from 'astro:assets';
 import bellaPhoto from '../assets/bella/bela_transp.webp';
+import symbol from '../assets/brand/e.png';
+import nameImg from '../assets/brand/name.png';
 ---
 
 <section class="hero">
@@ -10,8 +12,8 @@ import bellaPhoto from '../assets/bella/bela_transp.webp';
 
   <!-- Branding de fundo (atrás da Bella) -->
   <div class="hero__brand-bg" aria-hidden="true">
-    <img src="/brand/e.png" alt="" class="hero__symbol" />
-    <img src="/brand/name.png" alt="" class="hero__name" />
+    <Image src={symbol} alt="" class="hero__symbol" />
+    <Image src={nameImg} alt="" class="hero__name" />
   </div>
 
   <!-- Círculo de luz com noise -->
@@ -235,14 +237,8 @@ import bellaPhoto from '../assets/bella/bela_transp.webp';
     .hero { min-height: 100svh; height: 100svh; display: flex; flex-direction: column; }
     
     .hero__brand-bg { 
-      position: absolute; 
-      top: 20px;
-      left: 1.5rem; 
-      z-index: 5;
-      gap: 0.25rem; 
+      display: none; 
     }
-    .hero__symbol { width: 40px; }
-    .hero__name { width: 120px; }
 
     .hero__circle { 
       width: 120vw; 

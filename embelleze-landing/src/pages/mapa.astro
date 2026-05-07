@@ -16,9 +16,6 @@ const whatsappLink = getWhatsAppLink({ origin: 'mapa' });
     <div class="mapa__container">
       <div class="mapa__card">
         <header class="mapa__header">
-          <div class="mapa__brand">
-            <img src="/brand/logo-embelleze.png" alt="Embelleze" class="mapa__logo" />
-          </div>
           <h1 class="mapa__title">Como chegar até nós</h1>
           <div class="mapa__address-block">
              <svg class="mapa__address-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -52,11 +49,6 @@ const whatsappLink = getWhatsAppLink({ origin: 'mapa' });
         </div>
 
         <p class="mapa__back"><a href="/">← Voltar para a página principal</a></p>
-      </div>
-
-      <!-- Ícone flutuante decorativo -->
-      <div class="mapa__floating-icon">
-        <img src="/brand/e.png" alt="E" class="mapa__e-icon" />
       </div>
     </div>
   </main>
@@ -111,6 +103,7 @@ const whatsappLink = getWhatsAppLink({ origin: 'mapa' });
   }
   .mapa__logo {
     height: 28px;
+    width: auto;
     filter: brightness(0) invert(1);
   }
 

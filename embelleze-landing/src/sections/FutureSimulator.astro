@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import logo from '../assets/brand/logo-embelleze.png';
 ---
 
 <section id="simulador" class="simulator">
@@ -9,7 +11,7 @@
 
   <div class="simulator__inner">
     <header class="simulator__header">
-      <img src="/brand/logo-embelleze.png" alt="Embelleze" class="simulator__logo" />
+      <Image src={logo} alt="Embelleze" class="simulator__logo" />
       <h2 class="simulator__title">Qual é o seu próximo passo?</h2>
       <p class="simulator__sub">Responda 3 perguntas e descubra seu caminho na beleza.</p>
     </header>
@@ -60,7 +62,7 @@
         <p class="result__desc" id="res-desc"></p>
         
         <div class="result__actions">
-          <a href="#" id="res-link" class="result__btn result__btn--primary">
+          <a href="https://wa.me/5562984836550" id="res-link" class="result__btn result__btn--primary">
              Reservar vaga via WhatsApp
           </a>
           <button onclick="window.location.reload()" class="result__btn result__btn--secondary">

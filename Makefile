@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := help
-.PHONY: help install dev build build-all preview check lint verify clean reset deploy ls
+.PHONY: help install dev build build-all preview check lint verify audit clean reset deploy ls
 
 NODE    := $(shell mise which node 2>/dev/null || which node)
 PNPM    := PATH="$(dir $(NODE)):$$PATH" pnpm
@@ -20,6 +20,7 @@ help:
 	@echo "  check                type check  [FILTER=pacote]"
 	@echo "  lint                 alias para check"
 	@echo "  verify               alias para check"
+	@echo "  audit                verifica vulnerabilidades (pnpm audit)"
 	@echo "  clean                remove todos os dist/"
 	@echo "  reset                limpa node_modules e reinstala"
 	@echo "  deploy               check + build + instruções de deploy"
@@ -46,6 +47,9 @@ check:
 
 lint: check
 verify: check
+
+audit:
+	$(PNPM) audit
 
 clean:
 	find . -name "dist" -not -path "*/node_modules/*" -exec rm -rf {} + 2>/dev/null || true
