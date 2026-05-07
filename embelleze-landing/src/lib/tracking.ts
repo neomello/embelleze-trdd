@@ -21,20 +21,16 @@ export interface TrackingPayload {
 export function track(payload: TrackingPayload): void {
   if (typeof window === 'undefined') return;
 
+  const { event, ...params } = payload;
+
   // GA4
   if (typeof window.gtag === 'function') {
-    window.gtag('event', payload.event, {
-      course: payload.course,
-      ticket: payload.ticket,
-      origin: payload.origin,
-    });
+    window.gtag('event', event, params);
   }
 
   // Meta Pixel
   if (typeof window.fbq === 'function') {
-    window.fbq('trackCustom', payload.event, {
-      course: payload.course,
-    });
+    window.fbq('trackCustom', event, params);
   }
 }
 
