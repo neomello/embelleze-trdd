@@ -24,6 +24,10 @@ Função : Registrar decisões e progresso
 - **PNPM**: Travado na v10.33.3 para compatibilidade com comandos de deploy do workspace.
 - **Performance**: Migração total para `astro:assets` concluída.
 - **Tracking**: Google Ads Tag (AW-18004058795) hardcoded no `TrackingPixel.astro` para evitar falhas de variáveis de ambiente no build do Railway.
+- **Webhook Z-API**: MVP validado em PRODUÇÃO.
+  - Arquivos: `webhook.ts`, `zapi.ts`, `bella.ts`, `health/zapi.ts`.
+  - Fluxo: Z-API → Webhook → bella.ts → zapi.ts → db.ts.
+- **Probeltec**: Integração adiada até auth oficial e payload real estarem mapeados.
 
 ## ⟠ Histórico de Problemas Resolvidos (Gotchas)
 

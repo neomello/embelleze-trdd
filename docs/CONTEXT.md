@@ -57,5 +57,7 @@ Não vender apenas curso. Vender transformação prática, renda rápida e uma n
   - Tracking de Google Ads (GTAG) operacional.
   - Mobile-first UX com filtros de cursos dinâmicos.
   - Infra Railway (pnpm v10 + Docker) corrigida e travada.
-- **Fase 2 (Bella SDR)**: ⏳ Em planejamento.
-  - Integração da IA com o banco de leads para atendimento proativo.
+- **Fase 2 (Bella SDR)**: 🚀 MVP Concluído / Em andamento.
+  - Webhook da Z-API operacional e validado em produção.
+  - Leads sendo salvos/atualizados no Postgres.
+  - Respostas da Bella isoladas em `src/lib/bella.ts`.
