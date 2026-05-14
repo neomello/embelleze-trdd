@@ -15,6 +15,7 @@ yarn-error.log*
 .skills
 .playwright-mcp
 .playwright-report
+recon/
 
 embelleze-landing/docs/*
 !docs/manifest.yaml
