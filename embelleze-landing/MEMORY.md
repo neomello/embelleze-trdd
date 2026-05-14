@@ -1,4 +1,5 @@
 <!-- markdownlint-disable MD003 MD007 MD013 MD022 MD023 MD025 MD029 MD032 MD033 MD034 -->
+# MEMORY
 
 ```text
 ========================================
@@ -24,18 +25,15 @@ Função : Decisões tomadas — não regredir
   aprovados pelo cliente.
 - Params UTM de `/oferta` são repassados
   para o link do WhatsApp.
-- Webhook da Z-API criado em `/api/zapi/webhook`
-  como camada oficial de entrada.
+- Webhook MVP validado em PRODUÇÃO e criado em:
+  - `src/pages/api/zapi/webhook.ts`
+  - `src/lib/zapi.ts` (envio isolado)
+  - `src/lib/bella.ts` (resposta isolada)
+  - `src/pages/api/health/zapi.ts` (saúde)
 - Fluxo de dados: Z-API → Webhook → bella.ts
   → zapi.ts → db.ts.
-- Lógica da Bella isolada em `src/lib/bella.ts`
-  para facilitar futura troca por Azure.
-- Envio de mensagens isolado em `src/lib/zapi.ts`
-  com validação e timeout.
-- Variáveis de ambiente registradas para Z-API
-  e Azure OpenAI no `.env.example`.
-- Integração com Probeltec adiada até mapearmos
-  autenticação e payloads reais.
+- Integração Probeltec adiada até auth oficial
+  e payload real estarem mapeados.
 
 ────────────────────────────────────────
 
