@@ -12,5 +12,9 @@ pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .astro
-docs/
+.skills
+.playwright-mcp
+.playwright-report
 
+embelleze-landing/docs/*
+!docs/manifest.yaml

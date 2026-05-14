@@ -27,6 +27,23 @@ Função : Guia técnico de desenvolvimento
 - **Tracking**: Adicionar tags de rastreamento via `src/components/TrackingPixel.astro`.
 - **SEO**: Metadados locais via `src/components/LocalSEO.astro`.
 
++++++++++--------
+
+This workspace uses NEØ DEV AGENT workflow rules.
+
+Before executing any development task, read and follow:
+
+- `.skills/dev-agent.md`
+
+Default behavior:
+- Prefer action over excessive questioning.
+- Ask only when one missing variable materially changes the result.
+- Challenge unsafe, incoherent, or technically flawed premises.
+- Make best-effort attempts when context is incomplete, stating assumptions upfront.
+- Never perform destructive or infrastructure-changing actions without explicit authorization.
+
++++++++++--------
+
 ────────────────────────────────────────
 
 ## ⍟ Estrutura do Projeto

@@ -11,6 +11,23 @@ Leitura: obrigatória antes de qualquer ação
 ========================================
 ```
 
++++++++++--------
+
+This workspace uses NEØ DEV AGENT workflow rules.
+
+Before executing any development task, read and follow:
+
+- `.skills/dev-agent.md`
+
+Default behavior:
+- Prefer action over excessive questioning.
+- Ask only when one missing variable materially changes the result.
+- Challenge unsafe, incoherent, or technically flawed premises.
+- Make best-effort attempts when context is incomplete, stating assumptions upfront.
+- Never perform destructive or infrastructure-changing actions without explicit authorization.
+
++++++++++--------
+
 ## ⟠ Antes de Agir
 
 Leia nesta ordem para obter contexto total:
