@@ -23,6 +23,11 @@ export interface LeadData {
   status?: "NOVO" | "QUALIFICADO" | "INTERESSADO";
   last_message?: string;
   assigned_to?: string;
+  // Atribuição de tráfego pago — first-touch, nunca sobrescreve
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  utm_content?: string;
 }
 
 /**
@@ -44,10 +49,12 @@ export async function upsertLead(data: LeadData) {
   let client;
   try {
     client = await pool.connect();
+    await ensureUtmColumns(client);
 
     const res = await client.query(
-      `INSERT INTO leads (phone, name, origin, course_interest, objective, status, last_message)
-       VALUES ($1, $2, $3, $4, $5, $6, $7)
+      `INSERT INTO leads (phone, name, origin, course_interest, objective, status, last_message,
+                          utm_source, utm_medium, utm_campaign, utm_content)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
        ON CONFLICT (phone) DO UPDATE SET
          name             = COALESCE(EXCLUDED.name,            leads.name),
          origin           = COALESCE(EXCLUDED.origin,          leads.origin),
@@ -59,6 +66,11 @@ export async function upsertLead(data: LeadData) {
                               ELSE COALESCE(EXCLUDED.status, leads.status)
                             END,
          last_message     = COALESCE(EXCLUDED.last_message,    leads.last_message),
+         -- UTM: first-touch — canal que trouxe o lead nunca é sobrescrito
+         utm_source       = COALESCE(leads.utm_source,   EXCLUDED.utm_source),
+         utm_medium       = COALESCE(leads.utm_medium,   EXCLUDED.utm_medium),
+         utm_campaign     = COALESCE(leads.utm_campaign, EXCLUDED.utm_campaign),
+         utm_content      = COALESCE(leads.utm_content,  EXCLUDED.utm_content),
          updated_at       = NOW()
        RETURNING id`,
       [
@@ -69,6 +81,10 @@ export async function upsertLead(data: LeadData) {
         data.objective || null,
         data.status || "NOVO",
         data.last_message || null,
+        data.utm_source   || null,
+        data.utm_medium   || null,
+        data.utm_campaign || null,
+        data.utm_content  || null,
       ],
     );
 
@@ -82,6 +98,20 @@ export async function upsertLead(data: LeadData) {
 }
 
 // Evita ALTER TABLE no hot path — executado uma única vez por processo
+let utmColumnsReady = false;
+
+async function ensureUtmColumns(client: pg.PoolClient): Promise<void> {
+  if (utmColumnsReady) return;
+  await client.query(`
+    ALTER TABLE leads
+      ADD COLUMN IF NOT EXISTS utm_source   TEXT,
+      ADD COLUMN IF NOT EXISTS utm_medium   TEXT,
+      ADD COLUMN IF NOT EXISTS utm_campaign TEXT,
+      ADD COLUMN IF NOT EXISTS utm_content  TEXT
+  `);
+  utmColumnsReady = true;
+}
+
 let probeltecColumnReady = false;
 
 async function ensureProbeltecColumn(client: pg.PoolClient): Promise<void> {

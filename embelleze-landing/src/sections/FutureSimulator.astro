@@ -228,10 +228,21 @@ const simCtaLink = getWhatsAppLink({ origin: 'simulator' });
     }, 30);
   }
 
+  // Lê UTMs gravados pelo BaseLayout no sessionStorage (first-touch)
+  function getSessionUtms(): Record<string, string> {
+    const keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'] as const;
+    const utms: Record<string, string> = {};
+    keys.forEach(k => {
+      const v = sessionStorage.getItem(k);
+      if (v) utms[k] = v;
+    });
+    return utms;
+  }
+
   submitCapture.addEventListener('click', async () => {
     const name = nameInput.value.trim();
     const phone = phoneInput.value.replace(/\D/g, '');
-    
+
     if (!name || name.length < 3) {
       nameInput.classList.add('error');
       return;
@@ -243,12 +254,12 @@ const simCtaLink = getWhatsAppLink({ origin: 'simulator' });
     }
 
     const courseName = areaMap[answers[2]] || 'Curso Profissional';
-    
+
     // Salva localmente para interceptores globais
     localStorage.setItem('sim_phone', phone);
     localStorage.setItem('sim_name', name);
 
-    // Captura o lead como QUALIFICADO (completou perguntas e análise)
+    // Captura o lead como QUALIFICADO — inclui UTMs do canal de origem
     await fetch('/api/leads', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -259,7 +270,8 @@ const simCtaLink = getWhatsAppLink({ origin: 'simulator' });
         course_interest: courseName,
         objective: answers[0],
         status: 'QUALIFICADO',
-        last_message: 'Completou simulador de futuro'
+        last_message: 'Completou simulador de futuro',
+        ...getSessionUtms(),
       })
     }).catch(() => {}); // Falha silenciosa
 
@@ -281,7 +293,7 @@ const simCtaLink = getWhatsAppLink({ origin: 'simulator' });
     resDesc.innerText = `Olá ${name.split(' ')[0]}! Com base no seu perfil, o curso de ${courseName} é a escolha ideal para você conquistar sua independência financeira na área da beleza.`;
     resLink.href = getWhatsAppLink({ course: courseName, origin: 'simulator-result' });
 
-    // Se clicar no botão de WhatsApp, atualiza para INTERESSADO
+    // Se clicar no botão de WhatsApp, atualiza para INTERESSADO — mantém UTMs
     resLink.addEventListener('click', async () => {
       await fetch('/api/leads', {
         method: 'POST',
@@ -290,7 +302,8 @@ const simCtaLink = getWhatsAppLink({ origin: 'simulator' });
           phone,
           name,
           status: 'INTERESSADO',
-          last_message: 'Clicou no WhatsApp após simulador'
+          last_message: 'Clicou no WhatsApp após simulador',
+          ...getSessionUtms(),
         })
       }).catch(() => {});
     });

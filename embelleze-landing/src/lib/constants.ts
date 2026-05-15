@@ -5,6 +5,71 @@ export const INSTITUTE_NAME = 'Instituto Embelleze Trindade';
 export const INSTITUTE_ADDRESS = 'Av. Manoel Monteiro, 1691 — Vila Padre Eterno, Trindade/GO';
 export const INSTITUTE_EMAIL = 'bellaembelleze.inteligencia@gmail.com';
 export const INSTITUTE_INSTAGRAM = '@institutoembellezetrindadego';
+export const INSTITUTE_INSTAGRAM_URL = 'https://www.instagram.com/institutoembellezetrindadego/';
+
+// ─── UTM / Rastreamento de Tráfego ──────────────────────────────────────────
+//
+// CAMPANHA ATIVA: ativacao-mai26
+// Canais: Meta Ads · Google Ads · TikTok Ads · Orgânico
+//
+// Convenção de nomenclatura:
+//   utm_source   → canal de origem (meta, google, tiktok, instagram, site)
+//   utm_medium   → tipo de mídia (paid_social, cpc, organic_social, cta)
+//   utm_campaign → slug da campanha — NÃO mudar mid-flight (quebra comparação)
+//   utm_content  → criativo ou elemento específico clicado
+//   utm_term     → palavra-chave (Google Ads) ou segmento de público (Meta/TikTok)
+//
+// Cada plataforma também injeta seu próprio parâmetro de clique:
+//   Meta    → fbclid  (auto, não remover)
+//   Google  → gclid   (auto, ativar auto-tagging no Google Ads)
+//   TikTok  → ttclid  (auto, ativar TikTok Pixel no Ads Manager)
+
+export const CAMPAIGN_SLUG = 'ativacao-mai26';
+
+// Links que saem do site para redes sociais (botões internos da landing)
+export const UTM_SOURCE_SITE = 'site-embelleze-trindade';
+
+// UTMs por canal de entrada (usados nas URLs dos anúncios que apontam para cá)
+export const UTM = {
+  meta: {
+    source: 'meta',
+    medium: 'paid_social',
+    campaign: CAMPAIGN_SLUG,
+    // utm_content e utm_term variam por criativo — definir no Ads Manager
+  },
+  google: {
+    source: 'google',
+    medium: 'cpc',
+    campaign: CAMPAIGN_SLUG,
+    // utm_term = palavra-chave, utm_content = ad group
+  },
+  tiktok: {
+    source: 'tiktok',
+    medium: 'paid_social',
+    campaign: CAMPAIGN_SLUG,
+  },
+  organic: {
+    source: 'instagram',
+    medium: 'organic_social',
+    campaign: CAMPAIGN_SLUG,
+  },
+} as const;
+
+// Helper — monta URL com UTMs para links de saída do site
+export function buildUtmUrl(
+  baseUrl: string,
+  medium: string,
+  content: string,
+): string {
+  const params = new URLSearchParams({
+    utm_source: UTM_SOURCE_SITE,
+    utm_medium: medium,
+    utm_campaign: CAMPAIGN_SLUG,
+    utm_content: content,
+  });
+  const sep = baseUrl.includes('?') ? '&' : '?';
+  return `${baseUrl}${sep}${params.toString()}`;
+}
 
 export const COURSE_STANDARD_FEATURES = [
   'Formação profissionalizante',

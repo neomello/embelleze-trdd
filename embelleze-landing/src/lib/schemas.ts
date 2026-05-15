@@ -14,6 +14,11 @@ export const LeadSchema = z.object({
   objective: z.string().max(200).optional(),
   status: z.enum(["NOVO", "QUALIFICADO", "INTERESSADO"]).optional(),
   last_message: z.string().max(500).optional(),
+  // Atribuição de canal — first-touch
+  utm_source:   z.string().max(100).optional(),
+  utm_medium:   z.string().max(100).optional(),
+  utm_campaign: z.string().max(100).optional(),
+  utm_content:  z.string().max(200).optional(),
 });
 
 export const LocationIntentSchema = z.object({

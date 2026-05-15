@@ -117,6 +117,43 @@ Ver `.env.example` em `embelleze-landing/`. Variáveis críticas:
 - `PROBELTEC_EMAIL`, `PROBELTEC_PASSWORD` — CRM (trocar senha após testes)
 - `AZURE_OPENAI_*` — Bella Azure (pendente Fase 3)
 
+## Entry Points de Captura — Mapa Rápido
+
+### WhatsApp (10 CTAs via `getWhatsAppLink`)
+Origem rastreada pelo campo `origin` no **texto da mensagem** (wa.me não aceita UTM na URL).
+
+| Origin | Localização |
+|--------|-------------|
+| `header` | Header global |
+| `bella-intro` | Seção BellaIntro |
+| `simulator-result` | FutureSimulator (único com captura Postgres antes do WA) |
+| `faq` | ObjectionBreak |
+| `course-offer` | CourseOffer |
+| `discount-ticket` | DiscountTicket |
+| `final-cta` | FinalCTA |
+| `float-button` | WhatsAppFloat (botão flutuante) |
+| `footer` | Footer |
+| `mapa`, `oferta`, `obrigado` | Páginas específicas |
+
+**GlobalInterceptor** em `BaseLayout.astro` → captura cliques em qualquer wa.me e upgrada status para `INTERESSADO` se o telefone estiver no localStorage (requer simulador).
+
+### Formulários / APIs de Captura
+- `POST /api/leads` — FutureSimulator (status: QUALIFICADO) + GlobalInterceptor (INTERESSADO)
+- `POST /api/zapi/webhook` — WhatsApp inbound (Bella → Postgres → Probeltec CRM)
+- `POST /api/location-intent` — geolocalização (MapPreview → Redis)
+
+### UTM e Rastreamento de Tráfego Pago
+Campanha ativa: **`ativacao-mai26`** (Meta Ads · Google Ads · TikTok Ads)
+
+Constantes centralizadas em `src/lib/constants.ts`:
+- `CAMPAIGN_SLUG` — slug da campanha (mudar aqui muda em todo o site)
+- `buildUtmUrl(baseUrl, medium, content)` — helper para links de saída
+- `UTM.meta / UTM.google / UTM.tiktok / UTM.organic` — configs por canal
+
+**Links de saída com UTM ativo**: Instagram CTA em `LocalImpact.astro`
+
+**Gap conhecido**: leads que clicam em WhatsApp sem passar pelo simulador chegam sem `origin` específica — resolvido parcialmente pelo campo `whatsapp_zapi` no webhook. Fix futuro: Bella pergunta "como nos conheceu?" via Azure OpenAI.
+
 ## Identidade Visual
 
 - **Laranja** `#de583d` · **Roxo** `#5f3080` · Preto `#171018`
