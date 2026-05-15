@@ -14,6 +14,11 @@ const pool = new Pool({
   connectionTimeoutMillis: 2000,
 });
 
+// CRÍTICO: sem este handler, erros em conexões ociosas matam o processo Node
+pool.on('error', (err) => {
+  console.error('[DB] Erro em cliente ocioso (silenciado):', err.message);
+});
+
 export interface LeadData {
   phone: string;
   name?: string;

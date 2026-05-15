@@ -1,14 +1,31 @@
 import Redis from 'ioredis';
 
-const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
+const REDIS_URL = process.env.REDIS_URL || '';
 
 // Singleton para o cliente Redis
-let redis: Redis;
+let redis: Redis | null = null;
 
-try {
-  redis = new Redis(REDIS_URL);
-} catch (error) {
-  console.error('Failed to connect to Redis:', error);
+if (REDIS_URL) {
+  try {
+    redis = new Redis(REDIS_URL, {
+      // Sem retentativas infinitas — falha rápido se Redis não está disponível
+      maxRetriesPerRequest: 2,
+      enableReadyCheck: false,
+      lazyConnect: false,
+    });
+
+    // CRÍTICO: sem este handler, erro de conexão mata o processo Node inteiro
+    redis.on('error', (err) => {
+      console.error('[Redis] Erro de conexão (silenciado):', err.message);
+    });
+
+    redis.on('connect', () => console.log('[Redis] Conectado com sucesso.'));
+  } catch (error) {
+    console.error('[Redis] Falha ao inicializar cliente:', error);
+    redis = null;
+  }
+} else {
+  console.warn('[Redis] REDIS_URL não configurada. Location tracking desabilitado.');
 }
 
 /**
