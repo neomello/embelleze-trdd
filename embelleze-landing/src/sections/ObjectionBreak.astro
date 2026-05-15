@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import faqs from '../content/faqs.json';
-import symbol from '../assets/brand/e.png';
+import bellaAvatar from '../assets/bella/bella-front.png';
 import { getWhatsAppLink } from '../lib/whatsapp';
 
 const faqCtaLink = getWhatsAppLink({ origin: 'faq' });
@@ -22,7 +22,7 @@ const faqCtaLink = getWhatsAppLink({ origin: 'faq' });
       <!-- Header do chat (estilo WhatsApp) -->
       <div class="chat-header">
         <div class="chat-header__avatar">
-          <Image src={symbol} alt="Bella" class="chat-header__avatar-img" />
+          <Image src={bellaAvatar} alt="Bella" class="chat-header__avatar-img" />
           <span class="chat-header__status-dot" aria-hidden="true"></span>
         </div>
         <div class="chat-header__info">
@@ -58,7 +58,7 @@ const faqCtaLink = getWhatsAppLink({ origin: 'faq' });
             <div class="chat-msg chat-msg--in chat-typing" id={`typing-${i}`}>
               <div class="chat-avatar-wrap">
                 <div class="chat-avatar">
-                  <Image src={symbol} alt="Bella" class="chat-avatar__img" />
+                  <Image src={bellaAvatar} alt="Bella" class="chat-avatar__img" />
                 </div>
               </div>
               <div class="chat-bubble chat-bubble--typing">
@@ -72,7 +72,7 @@ const faqCtaLink = getWhatsAppLink({ origin: 'faq' });
             <div class="chat-msg chat-msg--in chat-answer" id={`answer-${i}`}>
               <div class="chat-avatar-wrap">
                 <div class="chat-avatar">
-                  <Image src={symbol} alt="Bella" class="chat-avatar__img" />
+                  <Image src={bellaAvatar} alt="Bella" class="chat-avatar__img" />
                 </div>
               </div>
               <div class="chat-bubble chat-bubble--in">
@@ -109,11 +109,30 @@ const faqCtaLink = getWhatsAppLink({ origin: 'faq' });
 </section>
 
 <script>
+  // ── Sons reais do iOS (arquivos gravados do iPhone) ─────────────────────
+  // Pré-carregados para evitar delay no primeiro play.
+  // HTMLAudioElement não precisa de AudioContext — funciona após qualquer interação.
+  const sndSent     = new Audio('/sounds/sms-sent.mp3');
+  const sndReceived = new Audio('/sounds/sms-received.mp3');
+  sndSent.preload     = 'auto';
+  sndReceived.preload = 'auto';
+
+  function playSendSound() {
+    sndSent.currentTime = 0;
+    sndSent.play().catch(() => {});
+  }
+
+  function playNotification() {
+    sndReceived.currentTime = 0;
+    sndReceived.play().catch(() => {});
+  }
+
+  // ── Lógica do chat ───────────────────────────────────────────────────────
   const pairs = document.querySelectorAll('.chat-pair');
   let started = false;
 
-  async function sleep(ms: number) {
-    return new Promise(r => setTimeout(r, ms));
+  function sleep(ms: number) {
+    return new Promise<void>(r => setTimeout(r, ms));
   }
 
   async function revealChat() {
@@ -123,29 +142,30 @@ const faqCtaLink = getWhatsAppLink({ origin: 'faq' });
     for (let i = 0; i < pairs.length; i++) {
       const pair = pairs[i] as HTMLElement;
       const typing = document.getElementById(`typing-${i}`)!;
-      const answer = document.getElementById(`answer-${i}`)!;
+      const answer  = document.getElementById(`answer-${i}`)!;
 
-      // Mostra pergunta
+      // Pergunta do usuário + som de envio
       const q = pair.querySelector('.chat-msg--out') as HTMLElement;
       q.classList.add('visible');
+      playSendSound();
       await sleep(600);
 
-      // Mostra typing
+      // Typing indicator da Bella
       typing.classList.add('visible');
       await sleep(1800);
 
-      // Esconde typing, mostra resposta
+      // Resposta da Bella + som de recebimento
       typing.classList.remove('visible');
       typing.style.display = 'none';
       answer.classList.add('visible');
+      playNotification();
 
-      // Pausa antes do próximo par
       if (i < pairs.length - 1) await sleep(900);
     }
   }
 
   const observer = new IntersectionObserver(
-    (entries) => {
+    entries => {
       if (entries[0].isIntersecting) {
         revealChat();
         observer.disconnect();
@@ -238,9 +258,10 @@ const faqCtaLink = getWhatsAppLink({ origin: 'faq' });
   }
 
   .chat-header__avatar-img {
-    width: 26px !important;
-    height: 26px !important;
-    object-fit: contain;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    object-position: center top;
   }
 
   .chat-header__status-dot {
@@ -354,9 +375,10 @@ const faqCtaLink = getWhatsAppLink({ origin: 'faq' });
   }
 
   .chat-avatar__img {
-    width: 20px !important;
-    height: 20px !important;
-    object-fit: contain;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    object-position: center top;
   }
 
   /* ── Bubble ── */
