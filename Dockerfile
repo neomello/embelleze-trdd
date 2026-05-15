@@ -30,10 +30,10 @@ COPY --from=build /app/out/node_modules ./node_modules
 
 # Variáveis de ambiente
 ENV HOST=0.0.0.0
-ENV PORT=4321
+ENV PORT=8080
 ENV NODE_ENV=production
 
-EXPOSE 4321
+EXPOSE 8080
 
 # Comando de inicialização usando o entrypoint do Astro Node
 CMD ["node", "dist/server/entry.mjs"]
