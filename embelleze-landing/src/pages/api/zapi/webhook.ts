@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 import { generateBellaReply } from "../../../lib/bella";
 import { claimProbeltecSync, upsertLead } from "../../../lib/db";
 import { createLead } from "../../../lib/probeltec";
-import { sendTextMessage } from "../../../lib/zapi";
+import { maskPhone, sendTextMessage } from "../../../lib/zapi";
 
 export const POST: APIRoute = async ({ request }) => {
   try {
@@ -13,7 +13,7 @@ export const POST: APIRoute = async ({ request }) => {
     const clientToken =
       process.env.ZAPI_CLIENT_TOKEN || import.meta.env.ZAPI_CLIENT_TOKEN;
 
-    if (clientToken && clientTokenHeader !== clientToken) {
+    if (!clientToken || clientTokenHeader !== clientToken) {
       console.warn("[ZAPI Webhook] Tentativa de acesso não autorizada.");
       return new Response(JSON.stringify({ status: "unauthorized" }), {
         status: 401,
@@ -36,8 +36,7 @@ export const POST: APIRoute = async ({ request }) => {
     const senderName = rawPayload.senderName || "Cliente";
     const fromMe = rawPayload.fromMe !== undefined ? rawPayload.fromMe : true;
 
-    // Mascarar telefone para log
-    const maskedPhone = phone ? `${phone.slice(0, -4)}****` : "N/A";
+    const maskedPhone = phone ? maskPhone(phone) : "N/A";
     console.log(`[ZAPI Webhook] Mensagem recebida de ${maskedPhone}`);
 
     // 4. Ignorar mensagens fromMe (enviadas pelo próprio bot)
@@ -48,47 +47,50 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    // 5. Salvar/atualizar lead no nosso Postgres
-    // Regra: Se banco falhar, não quebrar resposta do WhatsApp
+    // 5. Salvar/atualizar lead no Postgres
+    // Regra: falha no DB não quebra resposta WhatsApp
+    let leadSaved = false;
     try {
       if (phone) {
-        await upsertLead({
-          phone: phone,
+        const leadId = await upsertLead({
+          phone,
           name: senderName,
           last_message: message,
           status: "NOVO",
           origin: "whatsapp_zapi",
         });
+        leadSaved = leadId !== null;
+        if (!leadSaved) {
+          console.error(`[ZAPI Webhook] upsertLead retornou null — lead ${maskedPhone} não registrado no DB.`);
+        }
       }
     } catch (dbError) {
-      console.error(
-        "[ZAPI Webhook] Erro ao salvar no DB (Silenciado):",
-        dbError,
-      );
+      console.error("[ZAPI Webhook] Erro ao salvar no DB (Silenciado):", dbError);
     }
 
-    // 5b. Sync com Probeltec CRM — só quando temos telefone e nome real.
-    // "Cliente" é o fallback de senderName ausente; sem nome real não criamos.
+    // 5b. Sync com Probeltec CRM — só se o lead foi salvo no DB e tem nome real.
     // claimProbeltecSync() é atômico: ganha o slot ou devolve false se já sincronizado.
     const hasRealName = senderName && senderName !== "Cliente";
     if (phone && hasRealName) {
-      try {
-        const claimed = await claimProbeltecSync(phone);
-        if (claimed) {
-          await createLead({ name: senderName, phone });
-          console.log(`[Probeltec] Lead criado no CRM: ${maskedPhone}`);
+      if (!leadSaved) {
+        console.warn(`[Probeltec] Sync ignorado para ${maskedPhone} — lead não salvo no DB.`);
+      } else {
+        try {
+          const claimed = await claimProbeltecSync(phone);
+          if (claimed) {
+            await createLead({ name: senderName, phone });
+            console.log(`[Probeltec] Lead criado no CRM: ${maskedPhone}`);
+          }
+        } catch (crmError) {
+          console.error(
+            "[Probeltec] Erro ao sincronizar lead (Silenciado):",
+            (crmError as Error).message,
+          );
         }
-      } catch (crmError) {
-        // Probeltec falhou — conversa continua normalmente
-        console.error(
-          "[Probeltec] Erro ao sincronizar lead (Silenciado):",
-          (crmError as Error).message,
-        );
       }
     }
 
-    // 4. Bella mock (agora extraída)
-    const replyMessage = generateBellaReply(rawPayload);
+    const replyMessage = await generateBellaReply(rawPayload);
 
     // 2. Usar src/lib/zapi.ts para envio
     // Regra: Se Bella falhar, responder fallback humano

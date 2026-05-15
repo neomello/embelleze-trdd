@@ -33,8 +33,9 @@ Instituto Embelleze Trindade.
 └─ src/sections/           blocos da landing
 └─ src/components/         UI reutilizável
 └─ src/content/            dados editáveis
-└─ src/lib/                WhatsApp, tracking,
-                           geo, desconto
+└─ src/lib/                WhatsApp, tracking, geo,
+                           desconto, Bella (Azure),
+                           Z-API, Probeltec, DB, Redis
 ```
 
 ────────────────────────────────────────

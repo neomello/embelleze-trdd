@@ -83,13 +83,18 @@ STATUS: ESTAVEL
 
 ```text
 ▓▓▓ FASE 2 — BELLA SDR / WHATSAPP
-STATUS: MVP CONCLUIDO / EM ANDAMENTO
+STATUS: INTEGRADO
 ────────────────────────────────────────
 └─ Webhook Z-API validado em producao.
 └─ Leads salvos/atualizados no Postgres.
-└─ Respostas isoladas em src/lib/bella.ts.
-└─ ProbeltecService implementado e aprovado.
-└─ Idempotencia via claim atomico no Postgres.
+└─ Bella integrada ao Azure OpenAI.
+   System prompt: src/content/bella.knowledge.md.
+   Fallback automatico se env Azure ausente.
+└─ ProbeltecService implementado — sync atomico.
+   Lead so vai ao CRM se upsertLead salvar (leadSaved).
+└─ appendLeadEvent persiste em tabela lead_events.
+└─ Telefone normalizado (E.164) antes de enviar pela Z-API.
+└─ Logs mascaram telefone (apenas ultimos 4 digitos).
 ```
 
 ```text
@@ -110,14 +115,16 @@ STATUS: PENDENTE
 ▓▓▓ FASE SEGURANCA — CONTINUA
 STATUS: EM ANDAMENTO
 ────────────────────────────────────────
-[OK] Webhook protegido por Client-Token.
+[OK] Webhook rejeita quando ZAPI_CLIENT_TOKEN nao esta definido.
+[OK] Health endpoint exige HEALTH_TOKEN via X-Health-Token.
+[OK] content-length validado como numero (nao string).
+[OK] Telefone normalizado (E.164) e mascara ****XXXX nos logs.
 [OK] JWT Probeltec somente via env.
-[OK] Logs sem senha, token ou telefone completo.
 [OK] recon/ no .gitignore.
 [OK] Falhas nao expõem internals na resposta.
-[!!] Trocar senha exposta Probeltec — URGENTE.
+[OK] isValidTicket valida formato real do ticket.
+[OK] Senha Probeltec trocada.
 [ ] Rate limiting no /api/zapi/webhook.
-[ ] Auditar envs sensiveis no codigo-fonte.
 [ ] Least privilege no usuario Postgres.
 [ ] Headers HTTP: CSP, HSTS, X-Frame-Options.
 ```

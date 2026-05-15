@@ -5,7 +5,7 @@ import { LocationIntentSchema } from '../../lib/schemas';
 
 export const POST: APIRoute = async ({ request }) => {
   try {
-    if ((request.headers.get('content-length') ?? '0') > '4096') {
+    if (Number(request.headers.get('content-length') ?? '0') > 4096) {
       return new Response(JSON.stringify({ error: 'Payload too large' }), {
         status: 413,
         headers: { 'Content-Type': 'application/json' },

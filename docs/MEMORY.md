@@ -37,17 +37,17 @@ Função : Registrar decisões e progresso
 ```
 
 ```text
-▓▓▓ WEBHOOK Z-API — validado em PRODUCAO
+▓▓▓ WEBHOOK Z-API — PRODUCAO
 ────────────────────────────────────────
-└─ webhook.ts   Entrada oficial WhatsApp
-└─ zapi.ts      Envio isolado com timeout
-└─ bella.ts     Resposta isolada (Azure-ready)
-└─ health/zapi  Saude da integracao
-Fluxo: Z-API → Webhook → bella.ts → zapi.ts → db.ts
-
-└─ Numero       (novo numero Bella — a confirmar)
-                Conectado via Z-API com Bella Azure como
-                inteligencia de atendimento.
+└─ webhook.ts   Entrada — requer ZAPI_CLIENT_TOKEN
+└─ zapi.ts      Envio — normalizePhone + maskPhone
+└─ bella.ts     Azure OpenAI integrado
+                System prompt: bella.knowledge.md
+                Fallback se env Azure ausente
+└─ health/zapi  Saude — requer X-Health-Token (HEALTH_TOKEN)
+└─ db.ts        upsertLead + claimProbeltecSync + appendLeadEvent
+                appendLeadEvent persiste em lead_events (auto-create)
+Fluxo: Z-API → Webhook → bella.ts (Azure) → zapi.ts → db.ts → lead_events
 ```
 
 ```text
@@ -83,8 +83,7 @@ Base: https://embelleze-bella.online
 └─ Bella Azure  Inteligência principal
 ```
 
-> **Pendência critica**: Trocar senha exposta
-> da conta Probeltec apos conclusao dos testes.
+> Senha Probeltec trocada.
 
 ────────────────────────────────────────
 
@@ -146,10 +145,16 @@ Toda chamada visivel no frontend e superficie.
 ```text
 ▓▓▓ LAYER 4 — ENDPOINTS
 ────────────────────────────────────────
-└─ Autenticacao  Client-Token antes de processar.
-└─ Rate limit    Protecao contra abuso e enumeracao.
+└─ Autenticacao  Webhook: rejeita se ZAPI_CLIENT_TOKEN
+                 ausente OU header diferente.
+                 Condicao correta: !clientToken || header !== token.
+                 (bug anterior: clientToken && ... aceitava tudo
+                 quando a env nao estava definida)
+└─ Health        Requer X-Health-Token == HEALTH_TOKEN.
+                 Resposta minima — sem expor quais envs existem.
+└─ Rate limit    Protecao contra abuso — pendente.
 └─ Input         Validar todo payload de entrada.
-                 Nunca confiar no POST recebido.
+                 content-length validado como Number, nao string.
 └─ Idempotencia  Duplicatas sem efeito colateral.
 ```
 
@@ -185,6 +190,23 @@ Toda chamada visivel no frontend e superficie.
                     e cores oficiais (LocalImpact).
 └─ Vídeo Reel       Embed do Facebook flutuando
                     sobre imagem do curso (LocalImpact).
+└─ Webhook auth     if (clientToken && ...) nao protegia
+                    quando env nao estava definida.
+                    Corrigido: if (!clientToken || ...).
+└─ Health exposto   Endpoint publico expunha presenca
+                    de credenciais. Agora requer HEALTH_TOKEN.
+└─ content-length   Comparacao string vs numero quebrava
+                    protecao de payload. Corrigido: Number(...).
+└─ Lead sumindo     upsertLead retornava null silenciosamente.
+   silenciosamente  Sync Probeltec so ocorre se leadSaved=true.
+└─ Telefone         normalizePhone garante E.164 (55+DDD+numero).
+   malformado       maskPhone expoe apenas ultimos 4 digitos.
+└─ Bella mock       Integrada ao Azure OpenAI.
+   em producao      System prompt de bella.knowledge.md.
+└─ appendLeadEvent  Era stub (console.log). Agora INSERT real
+   sem persistencia em tabela lead_events (auto-create por processo).
+└─ isValidTicket    Regex /^BELLA-[0-9A-Z]+-[0-9A-Z]{3}$/
+   tickets forjados Valida formato real do generateTicket.
 ```
 
 ────────────────────────────────────────

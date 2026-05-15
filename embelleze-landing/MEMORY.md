@@ -26,15 +26,25 @@ Função : Decisões tomadas — não regredir
   aprovados pelo cliente.
 - Params UTM de `/oferta` são repassados
   para o link do WhatsApp.
-- Webhook MVP validado em PRODUÇÃO e criado em:
-  - `src/pages/api/zapi/webhook.ts`
-  - `src/lib/zapi.ts` (envio isolado)
-  - `src/lib/bella.ts` (resposta isolada)
-  - `src/pages/api/health/zapi.ts` (saúde)
-- Fluxo de dados: Z-API → Webhook → bella.ts
-  → zapi.ts → db.ts.
-- Integração Probeltec adiada até auth oficial
-  e payload real estarem mapeados.
+- Webhook validado em PRODUÇÃO:
+  - `src/pages/api/zapi/webhook.ts` — entrada Z-API
+  - `src/lib/zapi.ts` — envio com `normalizePhone` + `maskPhone`
+  - `src/lib/bella.ts` — Azure OpenAI (system prompt de `bella.knowledge.md`)
+  - `src/pages/api/health/zapi.ts` — requer `X-Health-Token`
+- Fluxo de dados: Z-API → Webhook → bella.ts (Azure)
+  → zapi.ts → db.ts → lead_events.
+- Probeltec implementado: `src/lib/probeltec.ts`
+  Auth + createLead. Sync atômico via `claimProbeltecSync`.
+  Sync só ocorre se `upsertLead` salvar com sucesso (leadSaved).
+- `appendLeadEvent` persiste em tabela `lead_events`
+  (criada automaticamente na primeira chamada por processo).
+- Segurança reforçada nesta sessão:
+  - Webhook rejeita quando `ZAPI_CLIENT_TOKEN` não está definido
+  - Health endpoint exige `HEALTH_TOKEN` via `X-Health-Token`
+  - `content-length` validado como número (não string)
+  - Telefone normalizado para E.164 antes de enviar pela Z-API
+  - Logs nunca expõem mais que os últimos 4 dígitos do telefone
+  - `isValidTicket` valida formato real `BELLA-{base36}-{3chars}`
 
 ────────────────────────────────────────
 

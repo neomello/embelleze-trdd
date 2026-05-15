@@ -130,15 +130,44 @@ export async function claimProbeltecSync(phone: string): Promise<boolean> {
   }
 }
 
-/**
- * Estrutura preparada para futura tabela de eventos.
- * Permite rastrear cada passo do lead sem poluir a tabela principal.
- */
+let leadEventsTableReady = false;
+
+async function ensureLeadEventsTable(client: pg.PoolClient): Promise<void> {
+  if (leadEventsTableReady) return;
+  await client.query(`
+    CREATE TABLE IF NOT EXISTS lead_events (
+      id          SERIAL PRIMARY KEY,
+      phone       TEXT NOT NULL,
+      event_type  TEXT NOT NULL,
+      metadata    JSONB,
+      created_at  TIMESTAMPTZ DEFAULT NOW()
+    )
+  `);
+  leadEventsTableReady = true;
+}
+
 export async function appendLeadEvent(
   phone: string,
   eventType: string,
   metadata: any = {},
-) {
-  // TODO: Implementar quando a tabela lead_events for criada
-  console.log(`[DB-EVENT] ${phone}: ${eventType}`, metadata);
+): Promise<void> {
+  const dbUrl = process.env.DATABASE_URL || import.meta.env.DATABASE_URL;
+  if (!dbUrl) return;
+
+  const cleanPhone = phone.replace(/\D/g, "");
+  if (!cleanPhone) return;
+
+  let client;
+  try {
+    client = await pool.connect();
+    await ensureLeadEventsTable(client);
+    await client.query(
+      `INSERT INTO lead_events (phone, event_type, metadata) VALUES ($1, $2, $3)`,
+      [cleanPhone, eventType, JSON.stringify(metadata)],
+    );
+  } catch (err) {
+    console.error(`[DB-EVENT] Erro ao registrar evento ${eventType}:`, err);
+  } finally {
+    if (client) client.release();
+  }
 }

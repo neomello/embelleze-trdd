@@ -4,7 +4,7 @@ import { LeadSchema } from '../../lib/schemas';
 
 export const POST: APIRoute = async ({ request }) => {
   try {
-    if ((request.headers.get('content-length') ?? '0') > '8192') {
+    if (Number(request.headers.get('content-length') ?? '0') > 8192) {
       return new Response(JSON.stringify({ error: 'Payload too large' }), {
         status: 413,
         headers: { 'Content-Type': 'application/json' },
