@@ -347,14 +347,29 @@ const countByCategory = Object.fromEntries(
     z-index: 2;
   }
 
-  /* Mobile: absoluto no canto superior direito — não interfere com o conteúdo do card */
+  /* ── Mobile: layout horizontal compacto ── */
   @media (max-width: 599px) {
+    /* Imagem: thumbnail fixo à esquerda */
+    .area-card__image-container {
+      width: 88px;
+      height: 88px;
+      flex-shrink: 0;
+      margin-bottom: 0;
+      border-radius: 12px;
+    }
+
+    /* Ícone escondido no mobile — imagem já comunica a categoria */
+    .area-card__icon {
+      display: none;
+    }
+
+    /* Count: absoluto canto superior direito */
     .area-card__count {
       position: absolute;
       top: 10px;
       right: 10px;
-      width: 38px;
-      height: 38px;
+      width: 44px;
+      height: 44px;
       padding: 0;
       justify-content: center;
       border-radius: 10px;
@@ -368,6 +383,15 @@ const countByCategory = Object.fromEntries(
     .area-card__count-label {
       font-size: 0.45rem;
       margin-top: -1px;
+    }
+
+    /* Body: garante que o nome não seja cortado pelo badge */
+    .area-card__body {
+      padding-right: 54px;
+    }
+
+    .area-card__name {
+      font-size: 1.05rem;
     }
   }
 
