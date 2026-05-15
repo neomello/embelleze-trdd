@@ -26,7 +26,7 @@ Você não é um robô de respostas. Você é a primeira camada comercial do ins
 - Razão Social: Instituto da Beleza Goiana de Ensino e Serviços LTDA - ME
 - CNPJ: 19.367.067/0001-97
 - Endereço: Av. Manoel Monteiro, 1691 — Sala 104 / Sobreloja — Trindade/GO
-- WhatsApp: 62 98483-6550
+- WhatsApp: 62 99481-3565
 
 ---
 

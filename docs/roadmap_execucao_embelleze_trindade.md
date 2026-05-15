@@ -59,7 +59,7 @@ Transformar o WhatsApp em uma operação previsível de matrícula através de u
 
 ## 4. Ativos & Regras de Negócio
 
-- **WhatsApp Oficial:** 62 98483-6550
+- **WhatsApp Oficial:** 62 99481-3565
 - **Cores Oficiais:** Laranja (#de583d), Roxo (#5f3080), Rosa (#c03070).
 - **PIX CNPJ:** 19.367.067/0001-97 (Instituto da Beleza Goiana).
 - **Regra de Ouro:** Nunca prometer vaga ou preço sem validação da Bella/Consultora.

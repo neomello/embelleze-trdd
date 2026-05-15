@@ -1,6 +1,5 @@
 ---
 import { Image } from 'astro:assets';
-import bellaPhoto from '../assets/bella/bela_transp.webp';
 import symbol from '../../public/brand/e2.png';
 ---
 
@@ -14,7 +13,7 @@ import symbol from '../../public/brand/e2.png';
 
   <!-- Foto da Bella -->
   <div class="hero__photo" aria-hidden="true">
-    <Image src={bellaPhoto} alt="Bella — Consultora Embelleze" width={600} height={800} loading="eager" />
+    <Image src="/bella/bella-2.png" alt="Bella — Consultora Embelleze" width={600} height={800} loading="eager" />
   </div>
 
   <!-- UI — Copy e Botões -->
@@ -186,14 +185,15 @@ import symbol from '../../public/brand/e2.png';
     font-size: .875rem;
     letter-spacing: 0.02em;
     box-shadow: 
-      0 10px 30px rgba(0,0,0,0.2),
+      0 10px 30px rgba(222, 88, 61, 0.2),
       inset 0 0 10px rgba(255,255,255,0.1);
-    transition: background 0.3s, border-color 0.3s, transform 0.2s;
+    transition: background 0.3s, border-color 0.3s, transform 0.2s, box-shadow 0.3s;
   }
   .hero__link:hover {
     background: rgba(255, 255, 255, 0.15);
     border-color: rgba(255, 255, 255, 0.3);
     transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(222, 88, 61, 0.4);
   }
 
   /* ── Animations ── */

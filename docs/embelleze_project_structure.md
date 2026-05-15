@@ -9,7 +9,7 @@ Embelleze/Users/nettomello/CODIGOS/projects/embelleze-trdd/
 
 ---
 
-# 1. Estrutura Recomendada
+## 1. Estrutura Recomendada
 
 ```txt
 embelleze-trdd/
@@ -117,7 +117,7 @@ embelleze-trdd/
 
 ---
 
-# 2. Regra Central da Home
+## 2. Regra Central da Home
 
 `src/pages/index.astro` deve ser apenas o orquestrador das seções.
 
@@ -158,7 +158,7 @@ import WhatsAppFloat from '../sections/WhatsAppFloat.astro';
 
 ---
 
-# 3. Responsabilidade de Cada Seção
+## 3. Responsabilidade de Cada Seção
 
 ## `Hero.astro`
 
@@ -400,7 +400,7 @@ Abrir WhatsApp com contexto.
 
 ---
 
-# 4. Páginas Auxiliares
+## 4. Páginas Auxiliares
 
 ## `/mapa`
 
@@ -471,7 +471,7 @@ Disparar evento de conversão.
 
 ---
 
-# 5. Arquivos de Dados
+## 5. Arquivos de Dados
 
 ## `src/content/courses.json`
 
@@ -527,7 +527,7 @@ Endereço
 
 ---
 
-# 6. Tokens Visuais
+## 6. Tokens Visuais
 
 Arquivo:
 
@@ -552,7 +552,7 @@ src/styles/tokens.css
 
 ---
 
-# 7. WhatsApp
+## 7. WhatsApp
 
 Arquivo:
 
@@ -571,7 +571,7 @@ Adicionar contexto por curso, ticket e origem.
 Número oficial:
 
 ```txt
-5562984836550
+5562994813565
 ```
 
 Formato de mensagem:
@@ -582,7 +582,7 @@ Oi Bella, vim pela página e quero saber sobre [curso]. Meu código é [ticket].
 
 ---
 
-# 8. Tracking
+## 8. Tracking
 
 Arquivo:
 
@@ -604,7 +604,7 @@ COMPLETE_FUTURE_SIMULATOR
 
 ---
 
-# 9. Arquivos de Agente
+## 9. Arquivos de Agente
 
 A estrutura deve considerar que agentes leem primeiro arquivos de instrução no root e no projeto.
 
@@ -627,7 +627,7 @@ A estrutura deve considerar que agentes leem primeiro arquivos de instrução no
 
 ---
 
-# 10. `AGENTS.md` — Root
+## 10. `AGENTS.md` — Root
 
 Função:
 
@@ -668,7 +668,7 @@ Antes de qualquer alteração:
 
 ---
 
-# 11. `CONTEXT.md` — Root
+## 11. `CONTEXT.md` — Root
 
 Função:
 
@@ -698,7 +698,7 @@ Construir uma operação digital de captação, qualificação e conversão de a
 ## Canais
 
 - Landing page
-- WhatsApp oficial: 62 98483-6550
+- WhatsApp oficial: 62 99481-3565
 - Bella — agente SDR/Atendimento
 - Meta Ads
 - Google Ads
@@ -710,7 +710,7 @@ Não vender apenas curso. Vender transformação prática, renda e nova oportuni
 
 ---
 
-# 12. `SKILL.md` — Root
+## 12. `SKILL.md` — Root
 
 Função:
 
@@ -748,7 +748,7 @@ Use este arquivo quando precisar decidir como agir neste workspace.
 
 ---
 
-# 13. `MEMORY.md` — Root
+## 13. `MEMORY.md` — Root
 
 Função:
 
@@ -765,10 +765,10 @@ Conteúdo mínimo:
 
 - Bella é a agente SDR/Atendimento.
 - Cores oficiais: laranja #de583d, roxo #5f3080, branco #ffffff.
-- WhatsApp oficial: 62 98483-6550.
+- WhatsApp oficial: 62 99481-3565.
 - Landing usa Astro.
 - Deploy previsto em Railway.
-- Domínio previsto: bellaembelleze.chat.
+- Domínio previsto: embelleze-bella.online.
 - CRM será baseado em PostgreSQL no Railway.
 - Redis no Railway será usado futuramente para memória latente.
 - A home deve ser composta por seções separadas.
@@ -780,7 +780,7 @@ A landing não é institucional. Ela é uma máquina de conversão para WhatsApp
 
 ---
 
-# 14. `.cursorrules` — Root
+## 14. `.cursorrules` — Root
 
 ```txt
 You are operating inside the Embelleze Trindade workspace.
@@ -805,7 +805,7 @@ Rules:
 
 ---
 
-# 15. `.codex` — Root
+## 15. `.codex` — Root
 
 ```txt
 Project: Embelleze Trindade Digital Conversion System
@@ -842,7 +842,7 @@ Business rules:
 
 ---
 
-# 16. Arquivos de Agente Dentro da Landing
+## 16. Arquivos de Agente Dentro da Landing
 
 Dentro de:
 
@@ -987,7 +987,7 @@ Never:
 App: Embelleze Landing
 Framework: Astro
 Deploy: Railway
-Domain: bellaembelleze.chat
+Domain: embelleze-bella.online
 
 Primary objective:
 Convert visitors into qualified WhatsApp conversations with Bella.
@@ -1016,7 +1016,7 @@ Implementation constraints:
 
 ---
 
-# 17. README Inicial
+## 17. README Inicial
 
 ```md
 # Embelleze Landing
@@ -1043,7 +1043,7 @@ npm run build
 
 ---
 
-# 18. Ordem de Implementação
+## 18. Ordem de Implementação
 
 ```txt
 1. Criar projeto Astro em embelleze-landing
@@ -1070,7 +1070,7 @@ npm run build
 
 ---
 
-# 19. Critério de Pronto
+## 19. Critério de Pronto
 
 A landing só está pronta quando:
 
@@ -1084,4 +1084,3 @@ Mapa/rota está acessível
 Tracking mínimo está preparado
 Nenhum dado não validado foi inventado
 ```
-

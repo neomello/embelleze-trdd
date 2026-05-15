@@ -144,7 +144,7 @@ npm run build
 ┃ AMBIENTE      DOMÍNIO
 ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ┃ Provisório    embelleze-trindade.flowoff.xyz
-┃ Produção      bellaembelleze.chat (pendente DNS)
+┃ Produção      embelleze-bella.online
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 

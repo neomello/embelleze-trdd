@@ -14,7 +14,7 @@
 ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ┃ Provisório   embelleze-trindade    ativo
 ┃              .flowoff.xyz
-┃ Produção     bellaembelleze.chat   pendente DNS
+┃ Produção     embelleze-bella.online ativo
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 

@@ -1,4 +1,5 @@
 <!-- markdownlint-disable MD003 MD007 MD013 MD022 MD023 MD025 MD029 MD032 MD033 MD034 -->
+# embelleze-landing
 
 ```text
 ========================================
@@ -27,8 +28,8 @@ condução para matrícula.
 ┃ CLIENTE       Instituto Embelleze Trindade
 ┃ CNPJ          19.367.067/0001-97
 ┃ CIDADE        Trindade/GO
-┃ WHATSAPP      62 98483-6550
-┃ DOMÍNIO       bellaembelleze.chat
+┃ WHATSAPP      62 994813565
+┃ DOMÍNIO       embelleze-bella.online
 ┃ DEPLOY        Railway
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```

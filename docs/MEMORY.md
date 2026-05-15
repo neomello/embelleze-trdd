@@ -179,6 +179,12 @@ Toda chamada visivel no frontend e superficie.
 └─ ALTER TABLE      Removido do hot path do webhook.
 └─ fromMe bug       fromMe || true substituido por
                     fromMe !== undefined ? fromMe : true
+└─ Erro 400 API     LocationIntentSchema aceita null
+   Localização      em neighborhood e salva geo.
+└─ Selos de Vidro   Estilo 'Trust Badge' com vidro
+                    e cores oficiais (LocalImpact).
+└─ Vídeo Reel       Embed do Facebook flutuando
+                    sobre imagem do curso (LocalImpact).
 ```
 
 ────────────────────────────────────────

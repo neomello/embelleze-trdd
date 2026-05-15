@@ -20,7 +20,7 @@ Escopo : Workspace root
 ┃ CNPJ       19.367.067/0001-97
 ┃ ENDERECO   Av. Manoel Monteiro, 1691
 ┃            Trindade/GO
-┃ WHATSAPP   62 98483-6550
+┃ WHATSAPP   62 99481-3565
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -41,9 +41,9 @@ prontos para fechar matricula via WhatsApp.
 ▓▓▓ CANAIS ATIVOS
 ────────────────────────────────────────
 └─ Landing      https://embelleze-bella.online/
-└─ WhatsApp     62 98483-6550 (oficial da unidade)
+└─ WhatsApp     62 99481-3565 (oficial da unidade)
 └─ Bella        Agente SDR via Azure OpenAI
-                Numero novo exclusivo — a confirmar
+                Numero novo exclusivo: 62 99481-3565
 └─ Google Ads   AW-18004058795
 └─ Meta Ads     Pixel a confirmar
 ```

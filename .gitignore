@@ -1,4 +1,6 @@
 # Monorepo isolation
+
+.cursorrules
 apps/bella-pwa
 node_modules
 dist
@@ -16,6 +18,3 @@ yarn-error.log*
 .playwright-mcp
 .playwright-report
 recon/
-
-embelleze-landing/docs/*
-!docs/manifest.yaml

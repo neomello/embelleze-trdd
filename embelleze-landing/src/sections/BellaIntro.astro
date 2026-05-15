@@ -246,4 +246,32 @@ const ctaLink = getWhatsAppLink({ origin: 'bella-intro' });
     .bella__title { justify-content: center; }
     .bella__btn { width: 100%; justify-content: center; }
   }
+
+  /* ── Efeitos de Entrada Suaves ── */
+  .bella__visual, .bella__content {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .bella__visual.visible, .bella__content.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Delay leve para o conteúdo para dar efeito cascata */
+  .bella__content.visible { transition-delay: 0.2s; }
 </style>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.bella__visual, .bella__content').forEach(el => observer.observe(el));
+</script>

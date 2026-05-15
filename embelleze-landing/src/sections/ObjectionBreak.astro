@@ -26,7 +26,7 @@ const faqCtaLink = getWhatsAppLink({ origin: 'faq' });
           <span class="chat-header__status-dot" aria-hidden="true"></span>
         </div>
         <div class="chat-header__info">
-          <span class="chat-header__name">Consultora — Instituto Embelleze</span>
+          <span class="chat-header__name">Bella — Instituto Embelleze</span>
           <span class="chat-header__status">Online agora</span>
         </div>
         <div class="chat-header__icons" aria-hidden="true">
@@ -87,11 +87,11 @@ const faqCtaLink = getWhatsAppLink({ origin: 'faq' });
 
       </div>
 
-      <!-- Input decorativo (não funcional) -->
+      <!-- Input decorativo (agora leva para o WhatsApp) -->
       <div class="chat-input-bar">
-        <div class="chat-input-fake">
+        <a href={faqCtaLink} target="_blank" rel="noopener" class="chat-input-fake">
           <span>Envie uma mensagem...</span>
-        </div>
+        </a>
         <a
           href={faqCtaLink}
           class="chat-send-btn"
@@ -451,6 +451,7 @@ const faqCtaLink = getWhatsAppLink({ origin: 'faq' });
     font-size: 0.875rem;
     color: rgba(255,255,255,0.25);
     cursor: pointer;
+    text-decoration: none;
   }
 
   .chat-send-btn {

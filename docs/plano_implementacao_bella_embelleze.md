@@ -60,7 +60,7 @@ Relatórios e otimização
 ```txt
 Framework: Astro
 Hospedagem: Railway
-Domínio previsto: bellaembelleze.chat
+Domínio previsto: embelleze-bella.online
 Workspace: /Users/nettomello/CODIGOS/projects/embelleze-trdd/
 Projeto landing: /Users/nettomello/CODIGOS/projects/embelleze-trdd/embelleze-landing
 ```
@@ -133,8 +133,8 @@ Branco: #ffffff
 > **WhatsApp**
 
 ```txt
-Número oficial atual: 62 98483-6550
-Número novo Bella: a confirmar após ativação do chip
+Número oficial atual: 62 99481-3565
+Número novo Bella: 62 99481-3565
 ```
 
 > Empresa
@@ -1103,7 +1103,7 @@ WhatsApp deve continuar funcionando.
 2. Definir endpoint do webhook da Z-API.
 3. Confirmar se Bella Azure já tem endpoint HTTP pronto.
 4. Confirmar se Postgres Railway já foi criado.
-5. Confirmar domínio bellaembelleze.chat.
+5. Confirmar domínio embelleze-bella.online.
 6. Confirmar quais seções da landing já foram implementadas.
 7. Confirmar se courses.json já está no projeto.
 8. Decidir se ManyChat entra agora para Instagram/campanhas/handoff ou fica para fase seguinte.
