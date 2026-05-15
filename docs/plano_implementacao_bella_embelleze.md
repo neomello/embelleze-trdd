@@ -7,6 +7,62 @@ Objetivo: colocar a operação comercial no ar com landing, WhatsApp, banco de d
 
 ---
 
+## QUADRO EXECUTIVO — STATUS REAL (2026-05-15)
+
+### ✅ Concluído
+
+```txt
+FASE 0 — Recon técnico do ecossistema Embelleze concluída
+FASE 1 — Landing e infra estável
+FASE 2 — Bella SDR / WhatsApp integrado
+
+Landing pública no ar: https://embelleze-bella.online/
+Railway + Docker + pnpm v10 corrigidos e travados
+PORT=8080 / NODE_ENV=production corrigidos
+Cloudflare Full Strict SSL + DNSSEC ativo
+Google Ads GTAG AW-18004058795 operacional
+Google Ads conversão ativa: AW-18004058795/SmrtCJXE7q0cEKvFgIlD (Bella - Lead - Formulário)
+UTM first-touch: URL → sessionStorage → Postgres (4 colunas)
+Postgres operacional com upsertLead + lead_events
+Redis erro handler corrigido (crash loop eliminado)
+pool.on('error') Postgres corrigido (crash loop eliminado)
+Probeltec sync atômico implementado e aprovado
+Webhook Z-API implementado e validado em produção
+Webhook URL configurada no painel Z-API
+ZAPI_CLIENT_TOKEN renovado e atualizado no Railway
+Health endpoint /api/health operacional
+Bella mock respondendo
+AcademyTeaser mobile corrigido
+ObjectionBreak: avatar Bella + sons iOS reais
+Senha Probeltec trocada
+```
+
+### 🟡 Pendente — por prioridade
+
+```txt
+🔴 AGORA   Conectar número Bella ao Z-API via QR Code  ← GARGALO
+🔴 AGORA   Teste real: WhatsApp → Bella → resposta
+🔴 AGORA   Validar lead real chegando no Probeltec via conversa real
+🟡 SEMANA  bella.knowledge.md completo
+🟡 SEMANA  Bella Azure no lugar do mock
+🟡 SEMANA  Handoff humano definido com a vendedora
+🟠 DEPOIS  Meta Pixel (aguardando resolução conta Meta)
+🟠 DEPOIS  SEO /cursos/[slug].astro
+🟠 DEPOIS  Rate limiting + headers HTTP (CSP, HSTS)
+⚪ FUTURO  Dashboard leads (Metabase)
+⚪ FUTURO  ManyChat para Instagram / handoff visual
+```
+
+### STATUS GERAL
+
+```txt
+Infraestrutura core:       100% concluída
+Tracking e atribuição:      95% (falta Meta Pixel)
+Bella operacional real:     pendente — número vivo + Azure
+```
+
+---
+
 ## 0. Princípio da Implementação
 
 A operação deve seguir esta lógica:

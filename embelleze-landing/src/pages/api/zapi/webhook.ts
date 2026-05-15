@@ -34,7 +34,7 @@ export const POST: APIRoute = async ({ request }) => {
     const phone = rawPayload.phone || rawPayload.chatId?.replace("@c.us", "");
     const message = rawPayload.text?.message || rawPayload.text || "";
     const senderName = rawPayload.senderName || "Cliente";
-    const fromMe = rawPayload.fromMe !== undefined ? rawPayload.fromMe : true;
+    const fromMe = rawPayload.fromMe !== undefined ? rawPayload.fromMe : false;
 
     const maskedPhone = phone ? maskPhone(phone) : "N/A";
     console.log(`[ZAPI Webhook] Mensagem recebida de ${maskedPhone}`);
@@ -90,22 +90,19 @@ export const POST: APIRoute = async ({ request }) => {
       }
     }
 
-    const replyMessage = await generateBellaReply(rawPayload);
-
-    // 2. Usar src/lib/zapi.ts para envio
-    // Regra: Se Bella falhar, responder fallback humano
+    // 2. Gerar resposta da Bella e enviar — fallback humano se qualquer etapa falhar
     try {
+      const replyMessage = await generateBellaReply(rawPayload);
       await sendTextMessage(phone, replyMessage);
-    } catch (sendError) {
-      console.error("[ZAPI Webhook] Erro ao enviar mensagem:", sendError);
+    } catch (bellaOrSendError) {
+      console.error("[ZAPI Webhook] Erro ao gerar/enviar resposta Bella:", bellaOrSendError);
 
-      // Fallback humano
+      // Fallback humano — dispara tanto em falha Azure quanto em falha de envio
       const fallbackMessage = `Olá ${senderName}! Tivemos um probleminha técnico em nosso sistema de IA, mas um de nossos consultores humanos já vai te atender.`;
-
       try {
         await sendTextMessage(phone, fallbackMessage);
       } catch (fallbackError) {
-        console.error("[ZAPI Webhook] Erro no fallback:", fallbackError);
+        console.error("[ZAPI Webhook] Erro no fallback humano:", fallbackError);
       }
     }
 
