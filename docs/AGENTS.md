@@ -51,6 +51,14 @@ Leia nesta ordem para obter contexto total:
 
 ────────────────────────────────────────
 
+## ⧉ Estrutura de Documentação
+
+Para evitar confusão, note que existem duas pastas de documentação:
+- `docs/` (esta pasta): Guarda o contexto de **negócio**, regras de IAs e planejamento estratégico global.
+- `embelleze-landing/docs/`: Guarda a documentação **técnica** e operacional específica da Landing Page (como deploy e tráfego pago).
+
+────────────────────────────────────────
+
 ## ⍟ Regras Inegociáveis
 
 - **Não alterar arquivos fora do escopo solicitado.**
