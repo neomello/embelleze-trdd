@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { generateBellaReply } from "../../../lib/bella";
-import { upsertLead } from "../../../lib/db";
+import { claimProbeltecSync, upsertLead } from "../../../lib/db";
+import { createLead } from "../../../lib/probeltec";
 import { sendTextMessage } from "../../../lib/zapi";
 
 export const POST: APIRoute = async ({ request }) => {
@@ -56,7 +57,7 @@ export const POST: APIRoute = async ({ request }) => {
           name: senderName,
           last_message: message,
           status: "NOVO",
-          origin: "whatsapp_zapi", // 6. adicionar campos se necessário
+          origin: "whatsapp_zapi",
         });
       }
     } catch (dbError) {
@@ -64,6 +65,26 @@ export const POST: APIRoute = async ({ request }) => {
         "[ZAPI Webhook] Erro ao salvar no DB (Silenciado):",
         dbError,
       );
+    }
+
+    // 5b. Sync com Probeltec CRM — só quando temos telefone e nome real.
+    // "Cliente" é o fallback de senderName ausente; sem nome real não criamos.
+    // claimProbeltecSync() é atômico: ganha o slot ou devolve false se já sincronizado.
+    const hasRealName = senderName && senderName !== "Cliente";
+    if (phone && hasRealName) {
+      try {
+        const claimed = await claimProbeltecSync(phone);
+        if (claimed) {
+          await createLead({ name: senderName, phone });
+          console.log(`[Probeltec] Lead criado no CRM: ${maskedPhone}`);
+        }
+      } catch (crmError) {
+        // Probeltec falhou — conversa continua normalmente
+        console.error(
+          "[Probeltec] Erro ao sincronizar lead (Silenciado):",
+          (crmError as Error).message,
+        );
+      }
     }
 
     // 4. Bella mock (agora extraída)

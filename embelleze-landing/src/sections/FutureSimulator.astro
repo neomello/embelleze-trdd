@@ -143,6 +143,30 @@ const simCtaLink = getWhatsAppLink({ origin: 'simulator' });
 
   track({ event: Events.START_FUTURE_SIMULATOR });
 
+  // Animação de contorno em onda (uma vez por user)
+  function setupGlowAnimation() {
+    const hasAnimated = localStorage.getItem('quiz_glow_animated');
+    if (!hasAnimated) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-glow');
+            localStorage.setItem('quiz_glow_animated', 'true');
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.1 }); // 10% visível já dispara
+      
+      const card = document.querySelector('.simulator__card');
+      if (card) observer.observe(card);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', setupGlowAnimation);
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    setupGlowAnimation();
+  }
+
   function render() {
     const step = steps[current];
     progressBar.style.width = `${((current) / steps.length) * 100}%`;
@@ -359,7 +383,6 @@ const simCtaLink = getWhatsAppLink({ origin: 'simulator' });
     padding: 2.5rem 2rem;
     box-shadow: 0 40px 100px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
     position: relative;
-    overflow: hidden;
     /* Borda gradiente via outline */
     outline: 1.5px solid transparent;
     background-clip: padding-box;
@@ -373,6 +396,45 @@ const simCtaLink = getWhatsAppLink({ origin: 'simulator' });
     border-radius: 33px;
     background: linear-gradient(135deg, rgba(167,139,250,0.4), rgba(222,88,61,0.2), rgba(167,139,250,0.1));
     z-index: -1;
+  }
+
+  /* Efeito de passada com brilho (Gamificação) */
+  .simulator__card.animate-glow::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 32px;
+    background: linear-gradient(
+      110deg,
+      transparent 30%,
+      rgba(0, 243, 255, 0.3) 45%,
+      rgba(0, 243, 255, 0.6) 50%,
+      rgba(0, 243, 255, 0.3) 55%,
+      transparent 70%
+    );
+    background-size: 250% 100%;
+    background-position: 200% 0;
+    opacity: 0;
+    z-index: 10;
+    pointer-events: none;
+    animation: sweep-glow 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  @keyframes sweep-glow {
+    0% {
+      background-position: 200% 0;
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      background-position: -100% 0;
+      opacity: 0;
+    }
   }
 
   /* ── Progress ── */

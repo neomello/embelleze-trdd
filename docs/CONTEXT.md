@@ -8,15 +8,17 @@ Escopo : Workspace root
 ========================================
 ```
 
+────────────────────────────────────────
+
 ## ⟠ Cliente
 
 ```text
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ┃ NOME       Instituto Embelleze Trindade
-┃ RAZÃO      Instituto da Beleza Goiana de
-┃            Ensino e Serviços LTDA - ME
+┃ RAZAO      Instituto da Beleza Goiana de
+┃            Ensino e Servicos LTDA - ME
 ┃ CNPJ       19.367.067/0001-97
-┃ ENDEREÇO   Av. Manoel Monteiro, 1691
+┃ ENDERECO   Av. Manoel Monteiro, 1691
 ┃            Trindade/GO
 ┃ WHATSAPP   62 98483-6550
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -26,38 +28,98 @@ Escopo : Workspace root
 
 ## ⨷ Objetivo
 
-Construir uma operação digital de captação, qualificação e conversão de alunos para cursos profissionalizantes na área da beleza. O foco é transformar cliques em leads qualificados que chegam ao WhatsApp prontos para fechar matrícula.
+Construir operacao digital de captacao, qualificacao
+e conversao de alunos para cursos profissionalizantes.
+Transformar cliques em leads qualificados
+prontos para fechar matricula via WhatsApp.
 
 ────────────────────────────────────────
 
-## ⧉ Canais Ativos
+## ⧉ Canais
 
 ```text
 ▓▓▓ CANAIS ATIVOS
 ────────────────────────────────────────
-└─ Landing page: https://embelleze-bella.online/
-└─ WhatsApp oficial: 62 98483-6550
-└─ Bella — agente SDR/Atendimento virtual
-└─ Google Ads (AW-18004058795)
-└─ Meta Ads (Pixel a confirmar)
+└─ Landing      https://embelleze-bella.online/
+└─ WhatsApp     62 98483-6550 (oficial da unidade)
+└─ Bella        Agente SDR via Azure OpenAI
+                Numero novo exclusivo — a confirmar
+└─ Google Ads   AW-18004058795
+└─ Meta Ads     Pixel a confirmar
 ```
 
 ────────────────────────────────────────
 
 ## ⍟ Posicionamento
 
-Não vender apenas curso. Vender transformação prática, renda rápida e uma nova oportunidade de vida. A linguagem deve ser acolhedora, profissional e orientada à ação (Mobile-First).
+Nao vender apenas curso.
+Vender transformacao pratica, renda rapida
+e nova oportunidade de vida.
+Linguagem acolhedora, profissional, Mobile-First.
 
 ────────────────────────────────────────
 
-## ▓ Status da Operação
+## ◬ Status da Operacao
 
-- **Fase 1 (Landing & Infra)**: ✅ Estável.
-  - Landing em Astro com alta performance.
-  - Tracking de Google Ads (GTAG) operacional.
-  - Mobile-first UX com filtros de cursos dinâmicos.
-  - Infra Railway (pnpm v10 + Docker) corrigida e travada.
-- **Fase 2 (Bella SDR)**: 🚀 MVP Concluído / Em andamento.
-  - Webhook da Z-API operacional e validado em produção.
-  - Leads sendo salvos/atualizados no Postgres.
-  - Respostas da Bella isoladas em `src/lib/bella.ts`.
+```text
+▓▓▓ FASE 0 — RECON TECNICO
+STATUS: CONCLUIDO
+────────────────────────────────────────
+└─ Backoffice/CRM Probeltec identificado.
+└─ Auth validada via POST /v1/login.
+└─ Lead criado via POST /api/v1/lead/new (HTTP 201).
+└─ Arquitetura documentada. Canvas atualizado.
+```
+
+```text
+▓▓▓ FASE 1 — LANDING E INFRA
+STATUS: ESTAVEL
+────────────────────────────────────────
+└─ Landing Astro com alta performance.
+└─ Google Ads GTAG AW-18004058795 operacional.
+└─ Mobile-first UX, filtros de cursos dinamicos.
+└─ Railway pnpm v10 + Docker corrigido e travado.
+```
+
+```text
+▓▓▓ FASE 2 — BELLA SDR / WHATSAPP
+STATUS: MVP CONCLUIDO / EM ANDAMENTO
+────────────────────────────────────────
+└─ Webhook Z-API validado em producao.
+└─ Leads salvos/atualizados no Postgres.
+└─ Respostas isoladas em src/lib/bella.ts.
+└─ ProbeltecService implementado e aprovado.
+└─ Idempotencia via claim atomico no Postgres.
+```
+
+```text
+▓▓▓ FASE 3 — BELLA AZURE + CRM REAL
+STATUS: PENDENTE
+────────────────────────────────────────
+└─ Conectar numero novo Bella ao Z-API via QR Code.
+└─ Configurar webhook no painel Z-API apontando para
+   https://embelleze-bella.online/api/zapi/webhook
+└─ Plugar Bella Azure no lugar do mock.
+└─ Validar lead real no Probeltec via conversa real.
+└─ Criar bella.knowledge.md completo.
+└─ Definir handoff humano operacional.
+└─ Fase 0.5: mapear rotina comercial da unidade.
+```
+
+```text
+▓▓▓ FASE SEGURANCA — CONTINUA
+STATUS: EM ANDAMENTO
+────────────────────────────────────────
+[OK] Webhook protegido por Client-Token.
+[OK] JWT Probeltec somente via env.
+[OK] Logs sem senha, token ou telefone completo.
+[OK] recon/ no .gitignore.
+[OK] Falhas nao expõem internals na resposta.
+[!!] Trocar senha exposta Probeltec — URGENTE.
+[ ] Rate limiting no /api/zapi/webhook.
+[ ] Auditar envs sensiveis no codigo-fonte.
+[ ] Least privilege no usuario Postgres.
+[ ] Headers HTTP: CSP, HSTS, X-Frame-Options.
+```
+
+────────────────────────────────────────

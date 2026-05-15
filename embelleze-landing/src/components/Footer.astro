@@ -39,7 +39,8 @@ import { WHATSAPP_NUMBER, WHATSAPP_DISPLAY, INSTITUTE_ADDRESS } from '../lib/con
     </div>
 
     <div class="footer__bottom">
-      <p>&copy; {new Date().getFullYear()} Instituto Embelleze Trindade. Todos os direitos reservados.</p>
+      <p>&copy; {new Date().getFullYear()} Instituto Embelleze Trindade - GO. Todos os direitos reservados.</p>
+      <p class="footer__dev">Desenvolvido por <a href="https://www.instagram.com/neoflowoff.eth/" target="_blank" rel="noopener noreferrer">NΞØ FlowOFF</a></p>
       <div class="footer__legal">
         <a href="/privacidade">Privacidade</a>
         <a href="/termos">Termos</a>
@@ -151,6 +152,16 @@ import { WHATSAPP_NUMBER, WHATSAPP_DISPLAY, INSTITUTE_ADDRESS } from '../lib/con
   .footer__legal a {
     color: inherit;
     text-decoration: none;
+  }
+
+  .footer__dev a {
+    color: inherit;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .footer__dev a:hover {
+    color: var(--color-orange);
   }
 
   @media (max-width: 768px) {

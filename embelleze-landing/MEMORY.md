@@ -20,6 +20,7 @@ Função : Decisões tomadas — não regredir
   via `src/content/offers.json`.
 - Ticket/código de desconto é mecânica
   de conversão, não desconto real.
+- O componente `DiscountTicket` foi comentado por decisão do arquiteto, pois não há ação de marketing ativa no momento. A seção foi mantida modular para ser ativada/desativada conforme a necessidade de campanhas.
 - Mapa é página separada em `/mapa`.
 - Prova social usa apenas materiais
   aprovados pelo cliente.

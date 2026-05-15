@@ -81,6 +81,55 @@ export async function upsertLead(data: LeadData) {
   }
 }
 
+// Evita ALTER TABLE no hot path — executado uma única vez por processo
+let probeltecColumnReady = false;
+
+async function ensureProbeltecColumn(client: pg.PoolClient): Promise<void> {
+  if (probeltecColumnReady) return;
+  await client.query(
+    `ALTER TABLE leads ADD COLUMN IF NOT EXISTS probeltec_synced_at TIMESTAMPTZ`,
+  );
+  probeltecColumnReady = true;
+}
+
+/**
+ * Operação atômica: tenta reservar o slot de sync para o telefone dado.
+ * Retorna true se esta chamada ganhou o slot (deve criar no CRM).
+ * Retorna false se já estava sincronizado (outra instância ou chamada anterior).
+ *
+ * UPDATE ... WHERE probeltec_synced_at IS NULL é atômico no Postgres —
+ * elimina race condition entre múltiplas instâncias do app.
+ */
+export async function claimProbeltecSync(phone: string): Promise<boolean> {
+  const dbUrl = process.env.DATABASE_URL || import.meta.env.DATABASE_URL;
+  if (!dbUrl) return false;
+
+  const cleanPhone = phone.replace(/\D/g, "");
+  if (!cleanPhone) return false;
+
+  let client;
+  try {
+    client = await pool.connect();
+    await ensureProbeltecColumn(client);
+
+    const res = await client.query(
+      `UPDATE leads
+       SET probeltec_synced_at = NOW()
+       WHERE phone = $1 AND probeltec_synced_at IS NULL
+       RETURNING phone`,
+      [cleanPhone],
+    );
+
+    // rowCount > 0 → esta chamada ganhou o slot, deve criar no CRM
+    return (res.rowCount ?? 0) > 0;
+  } catch (err) {
+    console.error("[DB] Erro ao reservar sync Probeltec:", err);
+    return false;
+  } finally {
+    if (client) client.release();
+  }
+}
+
 /**
  * Estrutura preparada para futura tabela de eventos.
  * Permite rastrear cada passo do lead sem poluir a tabela principal.

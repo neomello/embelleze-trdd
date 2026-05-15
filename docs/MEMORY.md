@@ -1,6 +1,6 @@
 <!-- markdownlint-disable MD003 MD007 MD013 MD022 MD023 MD025 MD029 MD032 MD033 MD034 -->
 
-# MEMORY.md
+# MEMORY
 
 ```text
 ========================================
@@ -11,30 +11,193 @@ Função : Registrar decisões e progresso
 ========================================
 ```
 
-## ⟠ Decisões Fixas de Design & UX
+────────────────────────────────────────
 
-- **Identidade**: Cores institucionais (Laranja `#de583d`, Roxo `#5f3080`).
-- **Navegação Home**: Filtros horizontais no mobile para categorias de cursos.
-- **CTAs**: Tom consultivo ("Adicionar na minha lista", "Falar com Bella").
-- **Acessibilidade**: Logos com proporção travada para evitar distorção horizontal.
+## ⟠ Design & UX
 
-## ⟠ Arquitetura Técnica (Atualizada)
+- **Identidade**: Laranja `#de583d`, Roxo `#5f3080`.
+- **Navegação Home**: Filtros horizontais no mobile.
+- **CTAs**: Tom consultivo.
+  "Adicionar na minha lista", "Falar com Bella".
+- **Acessibilidade**: Logos com proporção travada.
+  Usar `width: auto` onde `height` for fixa.
 
-- **Deploy**: Railway via Dockerfile (Build customizado).
-- **PNPM**: Travado na v10.33.3 para compatibilidade com comandos de deploy do workspace.
-- **Performance**: Migração total para `astro:assets` concluída.
-- **Tracking**: Google Ads Tag (AW-18004058795) hardcoded no `TrackingPixel.astro` para evitar falhas de variáveis de ambiente no build do Railway.
-- **Webhook Z-API**: MVP validado em PRODUÇÃO.
-  - Arquivos: `webhook.ts`, `zapi.ts`, `bella.ts`, `health/zapi.ts`.
-  - Fluxo: Z-API → Webhook → bella.ts → zapi.ts → db.ts.
-- **Probeltec**: Integração adiada até auth oficial e payload real estarem mapeados.
+────────────────────────────────────────
 
-## ⟠ Histórico de Problemas Resolvidos (Gotchas)
+## ⟠ Arquitetura Técnica
 
-- **Erro Build Railway**: Resolvido configurando `only-built-dependencies` no `.npmrc` para autorizar o `sharp`.
-- **Logo Esticado**: Corrigido usando `width: auto` nas classes globais de logo.
-- **Header Duplicado**: Removido redundâncias em páginas internas que chamavam o Header manualmente em vez de usar o Layout.
+```text
+▓▓▓ INFRA
+────────────────────────────────────────
+└─ Deploy       Railway via Dockerfile
+└─ PNPM         Travado em v10.33.3
+└─ Assets       astro:assets (migração concluída)
+└─ Tracking     GTAG AW-18004058795
+                hardcoded em TrackingPixel.astro
+```
 
-## ⍟ Princípio Guia
-"Landing capta intenção. Bella conduz decisão. Banco guarda a verdade."
-A landing page deve ser rápida, visualmente premium e focada em levar o usuário para o WhatsApp o mais rápido possível.
+```text
+▓▓▓ WEBHOOK Z-API — validado em PRODUCAO
+────────────────────────────────────────
+└─ webhook.ts   Entrada oficial WhatsApp
+└─ zapi.ts      Envio isolado com timeout
+└─ bella.ts     Resposta isolada (Azure-ready)
+└─ health/zapi  Saude da integracao
+Fluxo: Z-API → Webhook → bella.ts → zapi.ts → db.ts
+
+└─ Numero       (novo numero Bella — a confirmar)
+                Conectado via Z-API com Bella Azure como
+                inteligencia de atendimento.
+```
+
+```text
+▓▓▓ ENDPOINTS DE PRODUCAO
+────────────────────────────────────────
+└─ Health   GET  /api/health/zapi
+└─ Webhook  POST /api/zapi/webhook
+            Header: Client-Token: <ZAPI_CLIENT_TOKEN>
+Base: https://embelleze-bella.online
+```
+
+```text
+▓▓▓ PROBELTEC CRM — confirmado tecnicamente
+────────────────────────────────────────
+└─ Auth         POST /v1/login
+└─ Lead         POST /api/v1/lead/new → HTTP 201
+└─ idOrigin     7 (Instagram WhatsApp)
+└─ idFunnel     1 (SDR)
+└─ Idempotência claim atômico no Postgres
+└─ JWT          nunca hardcoded — somente via env
+└─ Falha        não quebra webhook
+```
+
+```text
+▓▓▓ PAPEL DE CADA CAMADA
+────────────────────────────────────────
+└─ Probeltec    CRM primário / fonte comercial
+└─ Postgres     Memória operacional, fallback,
+                shadow analytics, idempotência
+└─ Redis        Contexto temporário (futuro)
+└─ ManyChat     Portaria operacional
+                Instagram / campanhas / handoff
+└─ Bella Azure  Inteligência principal
+```
+
+> **Pendência critica**: Trocar senha exposta
+> da conta Probeltec apos conclusao dos testes.
+
+────────────────────────────────────────
+
+## ⍟ Segurança
+
+```text
+Licao aprendida: o acesso ao ecossistema Probeltec
+foi possivel apenas abrindo o Network tab do browser.
+Tokens de sessao, endpoints internos, payloads e
+dados de leads expostos sem protecao.
+Esse e o vetor mais comum e mais negligenciado.
+Nao repetir. Nossa responsabilidade comeca em casa.
+```
+
+```text
+▓▓▓ LAYER 1 — SECRETS
+────────────────────────────────────────
+└─ Secrets      Nunca hardcodar. Sempre via env.
+└─ JWT/Tokens   Nunca expor em API, logs ou JS.
+└─ .env         Nunca commitar. .gitignore e defesa.
+└─ Senhas       Rotacionar apos uso temporario.
+└─ Recon        Sessoes e tokens fora do git.
+```
+
+```text
+▓▓▓ LAYER 2 — NETWORK / API (vetor principal)
+────────────────────────────────────────
+O Network tab e a ferramenta mais poderosa
+de um atacante passivo.
+Toda chamada visivel no frontend e superficie.
+────────────────────────────────────────
+└─ Data Minimization
+   Retornar apenas o minimo necessario.
+   Nunca retornar objeto completo do banco.
+└─ Sem dados sensiveis no cliente
+   Leads, telefones, tokens e configs internas
+   nunca aparecem em respostas do browser.
+└─ Server-Side first
+   Astro SSR: src/pages/api/*.ts roda no servidor.
+└─ Sem credenciais em query params
+   ?token= expoe em logs, CDN e historico.
+└─ CORS restritivo
+   Endpoints internos nao aceitam origens livres.
+└─ Headers HTTP
+   Implementar CSP, HSTS, X-Frame-Options.
+```
+
+```text
+▓▓▓ LAYER 3 — BANCO
+────────────────────────────────────────
+└─ Least Privilege
+   Usuario Postgres sem DROP, ALTER ou acesso total.
+└─ Logs
+   Nunca logar senha, token ou telefone completo.
+└─ Erros
+   Nunca expor stack trace, query SQL ou internals.
+```
+
+```text
+▓▓▓ LAYER 4 — ENDPOINTS
+────────────────────────────────────────
+└─ Autenticacao  Client-Token antes de processar.
+└─ Rate limit    Protecao contra abuso e enumeracao.
+└─ Input         Validar todo payload de entrada.
+                 Nunca confiar no POST recebido.
+└─ Idempotencia  Duplicatas sem efeito colateral.
+```
+
+```text
+▓▓▓ LAYER 5 — OPERACIONAL
+────────────────────────────────────────
+└─ Auditoria     Registrar acesso a credenciais.
+└─ Ambientes     Dev e producao nunca compartilham
+                 credenciais.
+└─ Revisao       A cada fase nova, checar vazamentos
+                 em codigo, logs e repositorio.
+```
+
+────────────────────────────────────────
+
+## ◬ Gotchas Resolvidos
+
+```text
+▓▓▓ HISTORICO
+────────────────────────────────────────
+└─ Build Railway    only-built-dependencies no .npmrc
+                    autoriza sharp.
+└─ Logo esticado    width: auto onde height e fixa.
+└─ Header duplicado Removido em paginas internas.
+└─ Race condition   Claim atomico no Postgres
+   Probeltec        antes do createLead.
+└─ ALTER TABLE      Removido do hot path do webhook.
+└─ fromMe bug       fromMe || true substituido por
+                    fromMe !== undefined ? fromMe : true
+```
+
+────────────────────────────────────────
+
+## ⨷ Principio Guia
+
+```text
+Landing capta intencao.
+Bella conduz decisao.
+WhatsApp fecha conversa.
+Postgres guarda a verdade.
+Vendedora fecha matricula.
+
+ManyChat e a portaria.
+Bella e a vendedora.
+Postgres e a memoria.
+
+Security by design.
+Exploits find no refuge here.
+```
+
+────────────────────────────────────────

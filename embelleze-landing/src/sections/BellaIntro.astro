@@ -37,9 +37,9 @@ const ctaLink = getWhatsAppLink({ origin: 'bella-intro' });
 
           <div class="bella__body">
             <p class="bella__description">
-              Sou a consultora virtual do Instituto Embelleze Trindade. Minha missão é ajudar você a encontrar o curso perfeito e iniciar sua jornada de sucesso — <span class="bella__highlight">sem enrolação.</span>
+              Sou a consultora aqui do Instituto Embelleze de Trindade - GO. Minha missão é ajudar você a encontrar o curso perfeito e iniciar sua nova realidade <span class="bella__highlight">vamos falar de sonhos?</span>
             </p>
-            <p class="bella__status-text">Respondo em segundos, em qualquer horário.</p>
+            <p class="bella__status-text">Te aguardo no whatsapp, sem perguntinhas de robô... rsrs</p>
           </div>
 
           <div class="bella__footer">
@@ -47,7 +47,7 @@ const ctaLink = getWhatsAppLink({ origin: 'bella-intro' });
               <svg class="bella__btn-icon" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.941-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217s.231.001.332.005c.109.004.258-.041.404.308.159.386.542 1.32.588 1.416.046.096.077.208.014.335-.062.126-.093.204-.188.312-.095.108-.19.242-.271.327-.09.094-.184.197-.079.377.105.18.468.771.999 1.242.685.61 1.262.799 1.443.889.181.09.289.077.397-.049.109-.126.463-.537.586-.719.123-.181.246-.154.414-.093.167.061 1.062.501 1.247.593.185.092.308.138.354.217.046.079.046.458-.098.863z"/>
               </svg>
-              Falar com a Bella agora
+              Chamar Bella agora
             </a>
           </div>
         </div>
@@ -98,9 +98,7 @@ const ctaLink = getWhatsAppLink({ origin: 'bella-intro' });
   .bella__photo-wrapper {
     position: relative;
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    height: 100%;
   }
 
   .bella__photo-glow {
@@ -114,11 +112,10 @@ const ctaLink = getWhatsAppLink({ origin: 'bella-intro' });
   }
 
   .bella__photo {
-    width: 90%;
-    height: auto;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     z-index: 2;
-    filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
   }
 
   .bella__status {

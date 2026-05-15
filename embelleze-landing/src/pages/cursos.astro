@@ -15,7 +15,7 @@ import { WHATSAPP_NUMBER } from '../lib/constants';
     <div class="courses-page__container">
       <header class="courses-page__header">
         <h1 class="courses-page__title">Formações Profissionais</h1>
-        <p class="courses-page__subtitle">Especialize-se com quem é referência. Escolha sua área e comece agora.</p>
+        <p class="courses-page__subtitle">Daqui um ano você vai desejar ter começado hoje. Escolha sua área e comece agora.</p>
         
         <!-- Filtro Dropdown -->
         <div class="filter-dropdown" id="filter-dropdown">
@@ -46,7 +46,7 @@ import { WHATSAPP_NUMBER } from '../lib/constants';
       </header>
 
       <div class="courses-page__grid">
-        {courses.map(course => (
+        {courses.map((course, index) => (
           <div class="courses-page__item" data-category={course.category}>
              <CourseCard
               id={course.id}
@@ -60,6 +60,7 @@ import { WHATSAPP_NUMBER } from '../lib/constants';
               schedule={course.schedule}
               confirmed={course.confirmed}
               isEcommerce={true}
+              loading={index < 4 ? "eager" : "lazy"}
             />
           </div>
         ))}
@@ -299,7 +300,9 @@ import { WHATSAPP_NUMBER } from '../lib/constants';
   /* ── Dropdown de Filtro ── */
   .filter-dropdown {
     position: relative;
-    margin-bottom: 2rem;
+    margin: 0 auto 2rem;
+    max-width: 320px;
+    width: 100%;
   }
 
   .filter-dropdown__trigger {
@@ -423,6 +426,7 @@ import { WHATSAPP_NUMBER } from '../lib/constants';
   .courses-page__grid {
     display: grid;
     grid-template-columns: 1fr;
+    grid-auto-rows: 1fr;
     gap: 10px;
     width: 100%;
   }
