@@ -38,6 +38,8 @@ Leia nesta ordem para obter contexto total:
 4. Detecte o projeto correto (atualmente `embelleze-landing`)
 5. Trabalhe no menor escopo funcional
 
+> **💡 Status & Próximos Passos:** Consulte `docs/roadmap_execucao_embelleze_trindade.md` para ver o andamento atual do projeto e as ações imediatas.
+
 ────────────────────────────────────────
 
 ## ⨷ Projetos

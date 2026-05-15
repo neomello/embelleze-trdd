@@ -66,8 +66,21 @@ Transformar o WhatsApp em uma operação previsível de matrícula através de u
 
 ---
 
-## 5. Próximas Ações Imediatas
+## 5. Próximas Ações Imediatas (Consolidado)
 
-1. [ ] Validar conexão do agente Bella com o banco de leads.
-2. [ ] Testar fluxo de transição Bella → Humano.
-3. [ ] Iniciar criativos para tráfego pago.
+### 🤖 Inteligência & WhatsApp (Fase 4)
+
+- [ ] Conectar número novo via QR Code na Z-API.
+- [ ] Validar envio de mensagem manual.
+- [ ] Configurar webhook de mensagens recebidas apontando para a camada da Bella/Azure.
+- [ ] Testar resposta simples da IA Bella.
+- [ ] Validar conexão do agente Bella com o banco de leads (PostgreSQL).
+- [ ] Testar fluxo de transição Bella → Humano (Handoff).
+
+### 📊 Banco de Dados & Infra
+
+- [ ] Criar tabela `lead_events` e implementar rastreamento de eventos detalhados no backend.
+
+### 📢 Atração & Escala (Fase 5)
+
+- [ ] Iniciar produção de criativos para tráfego pago (Google/Meta Ads).
