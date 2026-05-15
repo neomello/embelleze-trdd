@@ -18,3 +18,9 @@ yarn-error.log*
 .playwright-mcp
 .playwright-report
 recon/
+.claude/
+.vscode/
+.idea/
+.playwright-mcp/
+docs/
+
