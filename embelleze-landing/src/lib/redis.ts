@@ -28,6 +28,45 @@ if (REDIS_URL) {
   console.warn('[Redis] REDIS_URL não configurada. Location tracking desabilitado.');
 }
 
+// ── Histórico de conversa da Bella ─────────────────────────────────────────
+// Mantém as últimas MAX_HISTORY mensagens por telefone com TTL de 24h.
+// Se Redis não estiver disponível, bella.ts opera no modo stateless (sem histórico).
+
+const MAX_HISTORY = 10; // 5 trocas (user + assistant)
+const HISTORY_TTL  = 86400; // 24 horas em segundos
+
+export interface ConvMessage {
+  role: "user" | "assistant";
+  content: string;
+}
+
+export async function getConversationHistory(phone: string): Promise<ConvMessage[]> {
+  if (!redis) return [];
+  try {
+    const raw = await redis.get(`bella:conv:${phone.replace(/\D/g, '')}`);
+    return raw ? (JSON.parse(raw) as ConvMessage[]) : [];
+  } catch {
+    return []; // Redis indisponível → stateless
+  }
+}
+
+export async function appendConversationHistory(
+  phone: string,
+  role: "user" | "assistant",
+  content: string,
+): Promise<void> {
+  if (!redis) return;
+  try {
+    const key = `bella:conv:${phone.replace(/\D/g, '')}`;
+    const history = await getConversationHistory(phone);
+    history.push({ role, content });
+    const trimmed = history.slice(-MAX_HISTORY); // Janela deslizante
+    await redis.set(key, JSON.stringify(trimmed), 'EX', HISTORY_TTL);
+  } catch {
+    // Silenciado — degradação graceful para stateless
+  }
+}
+
 /**
  * Registra uma intenção de localização no Redis
  */

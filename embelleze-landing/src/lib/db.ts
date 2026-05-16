@@ -25,7 +25,7 @@ export interface LeadData {
   origin?: string;
   course_interest?: string;
   objective?: string;
-  status?: "NOVO" | "QUALIFICADO" | "INTERESSADO";
+  status?: "NOVO" | "QUALIFICADO" | "INTERESSADO" | "PIX_GERADO" | "PIX_PAGO";
   last_message?: string;
   assigned_to?: string;
   // Atribuição de tráfego pago — first-touch, nunca sobrescreve
@@ -67,8 +67,11 @@ export async function upsertLead(data: LeadData) {
          course_interest  = COALESCE(EXCLUDED.course_interest, leads.course_interest),
          objective        = COALESCE(EXCLUDED.objective,       leads.objective),
          status           = CASE
-                              WHEN leads.status = 'INTERESSADO' AND EXCLUDED.status = 'QUALIFICADO'
-                              THEN 'INTERESSADO'
+                              -- Máquina de estados: nunca retrocede
+                              -- PIX_PAGO > PIX_GERADO > INTERESSADO > QUALIFICADO > NOVO
+                              WHEN leads.status = 'PIX_PAGO'   THEN 'PIX_PAGO'
+                              WHEN leads.status = 'PIX_GERADO' AND EXCLUDED.status != 'PIX_PAGO' THEN 'PIX_GERADO'
+                              WHEN leads.status = 'INTERESSADO' AND EXCLUDED.status IN ('NOVO','QUALIFICADO') THEN 'INTERESSADO'
                               ELSE COALESCE(EXCLUDED.status, leads.status)
                             END,
          last_message     = COALESCE(EXCLUDED.last_message,    leads.last_message),

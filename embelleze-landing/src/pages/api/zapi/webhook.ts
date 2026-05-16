@@ -94,6 +94,17 @@ export const POST: APIRoute = async ({ request }) => {
     try {
       const replyMessage = await generateBellaReply(rawPayload);
       await sendTextMessage(phone, replyMessage);
+
+      // 2b. Detectar se Bella apresentou o PIX → avançar status para PIX_GERADO
+      // A chave CNPJ é o marcador único: só aparece quando Bella oferece a reserva.
+      if (phone && replyMessage.includes("19.367.067/0001-97")) {
+        try {
+          await upsertLead({ phone, status: "PIX_GERADO", last_message: "PIX de reserva apresentado pela Bella" });
+          console.log(`[ZAPI Webhook] Status PIX_GERADO registrado para ${maskedPhone}`);
+        } catch (pixStatusError) {
+          console.error("[ZAPI Webhook] Erro ao registrar PIX_GERADO (silenciado):", pixStatusError);
+        }
+      }
     } catch (bellaOrSendError) {
       console.error("[ZAPI Webhook] Erro ao gerar/enviar resposta Bella:", bellaOrSendError);
 
