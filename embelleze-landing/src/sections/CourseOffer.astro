@@ -10,6 +10,8 @@ interface Props {
   courseName?: string;
   nextClass?: string;
   registrationDeadline?: string;
+  entryPrice?: string;
+  entryLabel?: string;
   iconId?: string;
   accentColor?: string;
   serialNumber?: string;
@@ -24,6 +26,8 @@ const {
   courseName = featuredCourse?.name || "Curso Profissional",
   nextClass = activeOffer.nextClass,
   registrationDeadline = activeOffer.registrationDeadline,
+  entryPrice = activeOffer.entryPrice || "R$ 19,90",
+  entryLabel = activeOffer.entryLabel || "Reserva de Vaga",
   iconId = "lucide:zap",
   accentColor = "var(--color-orange)",
   serialNumber = `TRD-${Math.floor(Math.random() * 90000) + 10000}`
@@ -74,6 +78,11 @@ const ctaLink = getWhatsAppLink({ course: courseName, origin: 'course-offer' });
               <span class="meta-label">DISPONIBILIDADE</span>
               <span class="meta-value meta-value--active">Fale com a Bella e garanta sua vaga</span>
             </div>
+            <div class="ticket__meta-item ticket__meta-item--price">
+              <span class="meta-label">{entryLabel.toUpperCase()}</span>
+              <span class="meta-value meta-value--price">{entryPrice}</span>
+              <span class="meta-abatimento">abatido na matrícula</span>
+            </div>
           </div>
         </div>
       </div>
@@ -91,9 +100,14 @@ const ctaLink = getWhatsAppLink({ course: courseName, origin: 'course-offer' });
           {Array.from({ length: 15 }).map(() => <div class="barcode__line"></div>)}
         </div>
         <div class="stub__content">
+          <div class="stub__price-seal">
+            <span class="seal__from">reserve por</span>
+            <strong class="seal__value">{entryPrice}</strong>
+            <span class="seal__detail">via PIX</span>
+          </div>
           <a href={ctaLink} class="ticket__cta">
             <CourseIcon iconId="lucide:arrow-right" className="cta-icon" />
-            <span>CONFIRMAR AGORA</span>
+            <span>GARANTIR VAGA</span>
           </a>
         </div>
         <p class="ticket__fine-print">Trindade • GO</p>
@@ -305,6 +319,57 @@ const ctaLink = getWhatsAppLink({ course: courseName, origin: 'course-offer' });
     gap: 8px;
   }
 
+  .meta-value--price {
+    color: var(--accent-color);
+    font-size: 1.5rem;
+  }
+
+  .meta-abatimento {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: rgba(18, 7, 31, 0.35);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: -4px;
+  }
+
+  /* ── Selo de preço no canhoto ── */
+  .stub__price-seal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 1.25rem 1.75rem;
+    border: 1.5px solid rgba(222, 88, 61, 0.2);
+    border-radius: 16px;
+    background: rgba(222, 88, 61, 0.04);
+    text-align: center;
+  }
+
+  .seal__from {
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: rgba(18, 7, 31, 0.35);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  .seal__value {
+    font-size: 1.75rem;
+    font-weight: 900;
+    color: var(--accent-color);
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .seal__detail {
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: rgba(18, 7, 31, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
   .meta-value--active::before {
     content: '';
     width: 8px;
@@ -435,7 +500,10 @@ const ctaLink = getWhatsAppLink({ course: courseName, origin: 'course-offer' });
     .ticket__cutout { top: -30px; left: auto; }
     .ticket__cutout--top { left: -30px; }
     .ticket__cutout--bottom { right: -30px; }
-    .ticket__stub { width: 100%; padding: 3rem 2.5rem; flex-direction: row; justify-content: space-between; gap: 2rem; }
+    .ticket__stub { width: 100%; padding: 3rem 2.5rem; flex-direction: row; justify-content: space-between; align-items: center; gap: 2rem; }
+    .stub__content { display: flex; flex-direction: row; align-items: center; gap: 1.5rem; }
+    .stub__price-seal { padding: 0.75rem 1.25rem; }
+    .seal__value { font-size: 1.375rem; }
     .ticket__cta { width: 160px; height: 64px; border-radius: 100px; flex-direction: row; }
     .ticket__barcode { height: 50px; opacity: 0.5; }
     .ticket__fine-print { display: none; }

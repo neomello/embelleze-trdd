@@ -1,12 +1,14 @@
 {
   "activeOffer": {
-    "courseId": "barbeiro",
-    "title": "Próxima Turma de Barbeiro",
-    "subtitle": "Garanta seu lugar na turma que vai transformar sua carreira.",
+    "courseId": "manicure",
+    "title": "Próxima Turma com Vagas Abertas",
+    "subtitle": "Prática real desde o primeiro dia. Uma vez por semana, no seu ritmo.",
     "ticketPrefix": "BELLA",
-    "urgency": "Últimas vagas disponíveis",
-    "nextClass": "15 de Maio",
-    "registrationDeadline": "12 de Maio",
-    "highlightBenefit": "Prática real desde o primeiro dia"
+    "urgency": "22 vagas disponíveis",
+    "nextClass": "22 de Junho",
+    "registrationDeadline": "20 de Junho",
+    "highlightBenefit": "Prática real desde o primeiro dia",
+    "entryPrice": "R$ 19,90",
+    "entryLabel": "Reserva de Vaga"
   }
 }
