@@ -28,25 +28,27 @@ Redis erro handler corrigido (crash loop eliminado)
 pool.on('error') Postgres corrigido (crash loop eliminado)
 Probeltec sync atômico implementado e aprovado
 Webhook Z-API implementado e validado em produção
-Webhook URL configurada no painel Z-API
-ZAPI_CLIENT_TOKEN renovado e atualizado no Railway
+Webhook URL configurada no painel Z-API: https://embelleze-bella.online/api/zapi/webhook
+ZAPI_CLIENT_TOKEN renovado e atualizado no Railway (via CLI)
+Bella Azure OpenAI ativa: bella-openai / East US / env vars no Railway
 Health endpoint /api/health operacional
-Bella mock respondendo
 AcademyTeaser mobile corrigido
 ObjectionBreak: avatar Bella + sons iOS reais
 Senha Probeltec trocada
+AUDITORIA DE CÓDIGO CONCLUÍDA — 2 bugs críticos corrigidos no webhook:
+  fix 1: fromMe default true→false (Bella descartava todas as mensagens)
+  fix 2: generateBellaReply movido para try/catch correto (fallback humano nunca disparava)
 ```
 
 ### 🟡 Pendente — por prioridade
 
 ```txt
-🔴 AGORA   Conectar número Bella ao Z-API via QR Code  ← GARGALO
-🔴 AGORA   Teste real: WhatsApp → Bella → resposta
-🔴 AGORA   Validar lead real chegando no Probeltec via conversa real
-🟡 SEMANA  bella.knowledge.md completo
-🟡 SEMANA  Bella Azure no lugar do mock
+🔴 AMANHÃ  Conectar número Bella ao Z-API via QR Code  ← PRÓXIMO PASSO
+🔴 AMANHÃ  Teste real: WhatsApp → Bella → resposta
+🔴 AMANHÃ  Validar lead real chegando no Probeltec via conversa real
+🟡 SEMANA  bella.knowledge.md completo (dados comerciais confirmados pelo cliente)
 🟡 SEMANA  Handoff humano definido com a vendedora
-🟠 DEPOIS  Meta Pixel (aguardando resolução conta Meta)
+🟠 DEPOIS  Meta Pixel (aguardando resolução conta Meta — fim de semana)
 🟠 DEPOIS  SEO /cursos/[slug].astro
 🟠 DEPOIS  Rate limiting + headers HTTP (CSP, HSTS)
 ⚪ FUTURO  Dashboard leads (Metabase)
