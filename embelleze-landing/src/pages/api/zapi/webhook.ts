@@ -95,9 +95,9 @@ export const POST: APIRoute = async ({ request }) => {
       const replyMessage = await generateBellaReply(rawPayload);
       await sendTextMessage(phone, replyMessage);
 
-      // 2b. Detectar se Bella apresentou o PIX → avançar status para PIX_GERADO
-      // A chave CNPJ é o marcador único: só aparece quando Bella oferece a reserva.
-      if (phone && replyMessage.includes("19.367.067/0001-97")) {
+      // 2b. Detectar se Bella enviou o link de checkout → avançar status para PIX_GERADO
+      // O domínio flowpay.cash só aparece na resposta quando Bella oferece a reserva.
+      if (phone && replyMessage.includes("flowpay.cash/checkout/")) {
         try {
           await upsertLead({ phone, status: "PIX_GERADO", last_message: "PIX de reserva apresentado pela Bella" });
           console.log(`[ZAPI Webhook] Status PIX_GERADO registrado para ${maskedPhone}`);
