@@ -9,7 +9,7 @@
     "schedule": "Sábado, 08h30 às 12h30",
     "description": "Transforme sua carreira como especialista em cortes, coloração e visagismo. Domine as técnicas que o mercado exige e conquiste sua independência financeira.",
     "details": "Inclui prática real com técnicas modernas, modelagem, tratamentos e atendimento ao cliente.",
-    "source": "local + oficial",
+    "source": "local + probeltec",
     "ctaText": "Quero saber sobre Cabeleireiro",
     "confirmed": true
   },
@@ -23,7 +23,7 @@
     "schedule": "Segunda-feira, 18h30 às 22h30",
     "description": "Inicie sua jornada na barbearia moderna. Aprenda cortes masculinos de alta performance, barba e gestão de atendimento para abrir seu próprio negócio.",
     "details": "Formação prática focada no dia a dia de barbearia e atendimento real.",
-    "source": "local + oficial",
+    "source": "local + probeltec",
     "ctaText": "Quero saber sobre Barbeiro",
     "confirmed": true
   },
@@ -37,7 +37,7 @@
     "schedule": "Quarta-feira, 13h30 às 17h",
     "description": "Torne-se uma profissional requisitada. Aprenda cutilagem perfeita, esmaltação e biossegurança para oferecer um serviço de elite e fidelizar clientes.",
     "details": "Inclui anatomia, esterilização, colorimetria e técnicas de atendimento ao cliente.",
-    "source": "local + oficial",
+    "source": "local + probeltec",
     "ctaText": "Quero saber sobre Manicure e Pedicure",
     "confirmed": true
   },
@@ -51,7 +51,7 @@
     "schedule": "Sábado, 08h30 às 12h30",
     "description": "Especialize-se na estética do olhar. Domine o fio a fio, volume russo e lifting para aumentar seu faturamento com procedimentos de alto valor.",
     "details": "Formação voltada para estética do olhar com prática e aplicação em modelos.",
-    "source": "local + oficial",
+    "source": "local + probeltec",
     "ctaText": "Quero saber sobre Design de Cílios",
     "confirmed": true
   },
@@ -65,7 +65,7 @@
     "schedule": "Terça-feira, 18h30 às 22h30",
     "description": "Aprenda as técnicas de unhas em gel e fibra que são tendência. Garanta sua vaga no mercado que mais cresce na área da beleza e mude sua vida.",
     "details": "Inclui estruturação de unhas, acabamento e design.",
-    "source": "local + oficial",
+    "source": "local + probeltec",
     "ctaText": "Quero saber sobre Alongamento de Unhas",
     "confirmed": true
   },
@@ -79,7 +79,7 @@
     "schedule": "Terça-feira, 13h30 às 17h30",
     "description": "Vire uma maquiadora profissional de sucesso. Aprenda técnicas avançadas de pele, contorno e embelezamento para atuar em eventos, noivas e editoriais.",
     "details": "Curso voltado para atendimento a clientes e desenvolvimento de carreira na área.",
-    "source": "local + oficial",
+    "source": "local + probeltec",
     "ctaText": "Quero saber sobre Maquiagem",
     "confirmed": true
   },
@@ -92,6 +92,7 @@
     "frequency": null,
     "schedule": null,
     "description": "Domine o visagismo do olhar com técnicas de design, henna e correção. A porta de entrada ideal para sua nova profissão na beleza.",
+    "source": "probeltec",
     "ctaText": "Quero saber sobre Sobrancelhas",
     "confirmed": false
   },
@@ -104,6 +105,7 @@
     "frequency": null,
     "schedule": null,
     "description": "Aprenda depilação profissional para oferecer um serviço essencial e recorrente. Formação prática focada em resultados e conforto da cliente.",
+    "source": "probeltec",
     "ctaText": "Quero saber sobre Depilação",
     "confirmed": false
   },
@@ -116,6 +118,7 @@
     "frequency": null,
     "schedule": null,
     "description": "Especialize-se em penteados para eventos e noivas. Aumente seu ticket médio oferecendo serviços especializados e artísticos.",
+    "source": "local",
     "ctaText": "Quero saber sobre Penteados",
     "confirmed": false
   }
