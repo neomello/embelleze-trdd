@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teste iframe FlowPay</title>
+  <style>
+    body { margin: 0; padding: 24px; background: #171018; font-family: sans-serif; color: #fff; }
+    h2 { font-size: 14px; color: #aaa; margin-bottom: 16px; }
+    .container { display: flex; gap: 24px; flex-wrap: wrap; }
+    .block { display: flex; flex-direction: column; gap: 8px; }
+    label { font-size: 12px; color: #888; }
+    iframe { display: block; background: #fff; }
+  </style>
+</head>
+<body>
+  <h2>Teste de embedding FlowPay — abra o Console (F12) e verifique erros de X-Frame-Options</h2>
+  <div class="container">
+    <div class="block">
+      <label>Desktop (400 × 520)</label>
+      <iframe
+        src="https://app.flowpay.cash/checkout/1a775f1057cf59c7"
+        width="400"
+        height="520"
+        frameborder="0"
+        style="border-radius:16px;"
+      ></iframe>
+    </div>
+    <div class="block">
+      <label>Mobile simulado (360 × 520)</label>
+      <iframe
+        src="https://app.flowpay.cash/checkout/1a775f1057cf59c7"
+        width="360"
+        height="520"
+        frameborder="0"
+        style="border-radius:16px;"
+      ></iframe>
+    </div>
+  </div>
+  <p style="margin-top:24px;font-size:12px;color:#555;">
+    ✅ Sem erro no console = FlowPay permite embedding. Pode criar /reservar.<br>
+    ❌ "Refused to display in a frame" = Adicionar no FlowPay backend:
+    <code style="color:#de583d">Content-Security-Policy: frame-ancestors https://embelleze-bella.online</code>
+  </p>
+</body>
+</html>
