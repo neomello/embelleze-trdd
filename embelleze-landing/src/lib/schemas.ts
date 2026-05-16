@@ -19,6 +19,7 @@ export const LeadSchema = z.object({
   utm_medium:   z.string().max(100).optional(),
   utm_campaign: z.string().max(100).optional(),
   utm_content:  z.string().max(200).optional(),
+  utm_term:     z.string().max(200).optional(),
 });
 
 export const LocationIntentSchema = z.object({

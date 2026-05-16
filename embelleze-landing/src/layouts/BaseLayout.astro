@@ -63,7 +63,7 @@ const {
       // o lead até o simulador, mesmo que ele role a página antes de converter.
       (function captureUtms() {
         var params = new URLSearchParams(window.location.search);
-        var keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
+        var keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
         keys.forEach(function(k) {
           var v = params.get(k);
           // Só grava se ainda não há UTM na sessão (first-touch — não sobrescreve)
@@ -91,6 +91,7 @@ const {
           utm_medium:   sessionStorage.getItem('utm_medium')   || undefined,
           utm_campaign: sessionStorage.getItem('utm_campaign') || undefined,
           utm_content:  sessionStorage.getItem('utm_content')  || undefined,
+          utm_term:     sessionStorage.getItem('utm_term')     || undefined,
         };
 
         fetch('/api/leads', {

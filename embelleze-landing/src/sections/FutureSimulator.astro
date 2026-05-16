@@ -230,7 +230,7 @@ const simCtaLink = getWhatsAppLink({ origin: 'simulator' });
 
   // Lê UTMs gravados pelo BaseLayout no sessionStorage (first-touch)
   function getSessionUtms(): Record<string, string> {
-    const keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'] as const;
+    const keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'] as const;
     const utms: Record<string, string> = {};
     keys.forEach(k => {
       const v = sessionStorage.getItem(k);

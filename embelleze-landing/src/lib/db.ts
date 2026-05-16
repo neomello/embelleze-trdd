@@ -33,6 +33,7 @@ export interface LeadData {
   utm_medium?: string;
   utm_campaign?: string;
   utm_content?: string;
+  utm_term?: string;
 }
 
 /**
@@ -58,8 +59,8 @@ export async function upsertLead(data: LeadData) {
 
     const res = await client.query(
       `INSERT INTO leads (phone, name, origin, course_interest, objective, status, last_message,
-                          utm_source, utm_medium, utm_campaign, utm_content)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+                          utm_source, utm_medium, utm_campaign, utm_content, utm_term)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
        ON CONFLICT (phone) DO UPDATE SET
          name             = COALESCE(EXCLUDED.name,            leads.name),
          origin           = COALESCE(EXCLUDED.origin,          leads.origin),
@@ -76,6 +77,7 @@ export async function upsertLead(data: LeadData) {
          utm_medium       = COALESCE(leads.utm_medium,   EXCLUDED.utm_medium),
          utm_campaign     = COALESCE(leads.utm_campaign, EXCLUDED.utm_campaign),
          utm_content      = COALESCE(leads.utm_content,  EXCLUDED.utm_content),
+         utm_term         = COALESCE(leads.utm_term,    EXCLUDED.utm_term),
          updated_at       = NOW()
        RETURNING id`,
       [
@@ -90,6 +92,7 @@ export async function upsertLead(data: LeadData) {
         data.utm_medium   || null,
         data.utm_campaign || null,
         data.utm_content  || null,
+        data.utm_term     || null,
       ],
     );
 
@@ -112,7 +115,8 @@ async function ensureUtmColumns(client: pg.PoolClient): Promise<void> {
       ADD COLUMN IF NOT EXISTS utm_source   TEXT,
       ADD COLUMN IF NOT EXISTS utm_medium   TEXT,
       ADD COLUMN IF NOT EXISTS utm_campaign TEXT,
-      ADD COLUMN IF NOT EXISTS utm_content  TEXT
+      ADD COLUMN IF NOT EXISTS utm_content  TEXT,
+      ADD COLUMN IF NOT EXISTS utm_term     TEXT
   `);
   utmColumnsReady = true;
 }
