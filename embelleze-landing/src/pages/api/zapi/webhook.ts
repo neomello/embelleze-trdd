@@ -93,18 +93,27 @@ export const POST: APIRoute = async ({ request }) => {
     // 2. Gerar resposta da Bella e enviar — fallback humano se qualquer etapa falhar
     try {
       const replyMessage = await generateBellaReply(rawPayload);
-      await sendTextMessage(phone, replyMessage);
 
-      // 2b. Detectar se Bella enviou o link de checkout → avançar status para PIX_GERADO
-      // O domínio flowpay.cash só aparece na resposta quando Bella oferece a reserva.
+      // 2b. Injetar phone no link FlowPay antes de enviar.
+      // O link estático não carrega identidade — sem isso o webhook do FlowPay
+      // não sabe qual lead pagou. Injetamos como query param; o FlowPay repassa
+      // no metadata do callback: metadata.phone.
+      let replyToSend = replyMessage;
       if (phone && replyMessage.includes("flowpay.cash/checkout/")) {
+        const cleanPhone = phone.replace(/\D/g, "");
+        replyToSend = replyMessage.replace(
+          /https:\/\/app\.flowpay\.cash\/checkout\/[a-zA-Z0-9]+/g,
+          (url) => `${url}?phone=${encodeURIComponent(cleanPhone)}`,
+        );
         try {
-          await upsertLead({ phone, status: "PIX_GERADO", last_message: "PIX de reserva apresentado pela Bella" });
+          await upsertLead({ phone, status: "PIX_GERADO", last_message: "Link de reserva enviado pela Bella" });
           console.log(`[ZAPI Webhook] Status PIX_GERADO registrado para ${maskedPhone}`);
         } catch (pixStatusError) {
           console.error("[ZAPI Webhook] Erro ao registrar PIX_GERADO (silenciado):", pixStatusError);
         }
       }
+
+      await sendTextMessage(phone, replyToSend);
     } catch (bellaOrSendError) {
       console.error("[ZAPI Webhook] Erro ao gerar/enviar resposta Bella:", bellaOrSendError);
 
